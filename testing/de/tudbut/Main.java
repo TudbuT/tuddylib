@@ -21,24 +21,24 @@ import static tudbut.rendering.tph.TPH300.*;
 import static tudbut.rendering.tph.TPH302.*;
 
 public class Main {
-    private static AtomicInteger lastMousePosX = new AtomicInteger();
-    private static AtomicInteger lastMousePosY = new AtomicInteger();
-    private static AtomicInteger rotX = new AtomicInteger();
-    private static AtomicInteger rotY = new AtomicInteger();
+    private static final AtomicInteger lastMousePosX = new AtomicInteger();
+    private static final AtomicInteger lastMousePosY = new AtomicInteger();
+    private static final AtomicInteger rotX = new AtomicInteger();
+    private static final AtomicInteger rotY = new AtomicInteger();
 
     private static final Vector3d startPoint = new Vector3d(0, 0, 50);
     private static final Vector3d zero = new Vector3d(0, 0, 0);
     private static final Vector2d zero2d = new Vector2d(0, 0);
 
-    private static Vector3d offset = new Vector3d(0,0,0);
+    private static final Vector3d offset = new Vector3d(0,0,0);
 
     private static boolean tab = false;
 
-    private static long cam = createCamera(startPoint, 0, 0);
+    private static final long cam = createCamera(startPoint, 0, 0);
 
 
-    private static RenderableWindow window = new RenderableWindow(500, 500, "o", 20, true);
-    private static Projection3D projection = new Projection3D(window.xSize, window.ySize, RenderOutputType.BUFFEREDIMAGE, 0x002200);
+    private static final RenderableWindow window = new RenderableWindow(500, 500, "o", 20, true);
+    private static final Projection3D projection = new Projection3D(window.xSize, window.ySize, RenderOutputType.BUFFEREDIMAGE, 0x002200);
 
 
     public static void main(String[] args) throws InterruptedException, AWTException {
@@ -120,13 +120,13 @@ public class Main {
                 img.setRGB(0,0, 0xff0000); img.setRGB(1,0, 0x00ff00);
                 img.setRGB(0,1, 0xffffff); img.setRGB(1,1, 0x0000ff);
 
-                img = Maths2D.distortImage(img, 50, 50, 1);
+                img = Maths2D.distortImage(img, 4, 4, 1);
 
                 renderTexturedRectangle(
                         new Vector3d(0,10,0),
                         new Vector2d(10,10),
                         new Vector3d(0,90,0),
-                        new Vector3d(0.5,1.5,0),
+                        new Vector3d(5,5,0),
                         cam,
                         projection,
                         img

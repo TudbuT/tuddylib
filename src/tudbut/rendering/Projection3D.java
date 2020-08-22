@@ -1,6 +1,7 @@
 package tudbut.rendering;
 
 import de.tudbut.type.Vector3d;
+import tudbut.tools.ArrayTools;
 import tudbut.tools.Sorting;
 
 import java.awt.*;
@@ -151,7 +152,7 @@ public class Projection3D {
     }
 
     void render(Graphics g) {
-        objects.sort((renderObject0, renderObject1) -> {
+        /*objects.sort((renderObject0, renderObject1) -> {
             double i = 0;
 
             for (Vector3d vector : renderObject0.vectors) {
@@ -164,6 +165,23 @@ public class Projection3D {
             }
 
             return (int) (i1 - i);
+        });*/
+
+        RenderObject3D[] objects = this.objects.toArray(new RenderObject3D[0]);
+
+        objects = Sorting.sort(objects, (t1, t2) -> {
+            double i = 0;
+
+            for (Vector3d vector : t1.vectors) {
+                i = Math.max(vector.getZ(), i);
+            }
+            double i1 = 0;
+
+            for (Vector3d vector : t2.vectors) {
+                i1 = Math.max(vector.getZ(), i1);
+            }
+
+            return (int) (-(i1 + i));
         });
 
         for (RenderObject3D o : objects) {
