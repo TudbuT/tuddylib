@@ -1,0 +1,6 @@
+yes | rm ../../TuddyLIBm.jar
+cd ./out/production/sys
+yes | zip -r ../../../../../TuddyLIBm.jar *
+cd ../../../mj/
+yes | zip -r ../../../TuddyLIBm.jar *
+cd ../../../
