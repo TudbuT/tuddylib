@@ -191,7 +191,7 @@ public class Projection3D {
             for (Vector3d vector : o.vectors) {
                 vector.add(offset);
             }
-            g.setColor(new Color(o.color));
+            g.setColor(new Color(o.color, true));
 
             if (o.type == RenderObjectType.RECTANGLE) {
                 Maths3D.prepareVectorsForRectangle(o, x.get(), y.get(), var0, fovMod);
