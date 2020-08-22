@@ -42,32 +42,25 @@ public class Sorting {
                 )
         );
 
-        ArrayList<T> done = new ArrayList<>();
+        ArrayList<Integer> done = new ArrayList<>();
 
         int pos = 0;
         for (int i = min; i <= max; i++) {
-            for (int j = 0; j < nt.length; j++) {
-                System.out.println("foo" + i);
-                System.out.println(toSort[j]);
-                if(j < toSort.length - 1)
+            for (int j = 0; j < nt.length-1; j++) {
                     if(sorter.sort(toSort[j], toSort[j + 1]) == i) {
-                        if(!done.contains(toSort[j])) {
+                        if(!done.contains(j)) {
                             nt[pos] = toSort[j];
-                            done.add(toSort[j]);
+                            done.add(j);
                             pos++;
                         }
                     }
-                else
-                    if(sorter.sort(toSort[0], toSort[j]) == i) {
-                        System.out.println("x");
-                        System.out.println(toSort[j]);
-                        if(!done.contains(toSort[j])) {
-                            System.out.println("y");
-                            nt[pos] = toSort[j];
-                            done.add(toSort[j]);
-                            pos++;
-                        }
-                    }
+            }
+            if(sorter.sort(toSort[toSort.length - 1], toSort[0]) == i) {
+                if(!done.contains(toSort.length - 1)) {
+                    nt[pos] = toSort[toSort.length - 1];
+                    done.add(toSort.length - 1);
+                    pos++;
+                }
             }
         }
 
