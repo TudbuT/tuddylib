@@ -74,10 +74,12 @@ public class Main {
             window.render((ag, g, i) -> {
                 if (Keyboard.isKeyDown(KeyEvent.VK_A)) {
                     Vector3d rot = TPH300.applyRotation(new Vector3d(1,0,0), zero, Y, rotX.get()/5d);
+                    assert rot != null;
                     offset.add(new Vector3d(rot.getX(), rot.getY(), rot.getZ()));
                 }
                 if (Keyboard.isKeyDown(KeyEvent.VK_D)) {
                     Vector3d rot = TPH300.applyRotation(new Vector3d(-1,0,0), zero, Y, rotX.get()/5d);
+                    assert rot != null;
                     offset.add(new Vector3d(rot.getX(), rot.getY(), rot.getZ()));
                 }
                 if (Keyboard.isKeyDown(KeyEvent.VK_SHIFT)) {
@@ -88,10 +90,12 @@ public class Main {
                 }
                 if (Keyboard.isKeyDown(KeyEvent.VK_W)) {
                     Vector3d rot = TPH300.applyRotation(new Vector3d(0,0,-1), zero, Y, rotX.get()/5d);
+                    assert rot != null;
                     offset.add(new Vector3d(rot.getX(), rot.getY(), rot.getZ()));
                 }
                 if (Keyboard.isKeyDown(KeyEvent.VK_S)) {
                     Vector3d rot = TPH300.applyRotation(new Vector3d(0,0,1), zero, Y, rotX.get()/5d);
+                    assert rot != null;
                     offset.add(new Vector3d(rot.getX(), rot.getY(), rot.getZ()));
                 }
                 offset.multiply(1 / 2d);
