@@ -1,6 +1,11 @@
 package de.tudbut.type;
 
-public class Vector3d {
+import de.tudbut.tools.Tools;
+import tudbut.obj.Mappable;
+
+import java.util.Map;
+
+public class Vector3d implements Mappable {
     private double x, y, z;
 
     public Vector3d(double x, double y, double z) {
@@ -110,6 +115,11 @@ public class Vector3d {
         return this;
     }
 
+    public Vector3d multiply(double x, double y, double z) {
+        set(this.x * x, this.y * y, this.z * z);
+        return this;
+    }
+
     public Vector3d negate() {
         set(-x, -y, -z);
         return this;
@@ -118,5 +128,14 @@ public class Vector3d {
     @Override
     public Vector3d clone() {
         return new Vector3d(x, y, z);
+    }
+
+    @Override
+    public Map<String, String> map() {
+        return Tools.stringToMap("x:" + x + ";y:" + y + ";z:" + z);
+    }
+
+    public static Vector3d fromMap(Map<String, String> map) {
+        return new Vector3d(Double.parseDouble(map.get("x")), Double.parseDouble(map.get("y")), Double.parseDouble(map.get("z")));
     }
 }

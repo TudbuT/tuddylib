@@ -1,18 +1,18 @@
 package tudbut.tools;
 
 import de.tudbut.tools.ExtendedMath;
+import de.tudbut.tools.Tools;
 
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Sorting {
 
-    public static <T> T[] sort(T[] toSort, Sorter<T> sorter) {
+    public static <T> T[] sort(T[] toSort, Sorter<T> sorter) throws Throwable {
         if(toSort.length == 0)
             return toSort;
         T[] nt = (T[]) ArrayGetter.newArray(toSort.length, toSort.getClass().getComponentType());
+
+        sorter.reset();
 
         int max = (int) ExtendedMath.max(
                 ArrayTools.convertToNative(
@@ -22,6 +22,8 @@ public class Sorting {
                 )
         );
 
+        sorter.reset();
+
         int min = (int) ExtendedMath.min(
                 ArrayTools.convertToNative(
                         ArrayTools.<T, Double>getFromArray(toSort, t ->
@@ -29,6 +31,8 @@ public class Sorting {
                         )
                 )
         );
+
+        sorter.reset();
 
         ArrayList<Integer> done = new ArrayList<>();
 
@@ -43,12 +47,21 @@ public class Sorting {
                     }
                 }
             }
+            sorter.reset();
         }
 
         return nt;
     }
 
+    public static <T> T[] sortSet(T[] toSort, Sorter<T> sorter) throws Throwable {
+        T[] sorted = sort(toSort, sorter);
+        Tools.copyArray(sorted, toSort, toSort.length);
+        return sorted;
+    }
+
     public interface Sorter<T> {
-        int sort(T t);
+        int sort(T t) throws Throwable;
+
+        default void reset() throws Throwable { }
     }
 }

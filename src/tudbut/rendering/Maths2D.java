@@ -97,11 +97,20 @@ public class Maths2D {
         BufferedImage r = new BufferedImage((int) resultSize.getX(), (int) resultSize.getY(), BufferedImage.TYPE_INT_ARGB);
         Graphics g = r.getGraphics().create();
 
-        g.setColor(new Color(color));
-        g.fillRect(0,0, (int) posOnResult.getX(), (int) resultSize.getY());
+        if(color >= 0 && color <= 0xffffff)
+            g.setColor(new Color(color, false));
+        else
+            g.setColor(new Color(color, true));
+
+        g.fillRect(0,(int) posOnResult.getY(), (int) posOnResult.getX(), (int) resultSize.getY());
+
         g.fillRect(0,0, (int) resultSize.getX(), (int) posOnResult.getY());
-        g.fillRect((int) posOnResult.getX() + img.getWidth(),0, (int) (resultSize.getX() - (posOnResult.getX() + img.getWidth())), (int) resultSize.getY());
-        g.fillRect(0, (int) posOnResult.getY() + img.getHeight(), (int) resultSize.getX(), (int) (resultSize.getY() - (posOnResult.getY() + img.getHeight())));
+
+        g.fillRect((int) posOnResult.getX() + img.getWidth(), (int) (posOnResult.getY()), (int) (resultSize.getX() - (posOnResult.getX() + img.getWidth())), (int) (resultSize.getY() - (resultSize.getY() - img.getHeight())));
+
+        g.fillRect((int) posOnResult.getX(), (int) posOnResult.getY() + img.getHeight(), (int) resultSize.getX(), (int) (resultSize.getY() - (posOnResult.getY() + img.getHeight())));
+
+
         g.drawImage(img, (int) posOnResult.getX(), (int) posOnResult.getY(), null);
 
         g.dispose();

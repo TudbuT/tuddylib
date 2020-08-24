@@ -170,19 +170,35 @@ public class Projection3D {
 
         RenderObject3D[] objects = this.objects.toArray(new RenderObject3D[0]);
 
-        objects = Sorting.sort(objects, t -> {
-            double i = 0;
-            int j = 0;
+        try {
+            objects = Sorting.sort(objects, t -> {
+                double i = 0;
+                int j = 0;
 
-            for (Vector3d vector : t.vectors) {
-                i += vector.getZ();
-                j++;
-            }
+                for (Vector3d vector : t.vectors) {
+                    i += Math.max(vector.getX(), -vector.getX());
+                    j++;
+                }
 
-            i = i / j;
+                for (Vector3d vector : t.vectors) {
+                    i += Math.max(vector.getY(), -vector.getY());
+                    j++;
+                }
 
-            return (int) -i;
-        });
+                for (Vector3d vector : t.vectors) {
+                    i += vector.getZ() * 5;
+                    j++;
+                }
+
+                i = i / j;
+
+                if(-i / 0.05d > 1000) {
+                    return 1000;
+                }
+
+                return (int) (-i / 0.05d);
+            });
+        } catch (Throwable ignored) { }
 
         for (RenderObject3D o : objects) {
             if(o == null)
@@ -191,7 +207,11 @@ public class Projection3D {
             for (Vector3d vector : o.vectors) {
                 vector.add(offset);
             }
-            g.setColor(new Color(o.color, true));
+            if(o.color >= 0 && o.color <= 0xffffff) {
+                g.setColor(new Color(o.color, false));
+            }
+            else
+                g.setColor(new Color(o.color, true));
 
             if (o.type == RenderObjectType.RECTANGLE) {
                 Maths3D.prepareVectorsForRectangle(o, x.get(), y.get(), var0, fovMod);

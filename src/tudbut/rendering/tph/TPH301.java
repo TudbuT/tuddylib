@@ -14,7 +14,7 @@ public class TPH301 {
     public static final int ID = 301;
 
     public static long createCamera(Vector3d position, int rotX, int rotY) {
-        DoubleBuffer res = DoubleBuffer.create(5 * 8);
+        DoubleBuffer res = DoubleBuffer.create(6 * 8);
         double[] doubles = (double[]) res.get();
         doubles[0] = position.getX();
         doubles[1] = position.getY();
@@ -24,14 +24,38 @@ public class TPH301 {
         return createResource(res);
     }
 
+    public static long createCamera(Vector3d position, int rotX, int rotY, int rotZ) {
+        DoubleBuffer res = DoubleBuffer.create(6 * 8);
+        double[] doubles = (double[]) res.get();
+        doubles[0] = position.getX();
+        doubles[1] = position.getY();
+        doubles[2] = position.getZ();
+        doubles[3] = rotX;
+        doubles[4] = rotY;
+        doubles[5] = rotZ;
+        return createResource(res);
+    }
+
     public static long createCamera(Vector3d position, Vector2d rot) {
-        DoubleBuffer res = DoubleBuffer.create(5 * 8);
+        DoubleBuffer res = DoubleBuffer.create(6 * 8);
         double[] doubles = (double[]) res.get();
         doubles[0] = position.getX();
         doubles[1] = position.getY();
         doubles[2] = position.getZ();
         doubles[3] = rot.getX();
         doubles[4] = rot.getY();
+        return createResource(res);
+    }
+
+    public static long createCamera(Vector3d position, Vector3d rot) {
+        DoubleBuffer res = DoubleBuffer.create(6 * 8);
+        double[] doubles = (double[]) res.get();
+        doubles[0] = position.getX();
+        doubles[1] = position.getY();
+        doubles[2] = position.getZ();
+        doubles[3] = rot.getX();
+        doubles[4] = rot.getY();
+        doubles[5] = rot.getZ();
         return createResource(res);
     }
 
@@ -48,15 +72,24 @@ public class TPH301 {
         d[4] = rot.getY();
     }
 
+    public static void setCameraRotation(Vector3d rot, long cam) {
+        double[] d = (double[]) getBufferFromID(cam).get();
+        d[3] = rot.getX();
+        d[4] = rot.getY();
+        d[5] = rot.getZ();
+    }
+
     public static Vector3d translate(Vector3d vec, long camera) {
         DoubleBuffer cam = (DoubleBuffer) getBufferFromID(camera);
         double[] d = (double[]) cam.get();
         Vector3d pos = new Vector3d(d[0], d[1], d[2]);
         double rotX = d[3];
         double rotY = d[4];
+        double rotZ = d[5];
 
         applyRotation(vec, pos.clone().negate(), Y, -rotX);
         applyRotation(vec, pos.clone().negate(), X, rotY);
+        applyRotation(vec, pos.clone().negate(), Z, rotZ);
         vec.add(pos);
         return vec;
     }
