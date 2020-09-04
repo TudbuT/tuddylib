@@ -1,4 +1,4 @@
 yes | rm ../../TuddyLIB.jar
-cd ./out/production/sys
-yes | zip -r ../../../../../TuddyLIB.jar *
-cd ../../../
+cd ./target/classes
+yes | zip -r ../../../../TuddyLIB.jar *
+cd ../..
