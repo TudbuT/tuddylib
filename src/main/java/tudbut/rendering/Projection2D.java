@@ -109,6 +109,12 @@ public class Projection2D {
             throw new IllegalArgumentException();
         objects.add(object);
     }
+    
+    public void draw(BufferedImage image, Vector2d pos, Vector2d endPos) {
+        if (image == null)
+            throw new IllegalArgumentException();
+        objects.add(new RenderObject2D(image,pos,endPos,multiplier));
+    }
 
     public void draw(Vector2d[] vectors) {
         if (vectors == null)
@@ -130,7 +136,7 @@ public class Projection2D {
     public Object render() {
         BufferedImage image = new BufferedImage(x.get(), y.get(), BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.createGraphics();
-        g.setColor(new Color(bgColor));
+        g.setColor(new Color(bgColor, true));
         g.fillRect(0, 0, x.get(), y.get());
 
         render(g);
@@ -172,45 +178,55 @@ public class Projection2D {
     }
 
     void render(Graphics g) {
-        for (RenderObject2D o : objects) {
+    
+        for (int j = 0, objectsSize = objects.size(); j < objectsSize; j++) {
+            RenderObject2D o = objects.get(j);
             o = o.clone();
             for (int i = 0; i < o.vectors.length; i++) {
                 o.vectors[i].add(offset);
             }
             g.setColor(new Color(o.color));
-
+        
             if (o.type == RenderObjectType.RECTANGLE) {
                 Vector2d pos1 = o.vectors[0];
                 Vector2d pos2 = o.vectors[1];
                 Vector2d pos3 = o.vectors[2];
                 Vector2d pos4 = o.vectors[3];
-
+            
                 g.drawLine((int) pos1.getX(), (int) pos1.getY(), (int) pos2.getX(), (int) pos2.getY());
                 g.drawLine((int) pos2.getX(), (int) pos2.getY(), (int) pos3.getX(), (int) pos3.getY());
                 g.drawLine((int) pos3.getX(), (int) pos3.getY(), (int) pos4.getX(), (int) pos4.getY());
                 g.drawLine((int) pos4.getX(), (int) pos4.getY(), (int) pos1.getX(), (int) pos1.getY());
             }
-
+        
             if (o.type == RenderObjectType.TRIANGLE) {
                 Vector2d pos1 = o.vectors[0];
                 Vector2d pos2 = o.vectors[1];
                 Vector2d pos3 = o.vectors[2];
-
+            
                 g.drawLine((int) pos1.getX(), (int) pos1.getY(), (int) pos2.getX(), (int) pos2.getY());
                 g.drawLine((int) pos2.getX(), (int) pos2.getY(), (int) pos3.getX(), (int) pos3.getY());
                 g.drawLine((int) pos3.getX(), (int) pos3.getY(), (int) pos1.getX(), (int) pos1.getY());
             }
-
+        
             if (o.type == RenderObjectType.FULL_RECTANGLE) {
                 int[][] rpos = Maths2D.getFillingCoordinatesForRectangle(o);
-
+            
                 g.fillPolygon(rpos[0], rpos[1], 4);
             }
-
+        
             if (o.type == RenderObjectType.FULL_TRIANGLE) {
                 int[][] rpos = Maths2D.getFillingCoordinatesForTriangle(o);
-
+            
                 g.fillPolygon(rpos[0], rpos[1], 3);
+            }
+        
+            if (o.type == RenderObjectType.IMAGE) {
+                g.drawImage(Maths2D.prepareImage(
+                        o.image,
+                        o.vectors[0],
+                        o.vectors[1]
+                ), (int) o.vectors[0].getX(), (int) o.vectors[0].getY(), null);
             }
         }
 

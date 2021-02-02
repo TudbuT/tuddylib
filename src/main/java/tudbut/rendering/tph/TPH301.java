@@ -82,7 +82,7 @@ public class TPH301 {
     public static Vector3d translate(Vector3d vec, long camera) {
         DoubleBuffer cam = (DoubleBuffer) getBufferFromID(camera);
         double[] d = (double[]) cam.get();
-        Vector3d pos = new Vector3d(d[0], d[1], d[2]);
+        Vector3d pos = new Vector3d(-d[0], d[1], d[2]);
         double rotX = d[3];
         double rotY = d[4];
         double rotZ = d[5];

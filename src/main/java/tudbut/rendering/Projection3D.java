@@ -1,14 +1,11 @@
 package tudbut.rendering;
 
-import de.tudbut.tools.ExtendedMath;
 import de.tudbut.type.Vector3d;
-import tudbut.tools.ArrayTools;
-import tudbut.tools.Sorting;
+import tudbut.parsing.TudSort;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Projection3D {
@@ -171,7 +168,7 @@ public class Projection3D {
         RenderObject3D[] objects = this.objects.toArray(new RenderObject3D[0]);
 
         try {
-            objects = Sorting.sort(objects, t -> {
+            objects = TudSort.sortDouble(objects, t -> {
                 double i = 0;
                 int j = 0;
 
@@ -192,82 +189,78 @@ public class Projection3D {
 
                 i = i / j;
 
-                if(-i / 0.05d > 1000) {
-                    return 1000;
-                }
-
-                return (int) (-i / 0.05d);
+                return -i;
             });
         } catch (Throwable ignored) { }
-
-        for (RenderObject3D o : objects) {
-            if(o == null)
+    
+        for (int i = 0, objectsLength = objects.length; i < objectsLength; i++) {
+            RenderObject3D o = objects[i];
+            if (o == null)
                 continue;
             o = o.clone();
             for (Vector3d vector : o.vectors) {
                 vector.add(offset);
             }
-            if(o.color >= 0 && o.color <= 0xffffff) {
+            if (o.color >= 0 && o.color <= 0xffffff) {
                 g.setColor(new Color(o.color, false));
-            }
-            else
+            } else
                 g.setColor(new Color(o.color, true));
-
+        
             if (o.type == RenderObjectType.RECTANGLE) {
                 Maths3D.prepareVectorsForRectangle(o, x.get(), y.get(), var0, fovMod);
-
+            
                 if (o.isClipped) {
                     continue;
                 }
-
+            
                 Vector3d pos1 = o.vectors[0];
                 Vector3d pos2 = o.vectors[1];
                 Vector3d pos3 = o.vectors[2];
                 Vector3d pos4 = o.vectors[3];
-
+            
                 g.drawLine((int) (pos1.getX()), (int) (pos1.getY()), (int) (pos2.getX()), (int) (pos2.getY()));
                 g.drawLine((int) (pos2.getX()), (int) (pos2.getY()), (int) (pos3.getX()), (int) (pos3.getY()));
                 g.drawLine((int) (pos3.getX()), (int) (pos3.getY()), (int) (pos4.getX()), (int) (pos4.getY()));
                 g.drawLine((int) (pos4.getX()), (int) (pos4.getY()), (int) (pos1.getX()), (int) (pos1.getY()));
             }
-
+        
             if (o.type == RenderObjectType.TRIANGLE) {
                 Maths3D.prepareVectorsForTriangle(o, x.get(), y.get(), var0, fovMod);
-
+            
                 if (o.isClipped) {
                     continue;
                 }
-
+            
                 Vector3d pos1 = o.vectors[0];
                 Vector3d pos2 = o.vectors[1];
                 Vector3d pos3 = o.vectors[2];
-
+            
                 g.drawLine((int) (pos1.getX()), (int) (pos1.getY()), (int) (pos2.getX()), (int) (pos2.getY()));
                 g.drawLine((int) (pos2.getX()), (int) (pos2.getY()), (int) (pos3.getX()), (int) (pos3.getY()));
                 g.drawLine((int) (pos3.getX()), (int) (pos3.getY()), (int) (pos1.getX()), (int) (pos1.getY()));
             }
-
+        
             if (o.type == RenderObjectType.FULL_RECTANGLE) {
                 Maths3D.prepareVectorsForRectangle(o, x.get(), y.get(), var0, fovMod);
-
+            
                 if (o.isClipped) {
                     continue;
                 }
-
+            
                 int[][] rpos = Maths3D.getFillingCoordinatesForRectangle(o);
-
+            
                 g.fillPolygon(rpos[0], rpos[1], 4);
             }
-
+        
             if (o.type == RenderObjectType.FULL_TRIANGLE) {
                 Maths3D.prepareVectorsForTriangle(o, x.get(), y.get(), var0, fovMod);
-
+            
                 if (o.isClipped) {
                     continue;
                 }
-
+            
                 int[][] rpos = Maths3D.getFillingCoordinatesForTriangle(o);
-
+            
                 g.fillPolygon(rpos[0], rpos[1], 3);
             }
         }

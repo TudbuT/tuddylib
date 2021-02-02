@@ -4,5 +4,6 @@ public enum RenderObjectType {
     TRIANGLE,
     RECTANGLE,
     FULL_TRIANGLE,
-    FULL_RECTANGLE
+    FULL_RECTANGLE,
+    IMAGE
 }

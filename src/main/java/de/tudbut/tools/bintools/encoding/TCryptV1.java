@@ -2,6 +2,7 @@ package de.tudbut.tools.bintools.encoding;
 
 import de.tudbut.type.ByteArrayList;
 
+@SuppressWarnings("DuplicatedCode")
 public class TCryptV1 {
 
     protected Seed seed;

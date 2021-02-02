@@ -1,5 +1,6 @@
 package de.tudbut.tools.bintools;
 
+import de.tudbut.io.StreamReader;
 import de.tudbut.tools.FileRW;
 
 import java.io.BufferedOutputStream;
@@ -33,10 +34,6 @@ public class BinFileRW extends FileRW {
     }
 
     public void rereadFile() throws IOException {
-        FileInputStream fileReader = new FileInputStream(file);
-        chars = new int[(int) file.length()];
-        for (int i = 0; i < file.length(); i++) {
-            chars[i] = fileReader.read();
-        }
+        chars = new StreamReader(new FileInputStream(file)).readAllAsUnsignedBytes();
     }
 }

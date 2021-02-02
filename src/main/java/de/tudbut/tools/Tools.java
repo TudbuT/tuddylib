@@ -1,6 +1,7 @@
 package de.tudbut.tools;
 
 import de.tudbut.type.StringArray;
+import tudbut.obj.TypedArray;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,6 +24,14 @@ public class Tools {
 
     public static String randomOutOfArray(StringArray stringArray) {
         return stringArray.asArray()[(int) Math.floor(Math.random() * stringArray.asArray().length)];
+    }
+    
+    public static <T> T randomOutOfArray(T[] array) {
+        return array[(int) Math.floor(Math.random() * array.length)];
+    }
+    
+    public static <T> T randomOutOfArray(TypedArray<T> array) {
+        return array.get((int) Math.floor(Math.random() * array.length()));
     }
 
     public static String randomString(int length, String pool) {
@@ -47,13 +56,13 @@ public class Tools {
     }
 
     public static String randomReadableString(int length) {
-        String pool = "abcdefghijklmnopqrstuvwxyz";
+        String pool = "bcdfghjklmnpqrstvwxyz";
         String readablePool = "aeiou";
-
-
+        
+        
         StringBuilder r = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            r.append(pool.charAt(ExtendedMath.random(0, pool.length() - 1)) + readablePool.charAt(ExtendedMath.random(0, readablePool.length() - 1)));
+            r.append(pool.charAt(ExtendedMath.random(0, pool.length() - 1))).append(readablePool.charAt(ExtendedMath.random(0, readablePool.length() - 1)));
         }
         return r.toString().substring(0, length);
     }
@@ -83,31 +92,33 @@ public class Tools {
 
         return r;
     }
-
+    
     public static Map<String, String> stringToMap(String mapStringParsable) {
         HashMap<String, String> map = new HashMap<>();
-
-        for (int i = 0; i < mapStringParsable.split(";").length; i++) {
-            String tile = mapStringParsable.split(";")[i];
+        
+        String[] splitTiles = mapStringParsable.split(";");
+        for (int i = 0; i < splitTiles.length; i++) {
+            String tile = splitTiles[i];
+            String[] splitTile = tile.split(":");
             if (tile.contains(":")) {
-                if (tile.split(":").length == 2)
+                if (splitTile.length == 2)
                     map.put(
-                            tile.split(":")[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"),
-                            tile.split(":")[1].equals("%N") ? null : tile.split(":")[1].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%")
+                            splitTile[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"),
+                            splitTile[1].equals("%N") ? null : splitTile[1].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%")
                     );
                 else
-                    map.put(tile.split(":")[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"), "");
+                    map.put(splitTile[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"), "");
             }
         }
-
+        
         return map;
     }
-
+    
     public static String mapToString(Map<String, String> map) {
         StringBuilder r = new StringBuilder();
-
+        
         for (String key : map.keySet().toArray(new String[0])) {
-
+            
             r
                     .append(key.replaceAll("%", "%P").replaceAll(";", "%B").replaceAll(":", "%I"))
                     .append(":")
@@ -115,7 +126,7 @@ public class Tools {
                     .append(";")
             ;
         }
-
+        
         return r.toString();
     }
 
@@ -153,9 +164,19 @@ public class Tools {
         int[] ints = new int[bytes.length];
 
         for (int i = 0; i < ints.length; i++) {
-            ints[i] = bytes[i];
+            ints[i] = Byte.toUnsignedInt(bytes[i]);
         }
 
+        return ints;
+    }
+    
+    public static int[] byteArrayToUnsignedIntArray(byte[] bytes) {
+        int[] ints = new int[bytes.length];
+        
+        for (int i = 0; i < ints.length; i++) {
+            ints[i] = Byte.toUnsignedInt(bytes[i]);
+        }
+        
         return ints;
     }
 

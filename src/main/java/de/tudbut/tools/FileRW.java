@@ -1,7 +1,7 @@
 package de.tudbut.tools;
 
 import de.tudbut.io.StreamReader;
-import de.tudbut.logger.LoggerSink;
+import tudbut.logger.LoggerSink;
 import de.tudbut.type.StringArray;
 import tudbut.global.DebugStateManager;
 
@@ -62,8 +62,8 @@ public class FileRW {
     }
 } 
 
-/*import de.tudbut.logger.GlobalLogger;
-import de.tudbut.logger.Logger;
+/*import tudbut.logger.GlobalLogger;
+import tudbut.logger.Logger;
 import de.tudbut.type.StringArray;
 
 import java.io.*;

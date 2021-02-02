@@ -8,6 +8,10 @@ import tudbut.obj.Partial;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -88,8 +92,35 @@ public class Tools2 {
                     file.delete();
             }
             dir.delete();
-        } catch (Exception e) {
-            throw new IllegalArgumentException();
+        } catch (Exception ignore) {
         }
+    }
+    
+    public static void copyDir(File dir, File dest) {
+    
+        Path sourcePath = dir.toPath();
+        Path targetPath = dest.toPath();
+        try(Stream<Path> filePaths = Files.walk(sourcePath)) {
+            filePaths.forEach(filePath -> {
+                try {
+                    if (Files.isRegularFile(filePath)) {
+                        Path newFile = targetPath.resolve(sourcePath.relativize(filePath));
+                        Files.copy(filePath, newFile);
+                    }else{
+                        Path newDir = targetPath.resolve(sourcePath.relativize(filePath));
+                        Files.createDirectory(newDir);
+                    }
+                } catch (IOException ignored) {
+                }
+            });
+        } catch (IOException ignored) {
+        }
+    }
+    
+    public static double round(double d, int i) {
+        if(i < 0)
+            throw new IllegalArgumentException();
+    
+        return Math.round(d * Math.pow(10, i)) / Math.pow(10, i);
     }
 }

@@ -1,7 +1,6 @@
 package de.tudbut.window;
 
-import de.tudbut.logger.GlobalLogger;
-import de.tudbut.logger.LoggerSink;
+import tudbut.logger.LoggerSink;
 import tudbut.global.DebugStateManager;
 
 import javax.swing.*;
@@ -129,7 +128,7 @@ public class Window {
         this.isClosed = true;
         if (this.isMain) {
             this.logger.get().info("Deleted window");
-            GlobalLogger.warn("EXITING - Window '" + this.name + "' was deleted");
+            logger.get().warn("EXITING - Window '" + this.name + "' was deleted");
             System.exit(this.exitValue);
         }
         return this;

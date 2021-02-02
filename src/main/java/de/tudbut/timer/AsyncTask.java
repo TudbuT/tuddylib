@@ -90,7 +90,6 @@ public class AsyncTask<T> {
                 }
             done = true;
         });
-        stopper.start();
     }
 
     public void catchExceptions(AsyncCatcher catcher) {

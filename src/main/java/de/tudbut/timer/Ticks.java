@@ -1,6 +1,6 @@
 package de.tudbut.timer;
 
-import de.tudbut.logger.Logger;
+import tudbut.logger.Logger;
 import tudbut.global.GlobalSyncQueue;
 
 import java.util.Date;

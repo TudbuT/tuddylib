@@ -1,6 +1,5 @@
 package tudbut.rendering;
 
-import de.tudbut.tools.ExtendedMath;
 import de.tudbut.type.FInfo;
 import de.tudbut.type.Vector2d;
 import de.tudbut.type.Vector3d;
@@ -8,9 +7,26 @@ import de.tudbut.type.Vector3d;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static de.tudbut.tools.ExtendedMath.highestMinusLowest;
-
 public class Maths2D {
+    public static boolean[] getRelation(Rectangle2D measuringObject, Rectangle2D toMeasure) {
+        boolean[] b = new boolean[4];
+        Vector2d a0 = toMeasure.getPos();
+        Vector2d a1 = toMeasure.getEndPoint();
+        Vector2d b0 = measuringObject.getPos();
+        Vector2d b1 = measuringObject.getEndPoint();
+        
+        b[0] = a0.getX() < b1.getX();
+        b[1] = a0.getY() < b1.getY();
+        b[2] = a1.getX() > b0.getX();
+        b[3] = a1.getY() > b0.getY();
+    
+        for (int i = 0; i < b.length; i++) {
+            b[i] = !b[i];
+        }
+    
+        return b;
+    }
+    
     public static int[][] getFillingCoordinatesForRectangle(RenderObject2D o) {
         int[][] r = new int[2][4];
 
@@ -55,6 +71,11 @@ public class Maths2D {
         }
 
         return r;
+    }
+    
+    public static BufferedImage prepareImage(BufferedImage image, Vector2d pos, Vector2d endPos) {
+        endPos = endPos.clone().add(pos.clone().negate());
+        return distortImage(image, (int) endPos.getX(), (int) endPos.getY(), 1);
     }
 
     public static BufferedImage rotateImage(Image image, double rot) {

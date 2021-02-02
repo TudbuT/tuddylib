@@ -1,6 +1,11 @@
 package de.tudbut.type;
 
-public class Vector2d {
+import de.tudbut.tools.Tools;
+import tudbut.obj.Mappable;
+
+import java.util.Map;
+
+public class Vector2d implements Mappable {
     private double x, y;
 
     public Vector2d(double x, double y) {
@@ -19,7 +24,12 @@ public class Vector2d {
     }
 
     public Vector2d add(Vector2d vec) {
-        set(x+vec.x, y+vec.y);
+        set(x + vec.x, y + vec.y);
+        return this;
+    }
+    
+    public Vector2d add(double x, double y) {
+        set(x + this.x, y + this.y);
         return this;
     }
 
@@ -53,5 +63,23 @@ public class Vector2d {
     public Vector2d negate() {
         set(-x, -y);
         return this;
+    }
+    
+    public String toString() {
+        return "x:" + x + ";y:" + y;
+    }
+    
+    @Override
+    public Map<String, String> map() {
+        return Tools.stringToMap("x:" + x + ";y:" + y);
+    }
+    
+    public static Vector2d fromMap(Map<String, String> map) {
+        return
+                new Vector2d(
+                        Double.parseDouble(map.get("x")),
+                        Double.parseDouble(map.get("y"))
+                )
+        ;
     }
 }

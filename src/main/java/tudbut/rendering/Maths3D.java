@@ -1,9 +1,31 @@
 package tudbut.rendering;
 
 import de.tudbut.tools.ExtendedMath;
+import de.tudbut.type.Vector2d;
 import de.tudbut.type.Vector3d;
 
 public class Maths3D {
+    public static boolean[] getRelation(Rectangle3D measuringObject, Rectangle3D toMeasure) {
+        boolean[] b = new boolean[6];
+        Vector3d a0 = toMeasure.getPos();
+        Vector3d a1 = toMeasure.getEndPoint();
+        Vector3d b0 = measuringObject.getPos();
+        Vector3d b1 = measuringObject.getEndPoint();
+        
+        b[0] = a0.getX() < b1.getX();
+        b[1] = a0.getY() < b1.getY();
+        b[2] = a0.getZ() < b1.getZ();
+        b[3] = a1.getX() > b0.getX();
+        b[4] = a1.getY() > b0.getY();
+        b[5] = a1.getZ() > b0.getZ();
+    
+        for (int i = 0; i < b.length; i++) {
+            b[i] = !b[i];
+        }
+        
+        return b;
+    }
+    
     public static void prepareVectorsForRectangle(RenderObject3D o, int renderOutputX, int renderOutputY, double var0, double fovMod) {
         Vector3d pos1 = o.vectors[0];
         Vector3d pos2 = o.vectors[1];

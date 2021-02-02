@@ -2,9 +2,9 @@ package de.tudbut.pluginapi;
 
 
 import tudbut.tools.BetterClassLoader;
-import de.tudbut.logger.DetailedLogger;
-import de.tudbut.logger.Logger;
-import de.tudbut.logger.LoggerSink;
+import tudbut.logger.DetailedLogger;
+import tudbut.logger.Logger;
+import tudbut.logger.LoggerSink;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -59,6 +59,11 @@ public class Vector3d implements Mappable {
         set(x + vector.x, y + vector.y, z + vector.z);
         return this;
     }
+    
+    public Vector3d add(double x, double y, double z) {
+        set(x + this.x, y + this.y, z + this.z);
+        return this;
+    }
 
     @Override
     public int hashCode() {
@@ -124,12 +129,44 @@ public class Vector3d implements Mappable {
         set(-x, -y, -z);
         return this;
     }
+    
+    public boolean isGreaterThan(Vector3d vec) {
+        return
+                x > vec.x &&
+                y > vec.y &&
+                z > vec.z;
+    }
+    
+    public boolean isSmallerThan(Vector3d vec) {
+        return
+                x < vec.x &&
+                y < vec.y &&
+                z < vec.z;
+    }
+    
+    public boolean isGreaterOrEqualThan(Vector3d vec) {
+        return
+                x >= vec.x &&
+                y >= vec.y &&
+                z >= vec.z;
+    }
+    
+    public boolean isSmallerOrEqualThan(Vector3d vec) {
+        return
+                x <= vec.x &&
+                y <= vec.y &&
+                z <= vec.z;
+    }
 
     @Override
     public Vector3d clone() {
         return new Vector3d(x, y, z);
     }
-
+    
+    public String toString() {
+        return "x:" + x + ";y:" + y + ";z:" + z;
+    }
+    
     @Override
     public Map<String, String> map() {
         return Tools.stringToMap("x:" + x + ";y:" + y + ";z:" + z);

@@ -1,9 +1,9 @@
 package tudbut.global;
 
-import de.tudbut.logger.DetailedLogger;
-import de.tudbut.logger.EmptyLogger;
-import de.tudbut.logger.Logger;
-import de.tudbut.logger.LoggerSink;
+import tudbut.logger.DetailedLogger;
+import tudbut.logger.EmptyLogger;
+import tudbut.logger.Logger;
+import tudbut.logger.LoggerSink;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;

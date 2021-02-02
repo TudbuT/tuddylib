@@ -1,6 +1,10 @@
 package de.tudbut.tools;
 
+import de.tudbut.type.Vector2d;
+import tudbut.obj.Vector2i;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
@@ -54,6 +58,15 @@ public class Mouse implements MouseListener, MouseWheelListener {
 
     public static void bindToKeyboard() {
         Keyboard.startListening(frame);
+    }
+    
+    public static Point getMousePoint() {
+        return MouseInfo.getPointerInfo().getLocation();
+    }
+    
+    public static Vector2i getMousePos() {
+        Point p = getMousePoint();
+        return new Vector2i((int) p.getX(), (int) p.getY());
     }
 
     @Override

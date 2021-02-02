@@ -57,20 +57,7 @@ public class StreamReader {
     }
 
     public char[] readAllAsChars() throws IOException {
-        CharArrayList chars = new CharArrayList();
-        String line;
-        while ((line = stream.readLine()) != null) {
-            for (int i = 0; i < line.length(); i++) {
-                chars.add(line.toCharArray()[i]);
-            }
-            chars.add('\n');
-        }
-        try {
-            chars.remove(chars.size() - 1);
-        }
-        catch (Exception ignore) {
-        }
-        return chars.toCharArray();
+        return new String(readAllAsBytes()).toCharArray();
     }
 
     public char[] readAllAsCharsUntil(char c) throws IOException {

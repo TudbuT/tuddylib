@@ -1,9 +1,8 @@
 package de.tudbut.tools;
 
-import de.tudbut.logger.GlobalLogger;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Hasher {
     public static final String TYPE_SHA256HEX = "sha256hex";
@@ -11,12 +10,12 @@ public class Hasher {
     public static final String TYPE_INT = "int";
     public static String LETTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"§$%&/()=?#_-.:,;µ<>|^°{[]}\\ ";
 
-    public static String sha256hex(String toHash) throws Exception {
+    public static String sha256hex(String toHash) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         return hash(toHash, digest);
     }
 
-    public static String sha512hex(String toHash) throws Exception {
+    public static String sha512hex(String toHash) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-512");
         return hash(toHash, digest);
     }
@@ -33,8 +32,7 @@ public class Hasher {
         return hexString.toString();
     }
 
-    public static String bruteforce(String type, String hash, int beginAt) throws Exception {
-        GlobalLogger.warn("BruteForcing might take a while!");
+    public static String bruteforce(String type, String hash, int beginAt) throws NoSuchAlgorithmException {
         switch (type) {
             case TYPE_SHA256HEX:
                 return bf_sha256hex(hash, beginAt);
@@ -43,7 +41,6 @@ public class Hasher {
             case TYPE_INT:
                 return bf_int(Integer.parseInt(hash), beginAt);
         }
-        GlobalLogger.error("This algorithm doesn't exist! Stopping BruteForce!");
         return null;
     }
 
@@ -76,7 +73,7 @@ public class Hasher {
         return null;
     }
 
-    private static String bf_sha256hex(String hash, int beginAt) throws Exception {
+    private static String bf_sha256hex(String hash, int beginAt) throws NoSuchAlgorithmException {
         for (int length = beginAt; true; length++) {
             String s;
             if ((s = bf_sha256hex_tryGenChar("", 0, length, hash)) != null) {
@@ -85,7 +82,7 @@ public class Hasher {
         }
     }
 
-    private static String bf_sha256hex_tryGenChar(String str, int pos, int length, String hash) throws Exception {
+    private static String bf_sha256hex_tryGenChar(String str, int pos, int length, String hash) throws NoSuchAlgorithmException {
         if (length == 0) {
             if (sha256hex(str).equals(hash))
                 return str;
@@ -104,7 +101,7 @@ public class Hasher {
         return null;
     }
 
-    private static String bf_sha512hex(String hash, int beginAt) throws Exception {
+    private static String bf_sha512hex(String hash, int beginAt) throws NoSuchAlgorithmException {
         for (int length = beginAt; true; length++) {
             String s;
             if ((s = bf_sha512hex_tryGenChar("", 0, length, hash)) != null) {
@@ -113,7 +110,7 @@ public class Hasher {
         }
     }
 
-    private static String bf_sha512hex_tryGenChar(String str, int pos, int length, String hash) throws Exception {
+    private static String bf_sha512hex_tryGenChar(String str, int pos, int length, String hash) throws NoSuchAlgorithmException {
         if (length == 0) {
             if (sha512hex(str).equals(hash))
                 return str;

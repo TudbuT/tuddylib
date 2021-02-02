@@ -1,13 +1,17 @@
 package tudbut.obj;
 
 import de.tudbut.tools.Tools;
+import tudbut.tools.Tools2;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class TypedArray<T> {
     
     private boolean hasClass = false;
     private Class<?> tClass = null;
+    private boolean locked = false;
+    protected final Object synchronizer = new Object();
     
     protected T[] ts;
     
@@ -36,24 +40,64 @@ public class TypedArray<T> {
     }
     
     public T get(int i) throws ArrayIndexOutOfBoundsException {
-        return ts[i];
+        synchronized (synchronizer) {
+            return ((T[]) ts)[i];
+        }
     }
     
     public T set(int i, T t) throws ArrayIndexOutOfBoundsException {
-        return ts[i] = t;
+        synchronized (synchronizer) {
+            checkLocked();
+            return ((T[]) ts)[i] = t;
+        }
     }
     
     public String toString() {
-        return Arrays.toString(ts);
+        synchronized (synchronizer) {
+            return Arrays.toString(ts);
+        }
     }
     
-    public T[] toArray() {
-        return ts;
+    public T[] toArray(T... type) {
+        synchronized (synchronizer) {
+            hasClass = true;
+            tClass = type.getClass().getComponentType();
+            T[] nts = (T[]) Array.newInstance(tClass, ts.length);
+            Tools.copyArray(ts, nts, nts.length);
+            ts = nts;
+            return ts;
+        }
     }
     
     public int length() {
-        return ts.length;
+        synchronized (synchronizer) {
+            return ts.length;
+        }
     }
+    
+    public TypedArray<T> lock() {
+        locked = true;
+        return this;
+    }
+    
+    public boolean isLocked() {
+        return locked;
+    }
+    
+    protected void checkLocked() throws IllegalStateException {
+        if(isLocked())
+            throw new IllegalStateException("TypedArray is locked");
+    }
+    
+    @Override
+    public TypedArray<T> clone() {
+        return new TypedArray<>(ts);
+    }
+    
+    public boolean equals(Object o) {
+        return o instanceof TypedArray && (Arrays.equals(((TypedArray<?>) o).ts, ts));
+    }
+    
     
     @SafeVarargs
     public static <T> T[] convertToArray(T... ts) {

@@ -165,7 +165,7 @@ public class ExtendedMath {
     }
 
     public static long randomLong(long lower, long upper) {
-        upper += 1;
+        upper ++;
         return (long) (Math.floor(Math.random() * (upper - lower)) + lower);
     }
 
@@ -241,6 +241,10 @@ public class ExtendedMath {
         }
 
         return array;
+    }
+    
+    public static double removeSign(double d) {
+        return d < 0 ? -d : d;
     }
 
     @FInfo(s = "only requires ~0.5 measurable ticks (-> new Date().toInstant().getNanos()) while Math.round takes ~5")

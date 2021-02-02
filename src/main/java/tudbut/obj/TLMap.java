@@ -2,17 +2,16 @@ package tudbut.obj;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class TLMap<K, V> {
-    protected final Binding<K, V> binding = new Binding<>();
+    protected Binding<K, V> binding = new Binding<>();
 
     public void set(K key, V value) {
         binding.set(key, value);
     }
 
-    public void setIfNull(Object bindingObject, K key, V value) {
+    public void setIfNull(K key, V value) {
         if(binding.get(key) == null) {
             binding.set(key, value);
         }
@@ -26,13 +25,13 @@ public class TLMap<K, V> {
         return binding.keys();
     }
 
-    public V[] values(Object bindingObject) {
+    public V[] values() {
         return binding.values();
     }
 
 
     protected static class Binding<K, V> {
-        private final ArrayList<Entry> entries = new ArrayList<>();
+        private ArrayList<Entry> entries = new ArrayList<>();
 
         private void set(K key, V value) {
             boolean exists = false;
@@ -80,7 +79,7 @@ public class TLMap<K, V> {
         }
 
         private class Entry {
-            private final K key;
+            private K key;
             private V val;
 
             private Entry(K key, V val) {

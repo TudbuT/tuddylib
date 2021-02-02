@@ -1,7 +1,5 @@
 package de.tudbut.type;
 
-import de.tudbut.logger.GlobalLogger;
-
 import java.util.Arrays;
 import java.util.List;
 

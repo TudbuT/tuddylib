@@ -1,17 +1,20 @@
 package de.tudbut.ui.windowgui;
 
+import de.tudbut.type.Vector2d;
+import tudbut.obj.Vector2i;
+
 import java.awt.*;
 import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 
 public class FontRenderer {
     Font myFont;
     FontRenderContext context;
 
-    public FontRenderer(int size, Graphics graphics) {
-        myFont = new Font("DejaVu Sans", Font.PLAIN, size);
-        graphics.setFont(myFont);
-        context = graphics.getFontMetrics().getFontRenderContext();
+    public FontRenderer(int size) {
+        myFont = new Font("serif", Font.PLAIN, size);
+        context = new FontRenderContext(null, true, false);
     }
 
     public int getTextWidth(String text) {
@@ -31,10 +34,19 @@ public class FontRenderer {
 
         return r;
     }
+    
+    private static Rectangle getStringBounds(String s, Font font, FontRenderContext context) {
+        GlyphVector gv = font.createGlyphVector(context, s);
+        return gv.getPixelBounds(context, 0, 0);
+    }
 
     public Image renderText(String text, int color) {
         BufferedImage image = new BufferedImage(getTextWidth(text), getTextHeight(text), BufferedImage.TYPE_INT_ARGB);
-        Graphics graphics = image.getGraphics();
+        Graphics2D graphics = ((Graphics2D) image.getGraphics());
+        graphics.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+        );
 
         graphics.setColor(new Color(color));
         graphics.setFont(myFont);
@@ -42,5 +54,14 @@ public class FontRenderer {
             graphics.drawString(text.split("\n")[i], 0, (myFont.getSize() + 4) * (i + 1));
 
         return image;
+    }
+    
+    public Vector2i getCoordsForCentered(Vector2i coords, String text) {
+        return
+                new Vector2i(
+                        coords.getX() - getTextWidth(text) / 2,
+                        coords.getY() - getTextHeight(text) / 2
+                )
+        ;
     }
 }

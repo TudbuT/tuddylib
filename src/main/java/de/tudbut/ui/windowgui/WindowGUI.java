@@ -1,6 +1,6 @@
 package de.tudbut.ui.windowgui;
 
-import de.tudbut.logger.Logger;
+import tudbut.logger.Logger;
 import de.tudbut.tools.Config;
 import de.tudbut.window.Window;
 
