@@ -1,6 +1,6 @@
 package tudbut.tools;
 
-import de.tudbut.tools.Tools;
+import tudbut.parsing.TCN;
 import tudbut.parsing.TudSort;
 
 import java.lang.reflect.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ObjectSerializer {
+public class ObjectSerializerTCN {
     
     private static final Map<Thread, ArrayList<Object>> doneObjects = new HashMap<>();
     
@@ -27,44 +27,42 @@ public class ObjectSerializer {
             String.class
     };
     
-    Map<String, String> map = new HashMap<>();
+    TCN map = TCN.getEmpty();
     Object toBuild = null;
     boolean type;
     boolean array;
     boolean unable = false;
     
-    {
-        if(!doneObjects.containsKey(Thread.currentThread()))
-            doneObjects.put(Thread.currentThread(), new ArrayList<>());
+    static {
+        doneObjects.put(Thread.currentThread(), new ArrayList<>());
     }
     
-    public ObjectSerializer(String s) {
-        map = Tools.stringToMap(s);
+    public ObjectSerializerTCN(TCN tcn) {
+        map = tcn;
         type = false;
     }
     
-    public ObjectSerializer(Object o) {
+    public ObjectSerializerTCN(String s) throws TCN.TCNException {
+        map = TCN.read(s);
+        type = false;
+    }
+    
+    public ObjectSerializerTCN(Object o) {
         toBuild = o;
         type = true;
     }
     
-    public ObjectSerializer(Class<?> c) {
+    public ObjectSerializerTCN(Class<?> c) {
         type = true;
     }
     
-    boolean rv = false;
-    
-    public ObjectSerializer useReadableValues(boolean b) {
-        rv = b;
-        return this;
-    }
-    
-    public <T> T done(T... ignore) {
+    @SafeVarargs
+    public final <T> T done(T... ignore) {
         if (type)
             if(unable)
                 return null;
             else
-                return (T) Tools.mapToString(map);
+                return (T) map;
         else
             if(unable)
                 return null;
@@ -72,17 +70,17 @@ public class ObjectSerializer {
                 return (T) toBuild;
     }
     
-    private ObjectSerializer convertAll0() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    private ObjectSerializerTCN convertAll0() throws ClassNotFoundException, IllegalAccessException {
         convertHeader();
         boolean b = false;
         if(toBuild != null || !type) {
             for (int i = 0; i < TypeConverter.values().length; i++) {
-                if (TypeConverter.values()[i].impl.doesApply(Class.forName(map.get("type")))) {
+                if (TypeConverter.values()[i].impl.doesApply(Class.forName(map.getString("type")))) {
                     if (type) {
-                        map.put("f", TypeConverter.values()[i].impl.string(toBuild, rv));
+                        map.set("f", toBuild);
                     }
                     else {
-                        toBuild = TypeConverter.values()[i].impl.object(map.get("f"), rv);
+                        toBuild = TypeConverter.values()[i].impl.object(map.getString("f"));
                     }
                     unable = false;
                     return this;
@@ -97,7 +95,7 @@ public class ObjectSerializer {
         return this;
     }
     
-    public ObjectSerializer convertAll() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public ObjectSerializerTCN convertAll() throws ClassNotFoundException, IllegalAccessException {
         doneObjects.get(Thread.currentThread()).clear();
         return convertAll0();
     }
@@ -116,27 +114,27 @@ public class ObjectSerializer {
     private void convertHeader() throws ClassNotFoundException {
         if(type) {
             if(toBuild == null) {
-                map.put("type", "null");
-                map.put("isArray", "false");
+                map.set("type", "null");
+                map.set("isArray", "false");
                 unable = true;
                 return;
             }
             
             array = toBuild.getClass().isArray();
-            map.put("isArray", String.valueOf(array));
+            map.set("isArray", String.valueOf(array));
             String s;
             if(array)
                 s = toBuild.getClass().getComponentType().getName();
             else
                 s = toBuild.getClass().getName();
-            map.put("type", s);
+            map.set("type", s);
         }
         else {
-            array = Boolean.parseBoolean(map.get("isArray"));
+            array = map.getBoolean("isArray");
             if(array)
-                toBuild = Array.newInstance(forName(map.get("type")), (Integer) TypeConverter.INT.impl.object(map.get("f_len"), rv));
+                toBuild = Array.newInstance(forName(map.getString("type")), map.getInteger("f_len"));
             else
-                toBuild = forceNewInstance(map.get("type"));
+                toBuild = forceNewInstance(map.getString("type"));
             if(toBuild == null) {
                 unable = true;
             }
@@ -159,26 +157,26 @@ public class ObjectSerializer {
                 return;
             if(type) {
                 int len = Array.getLength(toBuild);
-                map.put("f_len", TypeConverter.INT.impl.string(len, rv));
+                map.set("f_len", len);
                 for (int i = 0; i < len; i++) {
                     String s = "";
                     for (int j = 0; j < TypeConverter.values().length; j++) {
                         TypeConverter converter = TypeConverter.values()[j];
                         if (converter.impl.doesApply(toBuild.getClass().getComponentType())) {
-                            s = converter.impl.string(Array.get(toBuild, i), rv);
+                            s = converter.impl.string(Array.get(toBuild, i));
                         }
                     }
-                    map.put("f_" + TypeConverter.INT.impl.string(i, rv), s);
+                    map.set("f_" + i, s);
                 }
             }
             else {
-                int len = (int) TypeConverter.INT.impl.object(map.get("f_len"), rv);
+                int len = map.getInteger("f_len");
                 for (int i = 0; i < len; i++) {
                     Object o = null;
                     for (int j = 0; j < TypeConverter.values().length; j++) {
                         TypeConverter converter = TypeConverter.values()[j];
                         if (converter.impl.doesApply(toBuild.getClass().getComponentType())) {
-                            o = converter.impl.object(map.get("f_" + TypeConverter.INT.impl.string(i, rv)), rv);
+                            o = converter.impl.object(map.getString("f_" + i));
                         }
                     }
                     Array.set(toBuild, i, o);
@@ -207,18 +205,18 @@ public class ObjectSerializer {
                     for (int j = 0; j < TypeConverter.values().length; j++) {
                         TypeConverter converter = TypeConverter.values()[j];
                         if (converter.impl.doesApply(field.getType())) {
-                            s = converter.impl.string(field.get(toBuild), rv);
+                            s = converter.impl.string(field.get(toBuild));
                         }
                     }
-                    map.put("f_" + field.getName(), s);
+                    map.set("f_" + field.getName(), s);
                 }
                 else {
-                    if (map.containsKey("f_" + field.getName())) {
+                    if (map.map.containsKey("f_" + field.getName())) {
                         Object o = null;
                         for (int j = 0; j < TypeConverter.values().length; j++) {
                             TypeConverter converter = TypeConverter.values()[j];
                             if (converter.impl.doesApply(field.getType())) {
-                                o = converter.impl.object(map.get("f_" + field.getName()), rv);
+                                o = converter.impl.object(map.getString("f_" + field.getName()));
                             }
                         }
                         if(!Modifier.toString(field.getModifiers()).contains("final") && !Modifier.toString(field.getModifiers()).contains("static") )
@@ -230,7 +228,7 @@ public class ObjectSerializer {
         }
     }
     
-    private void convertObjectVars() throws IllegalAccessException, ClassNotFoundException, InstantiationException {
+    private void convertObjectVars() throws IllegalAccessException, ClassNotFoundException {
         if(unable)
             return;
         if(array) {
@@ -245,7 +243,7 @@ public class ObjectSerializer {
                 return;
             if(type) {
                 int len = Array.getLength(toBuild);
-                map.put("f_len", TypeConverter.INT.impl.string(len, rv));
+                map.set("f_len", len);
                 for (int i = 0; i < len; i++) {
                     Object o;
                     if(checkShouldNotConvert(o = Array.get(toBuild, i))) {
@@ -253,15 +251,15 @@ public class ObjectSerializer {
                     }
                     else
                         doneObjects.get(Thread.currentThread()).add(o);
-                    ObjectSerializer serializer = new ObjectSerializer(o).useReadableValues(rv);
+                    ObjectSerializerTCN serializer = new ObjectSerializerTCN(o);
                     serializer.convertAll0();
-                    map.put("f_" + TypeConverter.INT.impl.string(i, rv), serializer.done());
+                    map.set("f_" + i, serializer.map);
                 }
             }
             else {
-                int len = (int) TypeConverter.INT.impl.object(map.get("f_len"), rv);
+                int len = map.getInteger("f_len");
                 for (int i = 0; i < len; i++) {
-                    ObjectSerializer serializer = new ObjectSerializer(map.get("f_" + TypeConverter.INT.impl.string(i, rv))).useReadableValues(rv);
+                    ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub("f_" + i));
                     serializer.convertAll0();
                     if (serializer.done() != null)
                         Array.set(toBuild, i, serializer.done());
@@ -292,23 +290,24 @@ public class ObjectSerializer {
                     }
                     else
                         doneObjects.get(Thread.currentThread()).add(o);
-                    ObjectSerializer serializer = new ObjectSerializer(o).useReadableValues(rv);
+                    ObjectSerializerTCN serializer = new ObjectSerializerTCN(o);
                     serializer.convertAll0();
-                    map.put("f_" + field.getName(), serializer.done());
+                    map.set("f_" + field.getName(), serializer.map);
                 }
                 else {
-                    if (map.containsKey("f_" + field.getName())) {
-                        ObjectSerializer serializer = new ObjectSerializer(map.get("f_" + field.getName())).useReadableValues(rv);
+                    if (map.map.containsKey("f_" + field.getName())) {
+                        ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub("f_" + field.getName()));
                         serializer.convertAll0();
                         Object o = serializer.done();
                         if (!Modifier.toString(field.getModifiers()).contains("final")) {
-                            if (!Modifier.toString(field.getModifiers()).contains("static") && serializer.done() != null) {
+                            if (!Modifier.toString(field.getModifiers()).contains("static") && o != null) {
                                 field.set(toBuild, o);
                             }
                         }
                         else if(field.getType().isArray()) {
                             Object array = field.get(toBuild);
                             if(Array.getLength(array) == Array.getLength(o)) {
+                                assert o != null;
                                 System.arraycopy(o, 0, array, 0, Array.getLength(o));
                             }
                         }
@@ -346,8 +345,8 @@ public class ObjectSerializer {
     }
     
     public interface TypeConverterImpl {
-        String string(Object o, boolean rv);
-        Object object(String s, boolean rv);
+        String string(Object o);
+        Object object(String s);
         
         boolean doesApply(Class<?> clazz);
     }
@@ -355,19 +354,13 @@ public class ObjectSerializer {
     public enum TypeConverter {
         BOOLEAN(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-                
-                return ((boolean) o) ? "\u0001" : "\u0000";
+            public String string(Object o) {
+                return String.valueOf(o);
             }
     
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
-                    return Boolean.valueOf(s);
-    
-                return s.equals("\u0001");
+            public Object object(String s) {
+                return Boolean.valueOf(s);
             }
     
             @Override
@@ -377,19 +370,13 @@ public class ObjectSerializer {
         }),
         BYTE(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-                
-                return new String(new char[] { (char) (byte) o });
+            public String string(Object o) {
+                return String.valueOf(o);
             }
         
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
-                    return Byte.valueOf(s);
-    
-                return (byte) s.charAt(0);
+            public Object object(String s) {
+                return Byte.valueOf(s);
             }
     
             @Override
@@ -399,25 +386,13 @@ public class ObjectSerializer {
         }),
         SHORT(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-    
-                String r = "";
-                r += (char) (((short) o >> 1 * 8) & 0xff);
-                r += (char) (((short) o >> 0 * 8) & 0xff);
-                return r;
+            public String string(Object o) {
+                return String.valueOf(o);
             }
         
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
-                    return Short.valueOf(s);
-    
-                short r = 0;
-                r += ((short) s.charAt(0) & 0xff) << 1 * 8;
-                r += ((short) s.charAt(1) & 0xff) << 0 * 8;
-                return r;
+            public Object object(String s) {
+                return Short.valueOf(s);
             }
     
             @Override
@@ -427,25 +402,13 @@ public class ObjectSerializer {
         }),
         CHAR(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-    
-                String r = "";
-                r += (char) (((char) o >> 1 * 8) & 0xff);
-                r += (char) (((char) o >> 0 * 8) & 0xff);
-                return r;
+            public String string(Object o) {
+                return String.valueOf(o);
             }
         
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
-                    return (char) Integer.parseInt(s);
-    
-                char r = 0;
-                r += (s.charAt(0) & 0xff) << 1 * 8;
-                r += (s.charAt(1) & 0xff) << 0 * 8;
-                return r;
+            public Object object(String s) {
+                return (char) Integer.parseInt(s);
             }
     
             @Override
@@ -455,29 +418,13 @@ public class ObjectSerializer {
         }),
         INT(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-    
-                String r = "";
-                r += (char) (((int) o >> 3 * 8) & 0xff);
-                r += (char) (((int) o >> 2 * 8) & 0xff);
-                r += (char) (((int) o >> 1 * 8) & 0xff);
-                r += (char) (((int) o >> 0 * 8) & 0xff);
-                return r;
+            public String string(Object o) {
+                return String.valueOf(o);
             }
         
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
-                    return Integer.valueOf(s);
-    
-                int r = 0;
-                r += ((int) s.charAt(0) & 0xff) << 3 * 8;
-                r += ((int) s.charAt(1) & 0xff) << 2 * 8;
-                r += ((int) s.charAt(2) & 0xff) << 1 * 8;
-                r += ((int) s.charAt(3) & 0xff) << 0 * 8;
-                return r;
+            public Object object(String s) {
+                return Integer.valueOf(s);
             }
     
             @Override
@@ -487,19 +434,13 @@ public class ObjectSerializer {
         }),
         FLOAT(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-    
-                return TypeConverter.INT.impl.string(Float.floatToIntBits((Float) o), rv);
+            public String string(Object o) {
+                return String.valueOf(o);
             }
         
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
-                    return Float.valueOf(s);
-                
-                return Float.intBitsToFloat((Integer) TypeConverter.INT.impl.object(s, rv));
+            public Object object(String s) {
+                return Float.valueOf(s);
             }
     
             @Override
@@ -509,37 +450,13 @@ public class ObjectSerializer {
         }),
         LONG(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-    
-                String r = "";
-                r += (char) ((long) o >> 7 * 8);
-                r += (char) ((long) o >> 6 * 8);
-                r += (char) ((long) o >> 5 * 8);
-                r += (char) ((long) o >> 4 * 8);
-                r += (char) ((long) o >> 3 * 8);
-                r += (char) ((long) o >> 2 * 8);
-                r += (char) ((long) o >> 1 * 8);
-                r += (char) ((long) o >> 0 * 8);
-                return r;
+            public String string(Object o) {
+                return String.valueOf(o);
             }
         
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
-                    return Long.valueOf(s);
-                
-                long r = 0;
-                r += ((long) s.charAt(0) & 0xff) << 7 * 8;
-                r += ((long) s.charAt(1) & 0xff) << 6 * 8;
-                r += ((long) s.charAt(2) & 0xff) << 5 * 8;
-                r += ((long) s.charAt(3) & 0xff) << 4 * 8;
-                r += ((long) s.charAt(4) & 0xff) << 3 * 8;
-                r += ((long) s.charAt(5) & 0xff) << 2 * 8;
-                r += ((long) s.charAt(6) & 0xff) << 1 * 8;
-                r += ((long) s.charAt(7) & 0xff) << 0 * 8;
-                return r;
+            public Object object(String s) {
+                return Long.valueOf(s);
             }
     
             @Override
@@ -549,19 +466,13 @@ public class ObjectSerializer {
         }),
         DOUBLE(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
-                if(rv)
-                    return String.valueOf(o);
-                
-                return TypeConverter.LONG.impl.string(Double.doubleToLongBits((Double) o), rv);
+            public String string(Object o) {
+                return String.valueOf(o);
             }
         
             @Override
-            public Object object(String s, boolean rv) {
-                if(rv)
+            public Object object(String s) {
                     return Double.valueOf(s);
-    
-                return Double.longBitsToDouble((Long) TypeConverter.LONG.impl.object(s, rv));
             }
     
             @Override
@@ -571,12 +482,12 @@ public class ObjectSerializer {
         }),
         STRING(new TypeConverterImpl() {
             @Override
-            public String string(Object o, boolean rv) {
+            public String string(Object o) {
                 return (String) o;
             }
         
             @Override
-            public Object object(String s, boolean rv) {
+            public Object object(String s) {
                 return s;
             }
         

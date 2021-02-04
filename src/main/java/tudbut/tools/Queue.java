@@ -6,6 +6,12 @@ public class Queue<T> {
     
     private ArrayList<T> ts = new ArrayList<>();
     
+    public Queue() { }
+    
+    protected Queue(Queue<T> queue) {
+        ts = (ArrayList<T>) queue.ts.clone();
+    }
+    
     public synchronized T pushTop(T t) {
         ts.add(t);
         return t;
@@ -62,5 +68,15 @@ public class Queue<T> {
     
     public synchronized ArrayList<T> toList() {
         return (ArrayList<T>) ts.clone();
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        return o == this || (o instanceof Queue && ((Queue<?>) o).ts.equals(ts));
+    }
+    
+    @Override
+    public Queue<T> clone() {
+        return new Queue<>(this);
     }
 }
