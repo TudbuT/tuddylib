@@ -3,6 +3,7 @@ package tudbut.obj;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 public class TLMap<K, V> {
     protected Binding<K, V> binding = new Binding<>();
@@ -21,11 +22,11 @@ public class TLMap<K, V> {
         return binding.get(key);
     }
 
-    public K[] keys() {
+    public final Set<K> keys() {
         return binding.keys();
     }
 
-    public V[] values() {
+    public final Set<V> values() {
         return binding.values();
     }
 
@@ -56,32 +57,29 @@ public class TLMap<K, V> {
             return null;
         }
 
-        private K[] keys() {
+        private Set<K> keys() {
             HashSet<K> keys = new HashSet<>();
             for (int i = 0; i < entries.size(); i++) {
                 keys.add(entries.get(i).key);
             }
-            if(keys.size() == 0) {
-                return (K[]) new Object[0];
-            }
-            return keys.toArray((K[]) Array.newInstance(entries.get(0).key.getClass(), keys.size()));
+            return keys;
         }
 
-        private V[] values() {
+        private Set<V> values() {
             HashSet<V> vals = new HashSet<>();
             for (int i = 0; i < entries.size(); i++) {
                 vals.add(entries.get(i).val);
             }
-            if(vals.size() == 0) {
-                return (V[]) new Object[0];
-            }
-            return vals.toArray((V[]) Array.newInstance(entries.get(0).val.getClass(), vals.size()));
+            return vals;
         }
 
         private class Entry {
             private K key;
             private V val;
-
+    
+            private Entry() {
+            }
+            
             private Entry(K key, V val) {
                 this.key = key;
                 this.val = val;

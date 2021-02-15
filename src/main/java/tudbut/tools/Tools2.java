@@ -17,19 +17,10 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class Tools2 {
-    static Robot defaultRobot;
     
-    static {
-        try {
-            defaultRobot = new Robot();
-        } catch (AWTException e) {
-            System.err.println("[TuddyLIB] Couldn't initialize AWT Tools");
-        }
-    }
-    
-    public synchronized static BufferedImage screenshot() {
+    public synchronized static BufferedImage screenshot() throws AWTException {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        return defaultRobot.createScreenCapture(new Rectangle(screenSize));
+        return new Robot().createScreenCapture(new Rectangle(screenSize));
     }
     
     public synchronized static void addFilesToZIP(File zipFile, Partial.Listener<File> done, File... files) throws IOException {
@@ -122,5 +113,15 @@ public class Tools2 {
             throw new IllegalArgumentException();
     
         return Math.round(d * Math.pow(10, i)) / Math.pow(10, i);
+    }
+    
+    public static double roll(double d, double min, double max) {
+        while (d < min) {
+            d += max - min;
+        }
+        while (d >= max) {
+            d -= max - min;
+        }
+        return d;
     }
 }

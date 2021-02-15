@@ -2,6 +2,7 @@ package de.tudbut.type;
 
 import de.tudbut.tools.Tools;
 import tudbut.obj.Mappable;
+import tudbut.obj.Vector2i;
 
 import java.util.Map;
 
@@ -53,10 +54,17 @@ public class Vector2d implements Mappable {
     public Vector2d clone() {
         return new Vector2d(x, y);
     }
-
-
+    
     public Vector2d multiply(double i) {
         set(x * i, y * i);
+        return this;
+    }
+    public Vector2d multiply(double mx, double my) {
+        set(x * mx, y * my);
+        return this;
+    }
+    public Vector2d multiply(Vector2d vec) {
+        set(x * vec.x, y * vec.y);
         return this;
     }
 

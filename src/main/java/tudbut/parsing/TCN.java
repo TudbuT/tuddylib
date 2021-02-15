@@ -4,10 +4,7 @@ package tudbut.parsing;
 import tudbut.tools.Stack;
 import tudbut.tools.StringTools;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * T udbuT
@@ -27,52 +24,53 @@ public class TCN {
     public String getString(String key) {
         Object o = map.get(key);
         if(o != null && o.getClass() == String.class)
-            return (String) map.get(key);
+            return (String) get(key);
         else
             return null;
     }
     
     public Short getShort(String key) {
-        if(map.get(key).getClass() == String.class)
-            return Short.valueOf((String) map.get(key));
+        Object o = get(key);
+        if(o != null)
+            return Short.valueOf(String.valueOf(o));
         else
             return null;
     }
     
     public Integer getInteger(String key) {
-        Object o = map.get(key);
-        if(o != null && o.getClass() == String.class)
-            return Integer.valueOf((String) map.get(key));
+        Object o = get(key);
+        if(o != null)
+            return Integer.valueOf(String.valueOf(o));
         else
             return null;
     }
     
     public Boolean getBoolean(String key) {
-        Object o = map.get(key);
-        if(o != null && o.getClass() == String.class)
-            return Boolean.valueOf((String) map.get(key));
+        Object o = get(key);
+        if(o != null)
+            return Boolean.valueOf(String.valueOf(o));
         else
             return null;
     }
     
     public Float getFloat(String key) {
-        Object o = map.get(key);
-        if(o != null && o.getClass() == String.class)
-            return Float.valueOf((String) map.get(key));
+        Object o = get(key);
+        if(o != null)
+            return Float.valueOf(String.valueOf(o));
         else
             return null;
     }
     
     public Double getDouble(String key) {
-        Object o = map.get(key);
-        if(o != null && o.getClass() == String.class)
-            return Double.valueOf((String) map.get(key));
+        Object o = get(key);
+        if(o != null)
+            return Double.valueOf(String.valueOf(o));
         else
             return null;
     }
     
     public TCN getSub(String key) {
-        Object o = map.get(key);
+        Object o = get(key);
         if(o != null && o.getClass() == TCN.class)
             return (TCN) map.get(key);
         else
@@ -80,10 +78,14 @@ public class TCN {
     }
     
     public Object get(String key) {
-        if(map.get(key) != null)
-            return map.get(key);
-        else
-            return null;
+        Map<String, Object> map = this.map;
+        ArrayList<String> path = new ArrayList<>(Arrays.asList(key.split("#")));
+        
+        while (path.size() > 1) {
+            map = ((TCN) map.get(path.remove(0))).map;
+        }
+        
+        return map.get(path.get(0));
     }
     
     public String toString() {
@@ -100,6 +102,10 @@ public class TCN {
             boolean b = false;
             for(String key : tcnStack.peek().map.keySet()) {
                 Object o = tcnStack.peek().map.get(key);
+                
+                if(o == null)
+                    continue;
+                
                 if(o.getClass() == TCN.class) {
                     path.add(key);
                     if(!paths.contains(path)) {
@@ -171,7 +177,7 @@ public class TCN {
         for (int i = 0; i < lines.length; i++) {
             try {
                 String line = removePrefixSpaces(lines[i]);
-                if (!line.isEmpty()) {
+                if (!line.isEmpty() && !line.startsWith("#")) {
                     if (line.equals("}")) {
                         path.next();
                     }

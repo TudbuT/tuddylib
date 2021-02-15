@@ -138,7 +138,6 @@ public class Maths2D {
         return r;
     }
 
-    @FInfo(s="Not usable for multithreaded use of the vectors!! Use rotateMt")
     public static Vector2d rotate(Vector2d vec, Vector2d point, double rotation) {
         point.negate();
         vec.add(point);
@@ -150,24 +149,6 @@ public class Maths2D {
         );
         point.negate();
         vec.add(point);
-        return vec;
-    }
-
-    @FInfo(s="Clones the vectors before modifying them so it works with MultiThreading!")
-    public static Vector2d rotateMt(Vector2d vec, Vector2d point, double rotation) {
-        Vector2d p = vec.clone();
-        Vector2d c = point.clone();
-        c.negate();
-        p.add(c);
-        double sinRot = Math.sin(rotation);
-        double cosRot = Math.cos(rotation);
-        p.set(
-                p.getX() * cosRot + p.getY() * -sinRot,
-                p.getX() * sinRot + p.getY() * cosRot
-        );
-        c.negate();
-        p.add(c);
-        vec.set(p);
         return vec;
     }
 }

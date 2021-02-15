@@ -1,6 +1,7 @@
 package tudbut.obj;
 
 import de.tudbut.tools.Tools;
+import de.tudbut.type.Vector2d;
 
 import java.util.Map;
 
@@ -57,7 +58,13 @@ public class Vector2i implements Mappable {
         set((int) (x * mx), (int) (y * my));
         return this;
     }
-
+    
+    public Vector2i multiply(Vector2d vec) {
+        set((int) (x * vec.getX()), (int) (y * vec.getY()));
+        return this;
+    }
+    
+    
     public Vector2i negate() {
         set(-x, -y);
         return this;

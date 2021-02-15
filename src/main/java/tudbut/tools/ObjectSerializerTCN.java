@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class ObjectSerializerTCN {
     
+    private static String debugInfo = "/";
+    
     private static final Map<Thread, ArrayList<Object>> doneObjects = new HashMap<>();
     
     private static final Class<?>[] nativeTypes = new Class[] {
@@ -33,8 +35,9 @@ public class ObjectSerializerTCN {
     boolean array;
     boolean unable = false;
     
-    static {
-        doneObjects.put(Thread.currentThread(), new ArrayList<>());
+    {
+        if(!doneObjects.containsKey(Thread.currentThread()))
+            doneObjects.put(Thread.currentThread(), new ArrayList<>());
     }
     
     public ObjectSerializerTCN(TCN tcn) {
@@ -59,10 +62,7 @@ public class ObjectSerializerTCN {
     @SafeVarargs
     public final <T> T done(T... ignore) {
         if (type)
-            if(unable)
-                return null;
-            else
-                return (T) map;
+            return (T) map;
         else
             if(unable)
                 return null;
@@ -72,10 +72,13 @@ public class ObjectSerializerTCN {
     
     private ObjectSerializerTCN convertAll0() throws ClassNotFoundException, IllegalAccessException {
         convertHeader();
+        /*if(map == null) {
+            return this;
+        }*/
         boolean b = false;
-        if(toBuild != null || !type) {
+        if (toBuild != null || !type) {
             for (int i = 0; i < TypeConverter.values().length; i++) {
-                if (TypeConverter.values()[i].impl.doesApply(Class.forName(map.getString("type")))) {
+                if (TypeConverter.values()[i].impl.doesApply(forName(map.getString("$type")))) {
                     if (type) {
                         map.set("f", toBuild);
                     }
@@ -86,9 +89,8 @@ public class ObjectSerializerTCN {
                     return this;
                 }
             }
-            
         }
-        if(unable)
+        if (unable || toBuild == null)
             return this;
         convertNativeVars();
         convertObjectVars();
@@ -112,32 +114,36 @@ public class ObjectSerializerTCN {
     }
     
     private void convertHeader() throws ClassNotFoundException {
-        if(type) {
-            if(toBuild == null) {
-                map.set("type", "null");
-                map.set("isArray", "false");
-                unable = true;
-                return;
+        try {
+            if (type) {
+                if (toBuild == null) {
+                    map.set("$type", "null");
+                    map.set("$isArray", "false");
+                    unable = true;
+                    return;
+                }
+        
+                array = toBuild.getClass().isArray();
+                map.set("$isArray", String.valueOf(array));
+                String s;
+                if (array)
+                    s = toBuild.getClass().getComponentType().getName();
+                else
+                    s = toBuild.getClass().getName();
+                map.set("$type", s);
             }
-            
-            array = toBuild.getClass().isArray();
-            map.set("isArray", String.valueOf(array));
-            String s;
-            if(array)
-                s = toBuild.getClass().getComponentType().getName();
-            else
-                s = toBuild.getClass().getName();
-            map.set("type", s);
-        }
-        else {
-            array = map.getBoolean("isArray");
-            if(array)
-                toBuild = Array.newInstance(forName(map.getString("type")), map.getInteger("f_len"));
-            else
-                toBuild = forceNewInstance(map.getString("type"));
-            if(toBuild == null) {
-                unable = true;
+            else {
+                array = map.getBoolean("$isArray");
+                if (array)
+                    toBuild = Array.newInstance(forName(map.getString("$type")), map.getInteger("len"));
+                else
+                    toBuild = forceNewInstance(map.getString("$type"));
+                if (toBuild == null) {
+                    unable = true;
+                }
             }
+        } catch (NullPointerException e) {
+            unable = true;
         }
     }
     
@@ -157,7 +163,7 @@ public class ObjectSerializerTCN {
                 return;
             if(type) {
                 int len = Array.getLength(toBuild);
-                map.set("f_len", len);
+                map.set("len", len);
                 for (int i = 0; i < len; i++) {
                     String s = "";
                     for (int j = 0; j < TypeConverter.values().length; j++) {
@@ -166,17 +172,18 @@ public class ObjectSerializerTCN {
                             s = converter.impl.string(Array.get(toBuild, i));
                         }
                     }
-                    map.set("f_" + i, s);
+                    map.set("" + i, s);
                 }
             }
             else {
-                int len = map.getInteger("f_len");
+                int len = map.getInteger("len");
                 for (int i = 0; i < len; i++) {
                     Object o = null;
                     for (int j = 0; j < TypeConverter.values().length; j++) {
                         TypeConverter converter = TypeConverter.values()[j];
                         if (converter.impl.doesApply(toBuild.getClass().getComponentType())) {
-                            o = converter.impl.object(map.getString("f_" + i));
+                            if(map.map.containsKey(i + ""))
+                                o = converter.impl.object(map.getString(i + ""));
                         }
                     }
                     Array.set(toBuild, i, o);
@@ -208,18 +215,18 @@ public class ObjectSerializerTCN {
                             s = converter.impl.string(field.get(toBuild));
                         }
                     }
-                    map.set("f_" + field.getName(), s);
+                    map.set(field.getName(), s);
                 }
                 else {
-                    if (map.map.containsKey("f_" + field.getName())) {
+                    if (map.map.containsKey(field.getName())) {
                         Object o = null;
                         for (int j = 0; j < TypeConverter.values().length; j++) {
                             TypeConverter converter = TypeConverter.values()[j];
                             if (converter.impl.doesApply(field.getType())) {
-                                o = converter.impl.object(map.getString("f_" + field.getName()));
+                                o = converter.impl.object(map.getString(field.getName()));
                             }
                         }
-                        if(!Modifier.toString(field.getModifiers()).contains("final") && !Modifier.toString(field.getModifiers()).contains("static") )
+                        if(!Modifier.toString(field.getModifiers()).contains("final"))
                             field.set(toBuild, o);
                     }
                 }
@@ -243,7 +250,7 @@ public class ObjectSerializerTCN {
                 return;
             if(type) {
                 int len = Array.getLength(toBuild);
-                map.set("f_len", len);
+                map.set("len", len);
                 for (int i = 0; i < len; i++) {
                     Object o;
                     if(checkShouldNotConvert(o = Array.get(toBuild, i))) {
@@ -253,16 +260,21 @@ public class ObjectSerializerTCN {
                         doneObjects.get(Thread.currentThread()).add(o);
                     ObjectSerializerTCN serializer = new ObjectSerializerTCN(o);
                     serializer.convertAll0();
-                    map.set("f_" + i, serializer.map);
+                    TCN m = serializer.map;
+                    m.set("$isArray", null);
+                    map.set(i + "", m);
                 }
             }
             else {
-                int len = map.getInteger("f_len");
+                int len = map.getInteger("len");
                 for (int i = 0; i < len; i++) {
-                    ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub("f_" + i));
-                    serializer.convertAll0();
-                    if (serializer.done() != null)
-                        Array.set(toBuild, i, serializer.done());
+                    if(map.map.containsKey(i + "")) {
+                        ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub(i + ""));
+                        serializer.map.set("$isArray", toBuild.getClass().getComponentType().isArray());
+                        serializer.convertAll0();
+                        if (serializer.done() != null)
+                            Array.set(toBuild, i, serializer.done());
+                    }
                 }
             }
         }
@@ -292,15 +304,17 @@ public class ObjectSerializerTCN {
                         doneObjects.get(Thread.currentThread()).add(o);
                     ObjectSerializerTCN serializer = new ObjectSerializerTCN(o);
                     serializer.convertAll0();
-                    map.set("f_" + field.getName(), serializer.map);
+                    serializer.map.set("$isArray", null);
+                    map.set(field.getName(), serializer.map);
                 }
                 else {
-                    if (map.map.containsKey("f_" + field.getName())) {
-                        ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub("f_" + field.getName()));
+                    if (map.map.containsKey(field.getName())) {
+                        ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub(field.getName()));
+                        serializer.map.set("$isArray", field.getType().isArray());
                         serializer.convertAll0();
                         Object o = serializer.done();
                         if (!Modifier.toString(field.getModifiers()).contains("final")) {
-                            if (!Modifier.toString(field.getModifiers()).contains("static") && o != null) {
+                            if (o != null) {
                                 field.set(toBuild, o);
                             }
                         }
@@ -318,30 +332,35 @@ public class ObjectSerializerTCN {
         }
     }
     
-    private Object forceNewInstance(String type) throws ClassNotFoundException {
+    private Object forceNewInstance(String type) {
         if("null".equals(type) || type == null)
             return null;
         
-        Class<?> clazz = forName(type);
-        return AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-            try {
-                Constructor<?>[] constructors = clazz.getConstructors();
-                constructors = TudSort.sort(constructors, Constructor::getParameterCount);
-                boolean b = constructors[0].isAccessible();
-                constructors[0].setAccessible(true);
-                Object o = constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
-                constructors[0].setAccessible(b);
-                return o;
-            }
-            catch (ArrayIndexOutOfBoundsException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        try {
+            Class<?> clazz = forName(type);
+            return AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
                 try {
-                    return clazz.newInstance();
+                    assert clazz != null;
+                    Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+                    constructors = TudSort.sort(constructors, Constructor::getParameterCount);
+                    boolean b = constructors[0].isAccessible();
+                    constructors[0].setAccessible(true);
+                    Object o = constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
+                    constructors[0].setAccessible(b);
+                    return o;
                 }
-                catch (Throwable ignore) {
-                    return null;
+                catch (ArrayIndexOutOfBoundsException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                    try {
+                        return clazz.newInstance();
+                    }
+                    catch (Throwable ignore) {
+                        return null;
+                    }
                 }
-            }
-        });
+            });
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
     
     public interface TypeConverterImpl {
@@ -515,11 +534,15 @@ public class ObjectSerializerTCN {
         }
     }
     
-    public static Class<?> forName(String s) throws ClassNotFoundException {
-        for (int i = 0; i < nativeTypes.length; i++) {
-            if(nativeTypes[i].getName().equals(s))
-                return nativeTypes[i];
+    public static Class<?> forName(String s) {
+        try {
+            for (int i = 0; i < nativeTypes.length; i++) {
+                if (nativeTypes[i].getName().equals(s))
+                    return nativeTypes[i];
+            }
+            return Class.forName(s);
+        } catch (ClassNotFoundException | NullPointerException e) {
+            return null;
         }
-        return Class.forName(s);
     }
 }

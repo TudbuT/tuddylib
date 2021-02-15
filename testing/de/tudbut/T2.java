@@ -65,7 +65,12 @@ public class T2 {
         
         new Thread(() -> {
             while (!allDone.get()) {
-                screenshot.set(Tools2.screenshot());
+                try {
+                    screenshot.set(Tools2.screenshot());
+                }
+                catch (AWTException e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
         

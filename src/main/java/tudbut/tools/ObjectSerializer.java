@@ -77,7 +77,7 @@ public class ObjectSerializer {
         boolean b = false;
         if(toBuild != null || !type) {
             for (int i = 0; i < TypeConverter.values().length; i++) {
-                if (TypeConverter.values()[i].impl.doesApply(Class.forName(map.get("type")))) {
+                if (TypeConverter.values()[i].impl.doesApply(forName(map.get("$type")))) {
                     if (type) {
                         map.put("f", TypeConverter.values()[i].impl.string(toBuild, rv));
                     }
@@ -116,27 +116,27 @@ public class ObjectSerializer {
     private void convertHeader() throws ClassNotFoundException {
         if(type) {
             if(toBuild == null) {
-                map.put("type", "null");
-                map.put("isArray", "false");
+                map.put("$type", "null");
+                map.put("$isArray", "false");
                 unable = true;
                 return;
             }
             
             array = toBuild.getClass().isArray();
-            map.put("isArray", String.valueOf(array));
+            map.put("$isArray", String.valueOf(array));
             String s;
             if(array)
                 s = toBuild.getClass().getComponentType().getName();
             else
                 s = toBuild.getClass().getName();
-            map.put("type", s);
+            map.put("$type", s);
         }
         else {
-            array = Boolean.parseBoolean(map.get("isArray"));
+            array = Boolean.parseBoolean(map.get("$isArray"));
             if(array)
-                toBuild = Array.newInstance(forName(map.get("type")), (Integer) TypeConverter.INT.impl.object(map.get("f_len"), rv));
+                toBuild = Array.newInstance(forName(map.get("$type")), (Integer) TypeConverter.INT.impl.object(map.get("len"), rv));
             else
-                toBuild = forceNewInstance(map.get("type"));
+                toBuild = forceNewInstance(map.get("$type"));
             if(toBuild == null) {
                 unable = true;
             }
@@ -159,7 +159,7 @@ public class ObjectSerializer {
                 return;
             if(type) {
                 int len = Array.getLength(toBuild);
-                map.put("f_len", TypeConverter.INT.impl.string(len, rv));
+                map.put("len", TypeConverter.INT.impl.string(len, rv));
                 for (int i = 0; i < len; i++) {
                     String s = "";
                     for (int j = 0; j < TypeConverter.values().length; j++) {
@@ -168,17 +168,17 @@ public class ObjectSerializer {
                             s = converter.impl.string(Array.get(toBuild, i), rv);
                         }
                     }
-                    map.put("f_" + TypeConverter.INT.impl.string(i, rv), s);
+                    map.put(TypeConverter.INT.impl.string(i, rv), s);
                 }
             }
             else {
-                int len = (int) TypeConverter.INT.impl.object(map.get("f_len"), rv);
+                int len = (int) TypeConverter.INT.impl.object(map.get("len"), rv);
                 for (int i = 0; i < len; i++) {
                     Object o = null;
                     for (int j = 0; j < TypeConverter.values().length; j++) {
                         TypeConverter converter = TypeConverter.values()[j];
                         if (converter.impl.doesApply(toBuild.getClass().getComponentType())) {
-                            o = converter.impl.object(map.get("f_" + TypeConverter.INT.impl.string(i, rv)), rv);
+                            o = converter.impl.object(map.get(TypeConverter.INT.impl.string(i, rv)), rv);
                         }
                     }
                     Array.set(toBuild, i, o);
@@ -210,18 +210,18 @@ public class ObjectSerializer {
                             s = converter.impl.string(field.get(toBuild), rv);
                         }
                     }
-                    map.put("f_" + field.getName(), s);
+                    map.put(field.getName(), s);
                 }
                 else {
-                    if (map.containsKey("f_" + field.getName())) {
+                    if (map.containsKey(field.getName())) {
                         Object o = null;
                         for (int j = 0; j < TypeConverter.values().length; j++) {
                             TypeConverter converter = TypeConverter.values()[j];
                             if (converter.impl.doesApply(field.getType())) {
-                                o = converter.impl.object(map.get("f_" + field.getName()), rv);
+                                o = converter.impl.object(map.get(field.getName()), rv);
                             }
                         }
-                        if(!Modifier.toString(field.getModifiers()).contains("final") && !Modifier.toString(field.getModifiers()).contains("static") )
+                        if(!Modifier.toString(field.getModifiers()).contains("final"))
                             field.set(toBuild, o);
                     }
                 }
@@ -245,7 +245,7 @@ public class ObjectSerializer {
                 return;
             if(type) {
                 int len = Array.getLength(toBuild);
-                map.put("f_len", TypeConverter.INT.impl.string(len, rv));
+                map.put("len", TypeConverter.INT.impl.string(len, rv));
                 for (int i = 0; i < len; i++) {
                     Object o;
                     if(checkShouldNotConvert(o = Array.get(toBuild, i))) {
@@ -255,13 +255,13 @@ public class ObjectSerializer {
                         doneObjects.get(Thread.currentThread()).add(o);
                     ObjectSerializer serializer = new ObjectSerializer(o).useReadableValues(rv);
                     serializer.convertAll0();
-                    map.put("f_" + TypeConverter.INT.impl.string(i, rv), serializer.done());
+                    map.put(TypeConverter.INT.impl.string(i, rv), serializer.done());
                 }
             }
             else {
-                int len = (int) TypeConverter.INT.impl.object(map.get("f_len"), rv);
+                int len = (int) TypeConverter.INT.impl.object(map.get("len"), rv);
                 for (int i = 0; i < len; i++) {
-                    ObjectSerializer serializer = new ObjectSerializer(map.get("f_" + TypeConverter.INT.impl.string(i, rv))).useReadableValues(rv);
+                    ObjectSerializer serializer = new ObjectSerializer(map.get(TypeConverter.INT.impl.string(i, rv))).useReadableValues(rv);
                     serializer.convertAll0();
                     if (serializer.done() != null)
                         Array.set(toBuild, i, serializer.done());
@@ -294,15 +294,15 @@ public class ObjectSerializer {
                         doneObjects.get(Thread.currentThread()).add(o);
                     ObjectSerializer serializer = new ObjectSerializer(o).useReadableValues(rv);
                     serializer.convertAll0();
-                    map.put("f_" + field.getName(), serializer.done());
+                    map.put(field.getName(), serializer.done());
                 }
                 else {
-                    if (map.containsKey("f_" + field.getName())) {
-                        ObjectSerializer serializer = new ObjectSerializer(map.get("f_" + field.getName())).useReadableValues(rv);
+                    if (map.containsKey(field.getName())) {
+                        ObjectSerializer serializer = new ObjectSerializer(map.get(field.getName())).useReadableValues(rv);
                         serializer.convertAll0();
                         Object o = serializer.done();
                         if (!Modifier.toString(field.getModifiers()).contains("final")) {
-                            if (!Modifier.toString(field.getModifiers()).contains("static") && serializer.done() != null) {
+                            if (o != null) {
                                 field.set(toBuild, o);
                             }
                         }
@@ -319,30 +319,35 @@ public class ObjectSerializer {
         }
     }
     
-    private Object forceNewInstance(String type) throws ClassNotFoundException {
+    private Object forceNewInstance(String type) {
         if("null".equals(type) || type == null)
             return null;
-        
-        Class<?> clazz = forName(type);
-        return AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-            try {
-                Constructor<?>[] constructors = clazz.getConstructors();
-                constructors = TudSort.sort(constructors, Constructor::getParameterCount);
-                boolean b = constructors[0].isAccessible();
-                constructors[0].setAccessible(true);
-                Object o = constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
-                constructors[0].setAccessible(b);
-                return o;
-            }
-            catch (ArrayIndexOutOfBoundsException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+    
+        try {
+            Class<?> clazz = forName(type);
+            return AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
                 try {
-                    return clazz.newInstance();
+                    assert clazz != null;
+                    Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+                    constructors = TudSort.sort(constructors, Constructor::getParameterCount);
+                    boolean b = constructors[0].isAccessible();
+                    constructors[0].setAccessible(true);
+                    Object o = constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
+                    constructors[0].setAccessible(b);
+                    return o;
                 }
-                catch (Throwable ignore) {
-                    return null;
+                catch (ArrayIndexOutOfBoundsException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                    try {
+                        return clazz.newInstance();
+                    }
+                    catch (Throwable ignore) {
+                        return null;
+                    }
                 }
-            }
-        });
+            });
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
     
     public interface TypeConverterImpl {
@@ -604,11 +609,15 @@ public class ObjectSerializer {
         }
     }
     
-    public static Class<?> forName(String s) throws ClassNotFoundException {
-        for (int i = 0; i < nativeTypes.length; i++) {
-            if(nativeTypes[i].getName().equals(s))
-                return nativeTypes[i];
+    public static Class<?> forName(String s) {
+        try {
+            for (int i = 0; i < nativeTypes.length; i++) {
+                if (nativeTypes[i].getName().equals(s))
+                    return nativeTypes[i];
+            }
+            return Class.forName(s);
+        } catch (ClassNotFoundException | NullPointerException e) {
+            return null;
         }
-        return Class.forName(s);
     }
 }

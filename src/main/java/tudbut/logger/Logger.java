@@ -86,11 +86,11 @@ public class Logger implements LoggerSink {
     }
     
     public void info(String string) {
-        out.println("[" + new Time(new Date().getTime()) + ".INFO] [" + this.name + "] " + string);
+        out.println("[" + new Time(new Date().getTime()) + " INFO] [" + this.name + "] " + string);
     }
 
     public void debug(String string) {
-        out.println("[" + new Time(new Date().getTime()) + ".DEBUG] [" + this.name + "] " + string);
+        out.println("[" + new Time(new Date().getTime()) + " DEBUG] [" + this.name + "] " + string);
     }
 
     public void debug(Throwable throwable) {
@@ -98,7 +98,7 @@ public class Logger implements LoggerSink {
     }
 
     public void warn(String string) {
-        out.println("[" + new Time(new Date().getTime()) + ".WARN] [" + this.name + "] " + string);
+        out.println("[" + new Time(new Date().getTime()) + " WARN] [" + this.name + "] " + string);
     }
     
     public void warn(Exception exception) {
@@ -106,7 +106,7 @@ public class Logger implements LoggerSink {
     }
 
     public void error(String string) {
-        out.println("[" + new Time(new Date().getTime()) + ".ERROR] [" + this.name + "] " + string);
+        out.println("[" + new Time(new Date().getTime()) + " ERROR] [" + this.name + "] " + string);
     }
 
     public void error(Throwable throwable) {

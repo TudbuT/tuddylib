@@ -124,6 +124,11 @@ public class Vector3d implements Mappable {
         set(this.x * x, this.y * y, this.z * z);
         return this;
     }
+    
+    public Vector3d multiply(Vector3d vec) {
+        set(this.x * vec.x, this.y * vec.y, this.z * vec.z);
+        return this;
+    }
 
     public Vector3d negate() {
         set(-x, -y, -z);

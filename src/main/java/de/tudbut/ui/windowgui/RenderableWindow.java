@@ -56,8 +56,8 @@ public class RenderableWindow {
         Mouse.startListening(window);
         Timer timer = new Timer(1000 / tryFps, e -> {
             label.repaint();
-            xSize.set(window.getSize().width - (window.getInsets().left + window.getInsets().right));
-            ySize.set(window.getSize().height - (window.getInsets().top + window.getInsets().bottom));
+            xSize.set(window.getSize().width);
+            ySize.set(window.getSize().height);
             if (showFPS)
                 window.setTitle(name + " | " + fps.get() + " FPS");
         });
