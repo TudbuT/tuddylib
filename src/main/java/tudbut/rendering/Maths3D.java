@@ -26,6 +26,18 @@ public class Maths3D {
         return b;
     }
     
+    public static boolean collides(Rectangle3D rectangle0, Rectangle3D rectangle1) {
+        boolean b = true;
+        boolean[] rel = getRelation(rectangle0, rectangle1);
+        for (int i = 0; i < rel.length; i++) {
+            if (rel[i]) {
+                b = false;
+                break;
+            }
+        }
+        return b;
+    }
+    
     public static void prepareVectorsForRectangle(RenderObject3D o, int renderOutputX, int renderOutputY, double var0, double fovMod) {
         Vector3d pos1 = o.vectors[0];
         Vector3d pos2 = o.vectors[1];

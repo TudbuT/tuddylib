@@ -3,6 +3,7 @@ package tudbut.tools;
 import java.lang.reflect.Array;
 
 public class ArrayGetter {
+    @SafeVarargs
     public static <T> T[] newGenericArray(int length, T... ts) {
         return newArray(length, (Class<T>) ts.getClass().getComponentType());
     }

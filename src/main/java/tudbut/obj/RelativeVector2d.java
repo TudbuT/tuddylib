@@ -15,6 +15,17 @@ public class RelativeVector2d extends Vector2d {
         this.relativeTo.set(relativeTo);
     }
     
+    @Override
+    public Vector2d set(double x, double y) {
+        Vector2d rpos = getRelativePos();
+        relativeTo.set(x - rpos.getX(), y - rpos.getY());
+        return super.set(x, y);
+    }
+    
+    public Vector2d setSize(double x, double y) {
+        return super.set(relativeTo.getX() + x, relativeTo.getY() + y);
+    }
+    
     public Vector2d getRelativeTo() {
         return relativeTo.clone();
     }

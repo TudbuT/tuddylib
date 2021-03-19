@@ -2,6 +2,7 @@ package tudbut.net.ic;
 
 import de.tudbut.type.CInfo;
 import de.tudbut.type.O;
+import tudbut.tools.Lock;
 
 import java.io.*;
 import java.net.Socket;
@@ -11,7 +12,7 @@ public class Bus implements Closeable { // Work in progress, will comment later!
     
     final InputStream i;
     final OutputStream o;
-    boolean syncI, syncO;
+    final Lock syncI = new Lock(), syncO = new Lock();
     boolean isClosed;
     
     public Bus(InputStream i, OutputStream o) {
@@ -27,8 +28,13 @@ public class Bus implements Closeable { // Work in progress, will comment later!
         CInfo.s("Synchronizing will 90% of the time block the thread indefinitely");
         
         String r = "Written: ";
-        while(syncO);
-        syncO = true;
+        try {
+            syncO.waitHere();
+            syncO.lock();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         try {
             byte[] bytes = buffer.array();
             for (int j = 0; j < bytes.length; j++) {
@@ -36,10 +42,10 @@ public class Bus implements Closeable { // Work in progress, will comment later!
                 r += (char) Byte.toUnsignedInt(bytes[j]);
             }
             o.flush();
-            syncO = false;
+            syncO.unlock();
         } catch (IOException e) {
-            syncO = false;
-            
+            syncO.unlock();
+            throw new IOException(r, e);
         }
     }
     
@@ -47,17 +53,22 @@ public class Bus implements Closeable { // Work in progress, will comment later!
         CInfo.s("Synchronizing will 90% of the time block the thread indefinitely");
         
         String r = "Read: ";
-        while (syncI) ;
-        syncI = true;
+        try {
+            syncI.waitHere();
+            syncI.lock();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         try {
             byte[] bytes = buffer.array();
             for (int j = 0; j < bytes.length; j++) {
                 bytes[j] = (byte) i.read();
                 r += (char) Byte.toUnsignedInt(bytes[j]);
             }
-            syncI = false;
+            syncI.unlock();
         } catch (IOException e) {
-            syncI = false;
+            syncI.unlock();
             throw new IOException(r, e);
         }
     }
@@ -65,6 +76,8 @@ public class Bus implements Closeable { // Work in progress, will comment later!
     public void close() throws IOException {
         i.close();
         o.close();
+        syncI.unlock();
+        syncO.unlock();
         isClosed = true;
     }
     

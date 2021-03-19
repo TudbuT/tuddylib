@@ -14,14 +14,14 @@ public class Vector2d implements Mappable {
         this.y = y;
     }
 
-    public void set(double x, double y) {
+    public Vector2d set(double x, double y) {
         this.x = x;
         this.y = y;
+        return this;
     }
 
-    public void set(Vector2d vec) {
-        this.x = vec.x;
-        this.y = vec.y;
+    public Vector2d set(Vector2d vec) {
+        return set(vec.x, vec.y);
     }
 
     public Vector2d add(Vector2d vec) {

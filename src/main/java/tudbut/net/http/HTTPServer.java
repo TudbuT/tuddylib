@@ -1,14 +1,17 @@
 package tudbut.net.http;
 
+import com.sun.net.httpserver.HttpsServer;
 import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.type.Stoppable;
 
+import javax.net.ssl.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +28,23 @@ public class HTTPServer implements Stoppable {
         port = portIn;
         serverError = serverErrorIn;
         serverSocket = new ServerSocket(port);
+        executor = executorIn;
+    }
+    
+    public HTTPServer(int portIn, HTTPResponse serverErrorIn, Executor executorIn, KeyStore keyStore, String keyStorePass) throws IOException {
+        port = portIn;
+        serverError = serverErrorIn;
+        try {
+            SSLContext context = SSLContext.getInstance("TLS");
+            KeyManagerFactory managerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            managerFactory.init(keyStore, keyStorePass.toCharArray());
+            context.init(managerFactory.getKeyManagers(), null, null);
+            serverSocket = context.getServerSocketFactory().createServerSocket(portIn);
+        }
+        catch (NoSuchAlgorithmException | KeyStoreException | UnrecoverableKeyException | KeyManagementException e) {
+            throw new IllegalArgumentException(e);
+        }
+    
         executor = executorIn;
     }
 

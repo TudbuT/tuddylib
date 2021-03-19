@@ -21,21 +21,42 @@ public class Logger implements LoggerSink {
         return name;
     }
 
-    public DetailedLogger subChannel(String subChannel) {
-        return new DetailedLogger(name + "] [" + subChannel);
+    public Logger subChannel(String subChannel) {
+        PrintStream stream = out;
+        return new Logger(name + "] [" + subChannel) {
+            {
+                out = stream;
+            }
+        };
     }
 
     public PrintWriter infoAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    info(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
+            }
+        }, true);
+    }
+    public PrintStream infoAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
             
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    info(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
-            }
-            
-            public void flush() {
-                info(s);
             }
         }, true);
     }
@@ -43,14 +64,30 @@ public class Logger implements LoggerSink {
     public PrintWriter debugAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
-            
+    
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    debug(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
             }
-            
-            public void flush() {
-                debug(s);
+        }, true);
+    }
+    public PrintStream debugAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    debug(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
             }
         }, true);
     }
@@ -58,14 +95,30 @@ public class Logger implements LoggerSink {
     public PrintWriter warnAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
-            
+    
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    warn(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
             }
-            
-            public void flush() {
-                warn(s);
+        }, true);
+    }
+    public PrintStream warnAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    warn(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
             }
         }, true);
     }
@@ -73,14 +126,30 @@ public class Logger implements LoggerSink {
     public PrintWriter errorAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
-            
+    
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    error(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
             }
-            
-            public void flush() {
-                warn(s);
+        }, true);
+    }
+    public PrintStream errorAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    error(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
             }
         }, true);
     }

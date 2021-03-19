@@ -10,6 +10,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public abstract class Plugin {
+    static void loadClass() {
+    
+    }
+    
     private LoggerSink logger;
     private Logger nLogger;
     private DetailedLogger dLogger;

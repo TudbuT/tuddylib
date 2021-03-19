@@ -43,16 +43,15 @@ public class Vector3d implements Mappable {
         return vector1.getX() * vector2.getX() + vector1.getY() * vector2.getY() + vector1.getZ() * vector2.getZ();
     }
 
-    public void set(double x, double y, double z) {
+    public Vector3d set(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
     }
 
-    public void set(Vector3d vector) {
-        this.x = vector.x;
-        this.y = vector.y;
-        this.z = vector.z;
+    public Vector3d set(Vector3d vector) {
+        return set(vector.x, vector.y, vector.z);
     }
 
     public Vector3d add(Vector3d vector) {

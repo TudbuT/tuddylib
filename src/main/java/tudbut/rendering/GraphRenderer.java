@@ -8,16 +8,24 @@ public class GraphRenderer {
     double scale = 1;
     int offsetX = 0;
     int offsetY = 0;
+    double scaleY;
     
     public GraphRenderer() {
     
     }
     
-    public void setScale(double scale) {
+    public void setScaleX(double scale) {
         if(scale <= 0)
             throw new IllegalArgumentException();
         
-        this.scale = scale;
+        this.scale = 1 / scale;
+    }
+    
+    public void setScaleY(double scale) {
+        if(scale <= 0)
+            throw new IllegalArgumentException();
+    
+        this.scaleY = scale;
     }
     
     public void setOffsetX(int offset) {
@@ -37,15 +45,15 @@ public class GraphRenderer {
             }
         }
     
-        Graphics graphics = image.getGraphics().create(offsetX, -offsetY, pxX - offsetX, pxY - offsetY);
+        Graphics graphics = image.getGraphics().create();
         graphics.setColor(new Color(0x000000));
         
-        int lastPixelY = (int) (-graph.getAsFunction(0 * scale) + pxY);
+        int lastPixelY = Maths2D.center(Maths2D.camera((int) Math.round(-graph.getAsFunction((int) ( -Maths2D.center(Maths2D.camera(0, offsetX), pxX)) * scale) * scaleY), offsetY), pxY);
         if(markZero)
-            graphics.drawRect(0, 0, 1, 1);
-        for (int i = offsetX; i < pxX; i++) {
-            int y = (int) (-graph.getAsFunction(i * scale) + pxY);
-            graphics.drawLine(i - 1, lastPixelY, i, y);
+            graphics.drawRect(Maths2D.center(Maths2D.camera(0, offsetX), pxX) - 1, Maths2D.center(Maths2D.camera(0, offsetY), pxY) - 1, 2, 2);
+        for (int i = (int) ( -Maths2D.center(Maths2D.camera(0, offsetX), pxX)) ; i < Maths2D.center(Maths2D.camera(0, offsetX), pxX) * 2; i++) {
+            int y = Maths2D.center(Maths2D.camera((int) Math.round(-graph.getAsFunction(i * scale) * scaleY), offsetY), pxY);
+            graphics.drawLine(Maths2D.center(Maths2D.camera(i, offsetX), pxX) - 1, lastPixelY, Maths2D.center(Maths2D.camera(i, offsetX), pxX), y);
             lastPixelY = y;
         }
         

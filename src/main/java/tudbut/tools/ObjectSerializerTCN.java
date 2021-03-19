@@ -349,7 +349,7 @@ public class ObjectSerializerTCN {
                     constructors[0].setAccessible(b);
                     return o;
                 }
-                catch (ArrayIndexOutOfBoundsException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                catch (Exception e) {
                     try {
                         return clazz.newInstance();
                     }

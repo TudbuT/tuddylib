@@ -1,14 +1,25 @@
 package tudbut.net.http;
 
+import com.sun.net.httpserver.HttpsExchange;
+import com.sun.net.ssl.internal.ssl.Provider;
 import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.timer.AsyncTask;
 import de.tudbut.type.Nothing;
+import sun.net.httpserver.HttpsServerImpl;
+import sun.rmi.transport.proxy.HttpReceiveSocket;
 import tudbut.obj.Partial;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,17 +30,20 @@ public class HTTPRequest {
     private final String path;
     private final String host;
     private final int port;
+    private final boolean ssl;
 
     public HTTPRequest(HTTPRequestType requestType, String host, int port, String path, HTTPHeader... headers) {
         this(requestType, host, port, path, null, "", headers);
     }
 
     public HTTPRequest(HTTPRequestType requestTypeIn, String hostIn, int portIn, String pathIn, HTTPContentType type, String contentIn, HTTPHeader... headersIn) {
+        ssl = hostIn.startsWith("https://");
+        
         requestType = requestTypeIn;
         path = pathIn;
         host = hostIn;
         port = portIn;
-        headers.add(new HTTPHeader("Host", host));
+        headers.add(new HTTPHeader("Host", ssl ? host.split("https://")[1] : host));
         if(!contentIn.equals("")) {
             headers.add(new HTTPHeader("Content-Type", type.asHeaderString));
             headers.add(new HTTPHeader("Content-Length", String.valueOf(contentIn.length())));
@@ -49,36 +63,55 @@ public class HTTPRequest {
         }
         builder.append("\r\n");
         builder.append(content);
-
-
-
+        
         return builder.toString();
     }
 
     public HTTPResponse send() throws IOException {
-        Socket socket = new Socket(InetAddress.getByName(host), port);
+        Socket socket;
+        if(ssl) {
+            SSLSocket sslSocket = (SSLSocket) SSLSocketFactory.getDefault().createSocket(host.split("https://")[1], port);
+            sslSocket.startHandshake();
+            socket = sslSocket;
+        }
+        else
+            socket = new Socket(InetAddress.getByName(host), port);
         StreamWriter writer = new StreamWriter(socket.getOutputStream());
         writer.writeChars(toString().toCharArray());
         return new HTTPResponse(new String(new StreamReader(socket.getInputStream()).readAllAsChars()));
     }
 
     public Partial<HTTPResponse> sendKeepAlive() throws IOException {
-        Socket socket = new Socket(InetAddress.getByName(host), port);
-        StreamWriter writer = new StreamWriter(socket.getOutputStream());
-        writer.writeChars(toString().toCharArray());
+        return sendKeepAlive(-1);
+    }
+    
+    public Partial<HTTPResponse> sendKeepAlive(int timeout) throws IOException {
         Partial<HTTPResponse> partialResponse = new Partial<>(null);
+        Socket socket;
+        if (ssl) {
+            SSLSocket sslSocket = (SSLSocket) SSLSocketFactory.getDefault().createSocket(host.split("https://")[1], port);
+            sslSocket.startHandshake();
+            socket = sslSocket;
+        }
+        else
+            socket = new Socket(InetAddress.getByName(host), port);
         AsyncTask<Nothing> task = new AsyncTask<>(() -> {
-            Thread.sleep(100);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String line;
-            StringBuilder builder = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                builder.append(line).append("\n");
-                partialResponse.change(new HTTPResponse(builder.toString()));
-            }
+            try {
+                StreamWriter writer = new StreamWriter(socket.getOutputStream());
+                writer.writeChars(toString().toCharArray());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String line;
+                StringBuilder builder = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line).append("\n");
+                    partialResponse.change(new HTTPResponse(builder.toString()));
+                }
+                socket.close();
+                partialResponse.complete(partialResponse.get());
+            } catch (Exception ignored) { }
             return null;
         });
-        task.then(theValue -> partialResponse.complete(partialResponse.get()));
+        task.setTimeout(timeout);
         return partialResponse;
     }
 }

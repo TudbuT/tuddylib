@@ -1,5 +1,6 @@
 package tudbut.net.http;
 
+import com.sun.xml.internal.ws.api.message.Header;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.type.CInfo;
 import tudbut.obj.Closable;
@@ -14,16 +15,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HTTPServerRequest extends Value<String> implements Closable {
-    private final Socket socket;
+    public final Socket socket;
 
     public HTTPServerRequest(String request, Socket socketIn) {
-        super(request);
+        super(request.replaceAll("\r", ""));
         socket = socketIn;
     }
 
     @Override
     public void close() throws IOException {
-        vars.set(this, C.CLOSED, true);
+        Closable.super.close();
         socket.close();
     }
 
@@ -103,15 +104,16 @@ public class HTTPServerRequest extends Value<String> implements Closable {
             @Override
             public String getBody() {
                 try {
-                    return value.
-                            substring(
-                                    value.replaceAll("\r", "")
-                                            .split("\n\n")[0].length() +
-                                            (value.replaceAll("\r", "").split("\n\n")[0].contains("\r") ?
-                                                    "\r\n\r\n".length() :
-                                                    "\n\n".length()
-                                            )
-                            );
+                    int start = value.split("\n\n")[0].length() + 2;
+                    HTTPHeader[] headers = getHeaders();
+                    HTTPHeader header = null;
+                    for (int i = 0; i < headers.length; i++) {
+                        if(headers[i].key().equals("Content-Length"))
+                            header = headers[i];
+                    }
+                    assert header != null;
+                    int end = start + Integer.parseInt(header.value());
+                    return value.substring(start, end);
                 } catch (Exception e) {
                     CInfo.s("Seems like the body doesnt exist.");
                     return "";

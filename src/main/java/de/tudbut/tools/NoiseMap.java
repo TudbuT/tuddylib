@@ -28,6 +28,8 @@ public class NoiseMap {
                 }
             }
         }
+        
+        System.gc();
 
 
         return r;

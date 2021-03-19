@@ -3,11 +3,21 @@ package tudbut.rendering;
 import de.tudbut.type.FInfo;
 import de.tudbut.type.Vector2d;
 import de.tudbut.type.Vector3d;
+import tudbut.tools.NoiseGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Maths2D {
+    public static int camera(int i, int camera) {
+        return i - camera;
+    }
+    
+    public static int center(int i, int size) {
+        return i + size / 2;
+    }
+    
     public static boolean[] getRelation(Rectangle2D measuringObject, Rectangle2D toMeasure) {
         boolean[] b = new boolean[4];
         Vector2d a0 = toMeasure.getPos();
@@ -24,6 +34,61 @@ public class Maths2D {
             b[i] = !b[i];
         }
     
+        return b;
+    }
+    
+    public static BufferedImage createNoiseImage(BufferedImage base, int smoothness, Random random, int color) {
+        int x = base.getWidth(), y = base.getHeight();
+        BufferedImage image = Maths2D.distortImage(base, x, y, 1);
+        //noinspection SuspiciousNameCombination
+        float[][] floats = NoiseGenerator.generateRandom(1, x, y, smoothness, 1, random)[0];
+    
+        Graphics graphics = image.getGraphics();
+        for (int i = 0 ; i < y ; i++) {
+            for (int j = 0 ; j < x ; j++) {
+                Color c = new Color(color, true);
+                c = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (c.getAlpha() * floats[j][i]));
+                graphics.setColor(c);
+                graphics.drawRect(j, i, 1, 1);
+            }
+        }
+        
+        return image;
+    }
+    
+    public static BufferedImage createMultiNoiseImage(BufferedImage base, int smoothness, Random random, int color) {
+        int x = base.getWidth(), y = base.getHeight();
+        BufferedImage image = Maths2D.distortImage(base, x, y, 1);
+        //noinspection SuspiciousNameCombination
+        float[][][] floats = new float[][][] {
+                NoiseGenerator.generateRandom(1, x, y, smoothness, 1, random)[0],
+                NoiseGenerator.generateRandom(1, x, y, smoothness, 1, random)[0],
+                NoiseGenerator.generateRandom(1, x, y, smoothness, 1, random)[0],
+                NoiseGenerator.generateRandom(1, x, y, smoothness, 1, random)[0]
+        };
+        
+        Graphics graphics = image.getGraphics();
+        for (int i = 0 ; i < y ; i++) {
+            for (int j = 0 ; j < x ; j++) {
+                Color c = new Color(color, true);
+                c = new Color((int) (c.getRed() * floats[1][j][i]), (int) (c.getGreen() * floats[2][j][i]), (int) (c.getBlue() * floats[3][j][i]), (int) (c.getAlpha() * floats[0][j][i]));
+                graphics.setColor(c);
+                graphics.drawRect(j, i, 1, 1);
+            }
+        }
+        
+        return image;
+    }
+    
+    public static boolean collides(Rectangle2D rectangle0, Rectangle2D rectangle1) {
+        boolean b = true;
+        boolean[] rel = getRelation(rectangle0, rectangle1);
+        for (int i = 0; i < rel.length; i++) {
+            if (rel[i]) {
+                b = false;
+                break;
+            }
+        }
         return b;
     }
     

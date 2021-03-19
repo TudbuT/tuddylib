@@ -1,6 +1,7 @@
 package tudbut.parsing;
 
 
+import de.tudbut.tools.Tools;
 import tudbut.tools.Stack;
 import tudbut.tools.StringTools;
 
@@ -18,13 +19,20 @@ public class TCN {
     private TCN() { }
     
     public void set(String key, Object o) {
+        Map<String, Object> map = this.map;
+        ArrayList<String> path = new ArrayList<>(Arrays.asList(key.split("#")));
+    
+        while (path.size() > 1) {
+            map = ((TCN) map.get(path.remove(0))).map;
+        }
+        
         map.put(key, o);
     }
     
     public String getString(String key) {
         Object o = map.get(key);
-        if(o != null && o.getClass() == String.class)
-            return (String) get(key);
+        if(o != null)
+            return get(key).toString();
         else
             return null;
     }
@@ -61,6 +69,14 @@ public class TCN {
             return null;
     }
     
+    public Long getLong(String key) {
+        Object o = get(key);
+        if(o != null)
+            return Long.valueOf(String.valueOf(o));
+        else
+            return null;
+    }
+    
     public Double getDouble(String key) {
         Object o = get(key);
         if(o != null)
@@ -86,6 +102,47 @@ public class TCN {
         }
         
         return map.get(path.get(0));
+    }
+    
+    public static TCN readMap(Map<String, String> map) {
+        TCN tcn = new TCN();
+        
+        String[] array = map.keySet().toArray(new String[0]);
+        for (int i = 0, arrayLength = array.length; i < arrayLength; i++) {
+            String key = array[i];
+            String s = map.get(key);
+            
+            if(s.contains(":")) {
+                tcn.map.put(key, TCN.readMap(Tools.stringToMap(s)));
+            }
+            else {
+                tcn.map.put(key, s);
+            }
+        }
+    
+        System.gc();
+        
+        return tcn;
+    }
+    
+    public Map<String, String> toMap() {
+        Map<String, String> r = new HashMap<>();
+    
+        String[] array = map.keySet().toArray(new String[0]);
+        for (int i = 0, arrayLength = array.length; i < arrayLength; i++) {
+            String key = array[i];
+            Object o = map.get(key);
+            
+            if(o.getClass() == TCN.class) {
+                r.put(key, Tools.mapToString(((TCN) o).toMap()));
+            }
+            else
+                r.put(key, o.toString());
+        }
+    
+        System.gc();
+        
+        return r;
     }
     
     public String toString() {
@@ -139,6 +196,8 @@ public class TCN {
         }
         s.setLength(s.length() - "\n#\n\n".length());
         s.trimToSize();
+    
+        System.gc();
         return s.toString();
     }
     
@@ -150,6 +209,8 @@ public class TCN {
         for (Stack<String> path : keys) {
             deepPut(path.clone(), tcn, scanned.get(path));
         }
+    
+        System.gc();
         
         return tcn;
     }

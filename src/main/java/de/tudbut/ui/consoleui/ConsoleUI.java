@@ -7,7 +7,7 @@ import de.tudbut.type.WIP;
         works = true
 )
 public class ConsoleUI {
-    public static String HORIZONTAL_LINE = "─";
+    public static String HORIZONTAL_LINE = "—";
     public static String VERTICAL_LINE = "│";
 
     protected static StringArray create(

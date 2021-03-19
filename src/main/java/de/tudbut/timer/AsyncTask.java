@@ -1,5 +1,7 @@
 package de.tudbut.timer;
 
+import tudbut.tools.Lock;
+
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -10,19 +12,25 @@ public class AsyncTask<T> {
     private Exception exception = null;
     private boolean isCatched = false;
     private AsyncCatcher catcher;
-    private AsyncThenRunnable<T> thenRunnable;
-    private boolean hasThenRunnable = false;
+    private AsyncThenRunnable<T> thenRunnable = null;
+    
+    // Has the program finished? (Useful to know if it hit the timeout or exited.)
     private volatile boolean done = false;
+    // We want efficiency, don't use a while loop to wait!
+    private final Lock threadLock = new Lock();
+    
+    // When to force termination
     private long timeout = -1;
-    private final long startTime = new Date().getTime();
+    // Start of the execution
+    private long startTime = new Date().getTime();
 
     public AsyncTask(AsyncRunnable<T> runnable) {
+        Lock stopperLock = new Lock();
         Thread runner = t(() -> {
-            try {
-                Thread.sleep(2);
-            }
-            catch (InterruptedException ignore) {
-            }
+            startTime = new Date().getTime();
+            try { stopperLock.waitHere(); } catch (InterruptedException e) { e.printStackTrace(); }
+            
+            startTime = new Date().getTime();
             try {
                 backValue.set(runnable.run());
             }
@@ -36,60 +44,51 @@ public class AsyncTask<T> {
                     }
                     catch (Exception ex) {
                         ex.printStackTrace();
-                        System.exit(1);
                     }
                 }
             }
-            if (hasThenRunnable)
-                try {
-                    thenRunnable.run(backValue.get());
-                }
-                catch (Exception e) {
-                    exception = e;
-                    if (!isCatched)
-                        exception.printStackTrace();
-                    else {
-                        try {
-                            catcher.run(exception);
-                        }
-                        catch (Exception ex) {
-                            ex.printStackTrace();
-                            System.exit(1);
-                        }
-                    }
-                }
+            
             done = true;
+            done();
         });
         Thread stopper = t(() -> {
-            while (new Date().getTime() < startTime + timeout || timeout == -1) {
+            stopperLock.unlock();
+            while ((new Date().getTime() < startTime + timeout || timeout == -1) && !done) {
                 try {
-                    Thread.sleep(1);
+                    threadLock.waitHere(1);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             runner.stop();
-            if (hasThenRunnable)
-                try {
-                    thenRunnable.run(backValue.get());
-                }
-                catch (Exception e) {
-                    exception = e;
-                    if (!isCatched)
-                        exception.printStackTrace();
-                    else {
-                        try {
-                            catcher.run(exception);
-                        }
-                        catch (Exception ex) {
-                            ex.printStackTrace();
-                            System.exit(1);
-                        }
+            
+            if(!done)
+                done();
+        });
+    }
+    
+    private void done() {
+        if (thenRunnable != null) {
+            try {
+                thenRunnable.run(backValue.get());
+            }
+            catch (Exception e) {
+                exception = e;
+                if (!isCatched)
+                    exception.printStackTrace();
+                else {
+                    try {
+                        catcher.run(exception);
+                    }
+                    catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                 }
-            done = true;
-        });
+            }
+        }
+        done = true;
+        threadLock.unlock();
     }
 
     public void catchExceptions(AsyncCatcher catcher) {
@@ -99,12 +98,16 @@ public class AsyncTask<T> {
 
     public void then(AsyncThenRunnable<T> runnable) {
         this.thenRunnable = runnable;
-        hasThenRunnable = true;
     }
 
-    public T waitForFinish() {
-        while (!done);
-        
+    public T waitForFinish(long waitTimeout) {
+        try {
+            threadLock.waitHere(waitTimeout);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    
         return backValue.get();
     }
 

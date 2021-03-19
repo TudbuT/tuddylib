@@ -9,14 +9,14 @@ public class HTTPUtils {
         try {
             return URLEncoder.encode(s, "UTF-8");
         } catch (UnsupportedEncodingException impossible) {
-            return null;
+            throw new RuntimeException(impossible);
         }
     }
     public static String decodeUTF8(String s) {
         try {
             return URLDecoder.decode(s, "UTF-8");
         } catch (UnsupportedEncodingException impossible) {
-            return null;
+            throw new RuntimeException(impossible);
         }
     }
 }

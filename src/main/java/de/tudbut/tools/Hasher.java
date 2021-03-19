@@ -10,13 +10,25 @@ public class Hasher {
     public static final String TYPE_INT = "int";
     public static String LETTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"§$%&/()=?#_-.:,;µ<>|^°{[]}\\ ";
 
-    public static String sha256hex(String toHash) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    public static String sha256hex(String toHash) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Impossible condition reached");
+        }
         return hash(toHash, digest);
     }
 
-    public static String sha512hex(String toHash) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-512");
+    public static String sha512hex(String toHash) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-512");
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Impossible condition reached");
+        }
         return hash(toHash, digest);
     }
 
@@ -32,7 +44,7 @@ public class Hasher {
         return hexString.toString();
     }
 
-    public static String bruteforce(String type, String hash, int beginAt) throws NoSuchAlgorithmException {
+    public static String bruteforce(String type, String hash, int beginAt) {
         switch (type) {
             case TYPE_SHA256HEX:
                 return bf_sha256hex(hash, beginAt);
@@ -73,7 +85,7 @@ public class Hasher {
         return null;
     }
 
-    private static String bf_sha256hex(String hash, int beginAt) throws NoSuchAlgorithmException {
+    private static String bf_sha256hex(String hash, int beginAt) {
         for (int length = beginAt; true; length++) {
             String s;
             if ((s = bf_sha256hex_tryGenChar("", 0, length, hash)) != null) {
@@ -82,7 +94,7 @@ public class Hasher {
         }
     }
 
-    private static String bf_sha256hex_tryGenChar(String str, int pos, int length, String hash) throws NoSuchAlgorithmException {
+    private static String bf_sha256hex_tryGenChar(String str, int pos, int length, String hash) {
         if (length == 0) {
             if (sha256hex(str).equals(hash))
                 return str;
@@ -101,7 +113,7 @@ public class Hasher {
         return null;
     }
 
-    private static String bf_sha512hex(String hash, int beginAt) throws NoSuchAlgorithmException {
+    private static String bf_sha512hex(String hash, int beginAt) {
         for (int length = beginAt; true; length++) {
             String s;
             if ((s = bf_sha512hex_tryGenChar("", 0, length, hash)) != null) {
@@ -110,7 +122,7 @@ public class Hasher {
         }
     }
 
-    private static String bf_sha512hex_tryGenChar(String str, int pos, int length, String hash) throws NoSuchAlgorithmException {
+    private static String bf_sha512hex_tryGenChar(String str, int pos, int length, String hash) {
         if (length == 0) {
             if (sha512hex(str).equals(hash))
                 return str;

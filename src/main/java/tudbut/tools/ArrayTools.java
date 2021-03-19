@@ -15,10 +15,16 @@ public class ArrayTools {
         return list.toArray(empty);
     }
 
-    public static <T, O> O[] getFromArray(T[] array, Getter<T, O> getter, O... ignore) throws Throwable {
+    @SafeVarargs
+    public static <T, O> O[] getFromArray(T[] array, Getter<T, O> getter, O... ignore) throws RuntimeException {
         O[] os = (O[]) ArrayGetter.newArray(array.length, ignore.getClass().getComponentType());
         for (int i = 0; i < array.length; i++) {
-            os[i] = getter.get(array[i]);
+            try {
+                os[i] = getter.get(array[i]);
+            }
+            catch (Throwable throwable) {
+                throw new RuntimeException(throwable);
+            }
         }
         return os;
     }
@@ -63,11 +69,16 @@ public class ArrayTools {
         return map;
     }
 
-    public static <T> Map<String, String> mapFrom(T[] objects, Getter<T, String> getter) throws Throwable {
+    public static <T> Map<String, String> mapFrom(T[] objects, Getter<T, String> getter) {
         Map<String, String> map = new HashMap<>();
 
         for (int i = 0; i < objects.length; i++) {
-            map.put(String.valueOf(i), getter.get(objects[i]));
+            try {
+                map.put(String.valueOf(i), getter.get(objects[i]));
+            }
+            catch (Throwable throwable) {
+                throw new RuntimeException(throwable);
+            }
         }
 
         map.put("len", String.valueOf(objects.length));
@@ -75,13 +86,18 @@ public class ArrayTools {
         return map;
     }
 
-    public static <T> T[] fromMap(Map<String, String> map, Getter<String, T> getter, T... ignore) throws Throwable {
+    public static <T> T[] fromMap(Map<String, String> map, Getter<String, T> getter, T... ignore) {
         int len = Integer.parseInt(map.get("len"));
 
         T[] t = ArrayGetter.newGenericArray(len, ignore);
 
         for (int i = 0; i < len; i++) {
-            t[i] = getter.get(map.get(String.valueOf(i)));
+            try {
+                t[i] = getter.get(map.get(String.valueOf(i)));
+            }
+            catch (Throwable throwable) {
+                throw new RuntimeException(throwable);
+            }
         }
 
         return t;

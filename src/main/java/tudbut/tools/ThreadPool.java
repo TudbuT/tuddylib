@@ -25,7 +25,7 @@ public class ThreadPool implements Stoppable {
                     while (!shouldRun[threadID]) {
                         try {
                             //noinspection BusyWait
-                            Thread.sleep(0, 100000);
+                            Thread.sleep(1);
                         } catch (InterruptedException ignore) { }
                     }
                     shouldRun[threadID] = false;
@@ -58,6 +58,12 @@ public class ThreadPool implements Stoppable {
                     shouldRun[i] = true;
                     break;
                 }
+            }
+            try {
+                Thread.sleep(1);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

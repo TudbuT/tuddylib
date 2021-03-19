@@ -59,7 +59,28 @@ public class StreamReader {
     public char[] readAllAsChars() throws IOException {
         return new String(readAllAsBytes()).toCharArray();
     }
-
+    
+    public char[] readAllAsChars(String encoding) throws IOException {
+        return new String(readAllAsBytes(), encoding).toCharArray();
+    }
+    
+    public String readAllAsString() throws IOException {
+        return new String(readAllAsBytes());
+    }
+    
+    public String[] readAllAsLines() throws IOException {
+        return new String(readAllAsBytes()).replaceAll("\r\n", "\n").replaceAll("\r", "\n").split("\n");
+    }
+    
+    public String readAllAsString(String encoding) throws IOException {
+        return new String(readAllAsBytes(), encoding);
+    }
+    
+    public String[] readAllAsLines(String encoding) throws IOException {
+        return new String(readAllAsBytes(), encoding).replaceAll("\r\n", "\n").replaceAll("\r", "\n").split("\n");
+    }
+    
+    
     public char[] readAllAsCharsUntil(char c) throws IOException {
         CharArrayList chars = new CharArrayList();
         String line;

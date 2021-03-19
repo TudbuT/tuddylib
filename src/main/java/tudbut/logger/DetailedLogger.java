@@ -19,7 +19,12 @@ public class DetailedLogger implements LoggerSink {
     }
 
     public DetailedLogger subChannel(String subChannel) {
-        return new DetailedLogger(name + "] [" + subChannel);
+        PrintStream stream = out;
+        return new DetailedLogger(name + "] [" + subChannel) {
+            {
+                out = stream;
+            }
+        };
     }
 
     @Override

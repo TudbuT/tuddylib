@@ -21,6 +21,8 @@ public class NoiseGenerator {
                 }
             }
         }
+    
+        System.gc();
         return map;
     }
     
