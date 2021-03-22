@@ -1,0 +1,10 @@
+$isArray: false
+$isEnum: false
+
+contentType {
+    id: 0
+    $isEnum: true
+    $type: tudbut.net.http.HTTPContentType
+}
+
+$type: de.tudbut.T4

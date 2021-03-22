@@ -1,5 +1,6 @@
 package tudbut.tools;
 
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Lock {
@@ -20,18 +21,49 @@ public class Lock {
     
     private Locker locker = new Locker();
     private boolean b = false;
+    private int t = 0;
+    private long ts = 0;
     private final AtomicInteger waiting = new AtomicInteger();
     private volatile boolean[] waiterLocker = null;
     
-    public void waitHere() throws InterruptedException {
-        if(b) {
-            locker.lockHere();
-        }
+    private int checkTime(int timeout) {
+        return b ? checkNegative(Math.min((int) ( t - ( new Date().getTime() - ts ) ), timeout <= 0 ? Integer.MAX_VALUE : timeout), timeout) : timeout;
     }
-    public void waitHere(long timeout) throws InterruptedException {
+    
+    private int checkNegative(int i, int alt) {
+        if(i <= 0)
+            return alt;
+        return i;
+    }
+    
+    private void updateLocked() {
+        if(new Date().getTime() - ts >= t && ts != 0)
+            b = false;
+    }
+    
+    public void waitHere() {
+        updateLocked();
         if(b) {
-            locker.lockHere(timeout);
+            try {
+                locker.lockHere(checkTime(0));
+            }
+            catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
+        updateLocked();
+    }
+    public void waitHere(int timeout) {
+        updateLocked();
+        if(b) {
+            try {
+                locker.lockHere(checkTime(timeout));
+            }
+            catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        updateLocked();
     }
     public void unlock() {
         if(b) {
@@ -40,10 +72,17 @@ public class Lock {
         b = false;
     }
     public void lock() {
+        t = 0;
+        ts = 0;
         b = true;
     }
+    public void lock(int time) {
+        b = true;
+        t = time;
+        ts = new Date().getTime();
+    }
     
-    public void synchronize(int amount) throws InterruptedException {
+    public void synchronize(int amount) {
         this.b = true;
         if(waiterLocker == null)
             waiterLocker = new boolean[amount];
@@ -51,7 +90,12 @@ public class Lock {
         waiting.getAndIncrement();
         locker.unlock();
         while (amount > waiting.get()) {
-            locker.lockHere();
+            try {
+                locker.lockHere();
+            }
+            catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
         locker.unlock();
         boolean b;
@@ -68,7 +112,12 @@ public class Lock {
                 }
             }
         } catch (Exception ignored) { }
-        Thread.sleep(1);
+        try {
+            Thread.sleep(1);
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         waiting.getAndDecrement();
         waiterLocker = null;
         this.b = false;

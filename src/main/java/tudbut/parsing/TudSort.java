@@ -39,8 +39,6 @@ public class TudSort {
             Collections.reverse(list);
             return list.toArray(toSort);
         }
-    
-        System.gc();
         
         return nt;
     }
@@ -65,16 +63,12 @@ public class TudSort {
             indexes[smallestIndex] = true;
         }
     
-        System.gc();
-    
         return nt;
     }
     
     public static <T> void sortSet(T[] toSort, Sorter<T> sorter) {
         T[] sorted = sort(toSort, sorter);
         Tools.copyArray(sorted, toSort, toSort.length);
-    
-        System.gc();
     }
     
     public static <T> T find(T[] toFindIn, ArrayTools.Getter<T, Object> getter, Object o) {
@@ -87,8 +81,6 @@ public class TudSort {
                 throw new RuntimeException(throwable);
             }
         }
-    
-        System.gc();
         return null;
     }
     

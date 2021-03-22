@@ -1,15 +1,134 @@
 package de.tudbut;
 
+import de.tudbut.io.StreamReader;
+import de.tudbut.tools.FileRW;
+import tudbut.debug.Debug;
+import tudbut.debug.DebugProfiler;
+import tudbut.net.http.HTTPContentType;
+import tudbut.net.http.HTTPRequest;
+import tudbut.net.http.HTTPRequestType;
+import tudbut.obj.Save;
 import tudbut.parsing.TCN;
+import tudbut.tools.ConfigSaverTCN;
+import tudbut.tools.Lock;
+import tudbut.tools.ObjectSerializerTCN;
 import tudbut.tools.Time;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Date;
 
 public class T4 {
     
-    static int i = 1;
+        @Save
+        public static HTTPContentType contentType = HTTPContentType.AAC;
+        @Save
+        public static HTTPContentType contentTypeT = HTTPContentType.AAC;
+        @Save
+        public static HTTPContentType contentTypeTE = HTTPContentType.AAC;
+        @Save
+        public static HTTPContentType contentTypeTEF = HTTPContentType.AAC;
+        @Save
+        public static HTTPContentType contentTypeTEFR = HTTPContentType.AAC;
+        /*
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
+            new FileRW("mtt").setContent(ConfigSaverTCN.saveConfig(new de.tudbut.T4()).toString());
+            contentType = HTTPContentType.TXT;
+            System.out.println(contentType);
+            ConfigSaverTCN.loadConfig(new de.tudbut.T4(), TCN.read(new FileRW("mtt").getContent().join("\n")));
+            System.out.println(contentType);
     
-    public static void main(String[] args) throws IOException, InterruptedException, TCN.TCNException {
+        */
+    public static void main(String[] args) throws IOException, InterruptedException, TCN.TCNException, IllegalAccessException, ClassNotFoundException {
         /*float[] floats = NoiseGenerator.generateRandom(1, 1, 500, 20, 50, new Random())[0][0];
         GraphRenderer graphRenderer = new GraphRenderer();
         graphRenderer.setScaleX(2);
@@ -19,11 +138,98 @@ public class T4 {
         ImageIO.write(image, "PNG", new FileOutputStream("test5.png"));
         */
     
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
     
-        System.out.println(Time.ydhms(Long.MAX_VALUE / 1000 * 2));
-    
-    
-        //System.out.println(new HTTPRequest(HTTPRequestType.GET, "https://api.mojang.com", 443, "/user/profiles/b8dd8777a0744f3da5b90b19def1b1ac/names").send().parse().getBody());
+        DebugProfiler.Results results = Debug.getDebugProfiler(ObjectSerializerTCN.class, true).getResults();
+        for (int i = 0 ; i < results.getSections().length ; i++) {
+            System.out.println(results.getSections()[i]);
+        }
+        
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
+        contentType = HTTPContentType.TXT;
+        System.out.println(contentType);
+        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
+        System.out.println(contentType);
+        /*
+        Lock lock = new Lock();
+        System.out.println("Start " + new Date().getTime());
+        lock.lock(1000);
+        Thread.sleep(1200);
+        lock.waitHere();
+        System.out.println("Stop " + new Date().getTime());
+    */
+        
+        //System.out.println(new StreamReader(new URL("https://www.tudbut.de").openConnection().getInputStream()).readAllAsString());
+        //System.out.println(new HTTPRequest(HTTPRequestType.GET, "https://www.tudbut.de", 443, "/").send().parse().getBody());
         //new HTTPRequest(HTTPRequestType.POST, "api.tudbut.de", 80, "/api/track/play?uuid=6dd4a891-f23c-414c-8a02-a2dd5647a6f1").send();
         
         /*String[] uuids = new String[players.length];

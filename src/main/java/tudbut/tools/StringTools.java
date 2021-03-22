@@ -19,4 +19,8 @@ public class StringTools {
         }
         return builder.toString();
     }
+    
+    public static String lengthify(String s, String m, int i) {
+        return s + multiply(m, (i - s.length()) / m.length());
+    }
 }

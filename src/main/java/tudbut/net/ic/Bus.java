@@ -28,13 +28,8 @@ public class Bus implements Closeable { // Work in progress, will comment later!
         CInfo.s("Synchronizing will 90% of the time block the thread indefinitely");
         
         String r = "Written: ";
-        try {
-            syncO.waitHere();
-            syncO.lock();
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        syncO.waitHere();
+        syncO.lock();
         try {
             byte[] bytes = buffer.array();
             for (int j = 0; j < bytes.length; j++) {
@@ -53,13 +48,8 @@ public class Bus implements Closeable { // Work in progress, will comment later!
         CInfo.s("Synchronizing will 90% of the time block the thread indefinitely");
         
         String r = "Read: ";
-        try {
-            syncI.waitHere();
-            syncI.lock();
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        syncI.waitHere();
+        syncI.lock();
         try {
             byte[] bytes = buffer.array();
             for (int j = 0; j < bytes.length; j++) {

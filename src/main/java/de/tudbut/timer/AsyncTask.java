@@ -25,11 +25,13 @@ public class AsyncTask<T> {
     private long startTime = new Date().getTime();
 
     public AsyncTask(AsyncRunnable<T> runnable) {
+        threadLock.lock();
         Lock stopperLock = new Lock();
+        stopperLock.lock();
         Thread runner = t(() -> {
             startTime = new Date().getTime();
-            try { stopperLock.waitHere(); } catch (InterruptedException e) { e.printStackTrace(); }
-            
+            stopperLock.waitHere();
+    
             startTime = new Date().getTime();
             try {
                 backValue.set(runnable.run());
@@ -54,12 +56,7 @@ public class AsyncTask<T> {
         Thread stopper = t(() -> {
             stopperLock.unlock();
             while ((new Date().getTime() < startTime + timeout || timeout == -1) && !done) {
-                try {
-                    threadLock.waitHere(1);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                threadLock.waitHere(1);
             }
             runner.stop();
             
@@ -100,13 +97,8 @@ public class AsyncTask<T> {
         this.thenRunnable = runnable;
     }
 
-    public T waitForFinish(long waitTimeout) {
-        try {
-            threadLock.waitHere(waitTimeout);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public T waitForFinish(int waitTimeout) {
+        threadLock.waitHere(waitTimeout);
     
         return backValue.get();
     }

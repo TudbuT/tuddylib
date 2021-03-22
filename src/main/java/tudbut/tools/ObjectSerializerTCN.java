@@ -1,5 +1,7 @@
 package tudbut.tools;
 
+import tudbut.debug.Debug;
+import tudbut.debug.DebugProfiler;
 import tudbut.parsing.TCN;
 import tudbut.parsing.TudSort;
 
@@ -34,11 +36,14 @@ public class ObjectSerializerTCN {
     boolean type;
     boolean array;
     boolean unable = false;
+    boolean isEnum;
     
     {
         if(!doneObjects.containsKey(Thread.currentThread()))
             doneObjects.put(Thread.currentThread(), new ArrayList<>());
     }
+    
+    public DebugProfiler debugProfiler = Debug.getDebugProfiler(getClass(), false);
     
     public ObjectSerializerTCN(TCN tcn) {
         map = tcn;
@@ -75,6 +80,8 @@ public class ObjectSerializerTCN {
         /*if(map == null) {
             return this;
         }*/
+        if(isEnum)
+            return this;
         boolean b = false;
         if (toBuild != null || !type) {
             for (int i = 0; i < TypeConverter.values().length; i++) {
@@ -99,7 +106,9 @@ public class ObjectSerializerTCN {
     
     public ObjectSerializerTCN convertAll() throws ClassNotFoundException, IllegalAccessException {
         doneObjects.get(Thread.currentThread()).clear();
-        return convertAll0();
+        convertAll0();
+        debugProfiler.endAll();
+        return this;
     }
     
     private boolean checkShouldNotConvert(Object o) {
@@ -114,29 +123,41 @@ public class ObjectSerializerTCN {
     }
     
     private void convertHeader() throws ClassNotFoundException {
+        debugProfiler.next("ConvertHeader");
         try {
             if (type) {
                 if (toBuild == null) {
                     map.set("$type", "null");
                     map.set("$isArray", "false");
+                    map.set("$isEnum", "false");
                     unable = true;
                     return;
                 }
         
                 array = toBuild.getClass().isArray();
+                isEnum = toBuild.getClass().isEnum();
                 map.set("$isArray", String.valueOf(array));
+                map.set("$isEnum", String.valueOf(isEnum));
                 String s;
                 if (array)
                     s = toBuild.getClass().getComponentType().getName();
                 else
                     s = toBuild.getClass().getName();
                 map.set("$type", s);
+                if(isEnum) {
+                    map.set("id", ((Enum<?>) toBuild).ordinal());
+                }
             }
             else {
                 array = map.getBoolean("$isArray");
+                isEnum = map.getBoolean("$isEnum");
                 if (array)
                     toBuild = Array.newInstance(forName(map.getString("$type")), map.getInteger("len"));
-                else
+                else if(isEnum) {
+                    int id = map.getInteger("id");
+                    toBuild = forName(map.getString("$type")).getEnumConstants()[id];
+                    return;
+                } else
                     toBuild = forceNewInstance(map.getString("$type"));
                 if (toBuild == null) {
                     unable = true;
@@ -148,6 +169,7 @@ public class ObjectSerializerTCN {
     }
     
     private void convertNativeVars() throws IllegalAccessException {
+        debugProfiler.next("ConvertNativeVars");
         if(unable)
             return;
         
@@ -236,6 +258,8 @@ public class ObjectSerializerTCN {
     }
     
     private void convertObjectVars() throws IllegalAccessException, ClassNotFoundException {
+        debugProfiler.next("ConvertObjectVars");
+        
         if(unable)
             return;
         if(array) {
@@ -333,31 +357,34 @@ public class ObjectSerializerTCN {
     }
     
     private Object forceNewInstance(String type) {
+        debugProfiler.next("Instantiating");
         if("null".equals(type) || type == null)
             return null;
         
         try {
+            debugProfiler.next("Instantiating: Finding class");
             Class<?> clazz = forName(type);
-            return AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
                 try {
                     assert clazz != null;
                     Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-                    constructors = TudSort.sort(constructors, Constructor::getParameterCount);
-                    boolean b = constructors[0].isAccessible();
+                    debugProfiler.next("Instantiating: Sort constructors");
+                    for (int i = 0 ; i < constructors.length ; i++) {
+                        if(constructors[i].getParameterCount() == 0)
+                            constructors[0] = constructors[i];
+                    }
+                    debugProfiler.next("Instantiating: Use constructor");
                     constructors[0].setAccessible(true);
-                    Object o = constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
-                    constructors[0].setAccessible(b);
-                    return o;
+                    return constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
                 }
                 catch (Exception e) {
                     try {
+                        debugProfiler.next("Instantiating: Use newInstance");
                         return clazz.newInstance();
                     }
                     catch (Throwable ignore) {
                         return null;
                     }
                 }
-            });
         } catch (NullPointerException e) {
             return null;
         }

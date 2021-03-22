@@ -1,5 +1,7 @@
 package tudbut.tools;
 
+import tudbut.debug.Debug;
+import tudbut.debug.DebugProfiler;
 import tudbut.obj.Save;
 import tudbut.parsing.TCN;
 
@@ -10,27 +12,28 @@ import java.util.Map;
 public class ConfigSaverTCN {
     
     public static TCN saveConfig(Object object) {
-        TCN map = TCN.getEmpty();
+        DebugProfiler profiler = Debug.getDebugProfiler(ConfigSaverTCN.class, false);
         
+        profiler.next("Create TCN");
+        TCN map = TCN.getEmpty();
+        profiler.next("Get class");
         Class<?> clazz = object.getClass();
         while (clazz != Object.class) {
+            profiler.next("Classes");
             Field[] fields = clazz.getDeclaredFields();
             try {
                 for (int i = 0; i < fields.length; i++) {
+                    profiler.next("Fields");
                     Field field = fields[i];
-                    boolean b = field.isAccessible();
-                    // I want to access it
-                    field.setAccessible(true);
     
                     if(shouldSave(field)) {
+                        // I want to access it
+                        field.setAccessible(true);
                         Object o = field.get(object);
                         ObjectSerializerTCN serializer = new ObjectSerializerTCN(o);
                         o = serializer.convertAll().done();
                         map.set(field.getName(), o);
                     }
-        
-                    // Revert access privileges to default
-                    field.setAccessible(b);
                 }
             } catch (IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -39,6 +42,7 @@ public class ConfigSaverTCN {
             clazz = clazz.getSuperclass();
         }
         
+        profiler.endAll();
         return map;
     }
     
@@ -51,7 +55,6 @@ public class ConfigSaverTCN {
                     Field field = fields[i];
                     
                     if(shouldSave(field)) {
-                        boolean b = field.isAccessible();
                         // I want to access it
                         field.setAccessible(true);
                         if (tcn.map.containsKey(field.getName())) {
@@ -61,9 +64,6 @@ public class ConfigSaverTCN {
                             if (o != null)
                                 field.set(object, o);
                         }
-                        
-                        // Revert access privileges to default
-                        field.setAccessible(b);
                     }
                 }
             } catch (IllegalAccessException | ClassNotFoundException e) {
