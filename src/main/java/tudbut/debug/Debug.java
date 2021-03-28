@@ -20,7 +20,7 @@ public class Debug {
                 return profiler;
             }
         }
-        debugProfilerMap.get(Thread.currentThread()).put(o, new DebugProfiler("init"));
+        debugProfilerMap.get(Thread.currentThread()).put(o, new DebugProfiler(o.toString(), "init"));
         return debugProfilerMap.get(Thread.currentThread()).get(o);
     }
 }

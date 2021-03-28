@@ -26,6 +26,14 @@ public class Lock {
     private final AtomicInteger waiting = new AtomicInteger();
     private volatile boolean[] waiterLocker = null;
     
+    public Lock() {
+    
+    }
+    
+    public Lock(boolean locked) {
+        b = locked;
+    }
+    
     private int checkTime(int timeout) {
         return b ? checkNegative(Math.min((int) ( t - ( new Date().getTime() - ts ) ), timeout <= 0 ? Integer.MAX_VALUE : timeout), timeout) : timeout;
     }
@@ -80,6 +88,11 @@ public class Lock {
         b = true;
         t = time;
         ts = new Date().getTime();
+    }
+    
+    public boolean isLocked() {
+        updateLocked();
+        return b;
     }
     
     public void synchronize(int amount) {

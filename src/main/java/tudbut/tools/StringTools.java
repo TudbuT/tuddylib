@@ -23,4 +23,8 @@ public class StringTools {
     public static String lengthify(String s, String m, int i) {
         return s + multiply(m, (i - s.length()) / m.length());
     }
+    
+    public static String lengthifyStart(String s, String m, int i) {
+        return multiply(m, (i - s.length()) / m.length()) + s;
+    }
 }

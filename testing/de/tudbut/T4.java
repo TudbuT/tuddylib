@@ -9,10 +9,7 @@ import tudbut.net.http.HTTPRequest;
 import tudbut.net.http.HTTPRequestType;
 import tudbut.obj.Save;
 import tudbut.parsing.TCN;
-import tudbut.tools.ConfigSaverTCN;
-import tudbut.tools.Lock;
-import tudbut.tools.ObjectSerializerTCN;
-import tudbut.tools.Time;
+import tudbut.tools.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -138,87 +135,11 @@ public class T4 {
         ImageIO.write(image, "PNG", new FileOutputStream("test5.png"));
         */
     
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
     
-        DebugProfiler.Results results = Debug.getDebugProfiler(ObjectSerializerTCN.class, true).getResults();
-        for (int i = 0 ; i < results.getSections().length ; i++) {
-            System.out.println(results.getSections()[i]);
+        ThreadPool pool = new ThreadPool(5, "t", true);
+        while (true) {
+            pool.run(() -> System.out.println("Test " + Thread.currentThread().getName()));
         }
-        
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
-        new FileRW("mtt").setContent(new ObjectSerializerTCN(new T4()).convertAll().done().toString());
-        contentType = HTTPContentType.TXT;
-        System.out.println(contentType);
-        new ObjectSerializerTCN(new FileRW("mtt").getContent().join("\n")).convertAll().done();
-        System.out.println(contentType);
         /*
         Lock lock = new Lock();
         System.out.println("Start " + new Date().getTime());

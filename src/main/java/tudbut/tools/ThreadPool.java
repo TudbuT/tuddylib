@@ -3,32 +3,35 @@ package tudbut.tools;
 import de.tudbut.type.Stoppable;
 import tudbut.obj.NotSupportedException;
 
-import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadPool implements Stoppable {
     private final Thread[] threads;
-    private final boolean[] available;
     private final Runnable[] toDo;
-    private final boolean[] shouldRun;
+    private final Lock[] locks;
+    private final Lock hasFree = new Lock();
+    private volatile AtomicInteger freeThreads = new AtomicInteger();
     
     public ThreadPool(final int amount, final String name, final boolean enableCrashRecovery) {
         threads = new Thread[amount];
         toDo = new Runnable[amount];
-        available = new boolean[amount];
-        Arrays.fill(available, true);
-        shouldRun = new boolean[amount];
+        locks = new Lock[amount];
+        for (int i = 0 ; i < locks.length ; i++) {
+            locks[i] = new Lock();
+            locks[i].lock();
+        }
+        updateFree();
     
         for (int i = 0; i < threads.length; i++) {
             final int threadID = i;
             threads[i] = new Thread(() -> {
                 while (!isStopped()) {
-                    while (!shouldRun[threadID]) {
-                        try {
-                            //noinspection BusyWait
-                            Thread.sleep(1);
-                        } catch (InterruptedException ignore) { }
-                    }
-                    shouldRun[threadID] = false;
+                    freeThreads.getAndIncrement();
+                    updateFree();
+                    locks[threadID].waitHere();
+                    locks[threadID].lock();
+                    freeThreads.getAndDecrement();
+                    updateFree();
                     
                     try {
                         toDo[threadID].run();
@@ -40,30 +43,32 @@ public class ThreadPool implements Stoppable {
                             throw new RuntimeException("Thread crash: " + threads[threadID].getName() + "!", e);
                         }
                     }
-                    available[threadID] = true;
                 }
             }, name + ":" + i);
             threads[i].start();
         }
     }
     
+    private void updateFree() {
+        if (freeThreads.get() == 0) {
+            hasFree.lock();
+        }
+        else {
+            hasFree.unlock();
+        }
+    }
+    
     public synchronized void run(Runnable runnable) {
         boolean found = false;
         while (!found) {
+            hasFree.waitHere();
             for (int i = 0; i < threads.length; i++) {
-                if(available[i]) {
-                    available[i] = false;
-                    found = true;
+                if(locks[i].isLocked()) {
                     toDo[i] = runnable;
-                    shouldRun[i] = true;
+                    locks[i].unlock();
+                    found = true;
                     break;
                 }
-            }
-            try {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }

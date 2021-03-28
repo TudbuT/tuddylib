@@ -119,8 +119,6 @@ public class TCN {
                 tcn.map.put(key, s);
             }
         }
-    
-        System.gc();
         
         return tcn;
     }
@@ -139,8 +137,6 @@ public class TCN {
             else
                 r.put(key, o.toString());
         }
-    
-        System.gc();
         
         return r;
     }
@@ -197,7 +193,6 @@ public class TCN {
         s.setLength(s.length() - "\n#\n\n".length());
         s.trimToSize();
     
-        System.gc();
         return s.toString();
     }
     
@@ -209,8 +204,6 @@ public class TCN {
         for (Stack<String> path : keys) {
             deepPut(path.clone(), tcn, scanned.get(path));
         }
-    
-        System.gc();
         
         return tcn;
     }

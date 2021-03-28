@@ -9,7 +9,7 @@ public class DebugProfiler {
 
     public static final class Section {
         public final String name;
-        private long start = 0;
+        private long start;
         private long end = 0;
         private Results results;
         
@@ -55,23 +55,39 @@ public class DebugProfiler {
             }
             return null;
         }
+    
+    
+        @Override
+        public String toString() {
+            StringBuilder s = new StringBuilder();
+            for (int i = 0 ; i < sections.length ; i++) {
+                s.append(sections[i].toString());
+                if(i < sections.length - 1)
+                    s.append("\n");
+            }
+            return s.toString();
+        }
     }
     
+    private final String name;
     private long start = new Date().getTime();
     private long end;
-    private ArrayList<Section> sections = new ArrayList<>();
+    private final ArrayList<Section> sections = new ArrayList<>();
     private Section currentSection;
     private boolean locked = false;
     private Results results = null;
     
-    public DebugProfiler(String startingSection) {
+    public DebugProfiler(String name, String startingSection) {
+        this.name = name;
         currentSection = new Section(startingSection);
     }
     
     public synchronized DebugProfiler next(String next) {
         checkLocked();
         currentSection.end();
-        sections.add(currentSection);
+        synchronized (sections) {
+            sections.add(currentSection);
+        }
         currentSection = new Section(next);
         return this;
     }
@@ -79,7 +95,9 @@ public class DebugProfiler {
     public synchronized DebugProfiler endAll() {
         checkLocked();
         currentSection.end();
-        sections.add(currentSection);
+        synchronized (sections) {
+            sections.add(currentSection);
+        }
         currentSection = null;
         end = new Date().getTime();
         
@@ -91,34 +109,49 @@ public class DebugProfiler {
         if(!locked)
             throw new RuntimeException("DebugProfiler results requested before call to endAll()!");
         if(results == null) {
-            createResults();
+            return createResults();
         }
         return results;
     }
     
-    private void createResults() {
+    public synchronized Results getTempResults() {
+        checkLocked();
+        end = new Date().getTime();
+        return createResults();
+    }
+    
+    private Results createResults() {
         results = new Results();
         results.time = end - start;
-        ArrayList<Section> allSections = new ArrayList<>();
-        for (int i = 0 ; i < sections.size() ; i++) {
-            Section sec = sections.get(i);
-            sec.results = results;
-            if(allSections.stream().noneMatch(section -> section.name.equals(sec.name))) {
-                Section section = new Section(sec.name);
-                section.start = 0;
-                section.end = sec.getTime();
-                section.results = results;
-                allSections.add(sec);
-            }
-            else {
-                for (int j = 0 ; j < allSections.size() ; j++) {
-                    if(allSections.get(j).name.equals(sections.get(i).name)) {
-                        allSections.get(j).end += sec.getTime();
+        optimize();
+        results.sections = TudSort.sort(sections.toArray(new Section[0]), section -> -section.getTime());
+        return results;
+    }
+    
+    public void optimize() {
+        synchronized (sections) {
+            ArrayList<Section> realSections = new ArrayList<>();
+            for (int i = 0 ; i < sections.size() ; i++) {
+                Section sec = sections.get(i);
+                sec.results = results;
+                if (realSections.stream().noneMatch(section -> section.name.equals(sec.name))) {
+                    Section section = new Section(sec.name);
+                    section.start = 0;
+                    section.end = sec.getTime();
+                    section.results = results;
+                    realSections.add(sec);
+                }
+                else {
+                    for (int j = 0 ; j < realSections.size() ; j++) {
+                        if (realSections.get(j).name.equals(sections.get(i).name)) {
+                            realSections.get(j).end += sec.getTime();
+                        }
                     }
                 }
             }
+            sections.clear();
+            sections.addAll(realSections);
         }
-        results.sections = TudSort.sort(allSections.toArray(new Section[0]), section -> -section.getTime());
     }
     
     private synchronized void checkLocked() throws RuntimeException {
@@ -128,5 +161,25 @@ public class DebugProfiler {
     
     public boolean isLocked() {
         return locked;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public synchronized void delete() {
+        locked = true;
+        sections.clear();
+        currentSection = null;
+        results = null;
+    }
+    
+    public void finalize() {
+        delete();
+    }
+    
+    @Override
+    public String toString() {
+        return name + ":\n" + getTempResults().toString();
     }
 }
