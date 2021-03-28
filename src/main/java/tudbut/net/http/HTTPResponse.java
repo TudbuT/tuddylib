@@ -4,7 +4,6 @@ import de.tudbut.type.CInfo;
 import tudbut.tools.Value;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class HTTPResponse extends Value<String> {
@@ -12,21 +11,58 @@ public class HTTPResponse extends Value<String> {
         super(value.replaceAll("\r", ""));
     }
 
-    public ParsedHTTPResponse parse() {
-        return new ParsedHTTPResponse() {
+    public ParsedHTTPValue parse() {
+        String[] splitValue = value.split("\n")[0].split(" ");
+    
+        String httpVersion = splitValue[0];
+        int statusCode = Integer.parseInt(splitValue[1]);
+        String statusCodeString = splitValue[2];
+        HTTPResponseFactory.ResponseCode code = null;
+        for (int i = 0; i < HTTPResponseFactory.ResponseCode.values().length; i++) {
+            HTTPResponseFactory.ResponseCode responseCode = HTTPResponseFactory.ResponseCode.values()[i];
+            if(responseCode.asInt == statusCode) {
+                code = responseCode;
+            }
+        }
+        ArrayList<HTTPHeader> headersList = new ArrayList<>();
+        String s = value.replaceAll("\r", "");
+        s = s.substring(s.split("\n")[0].length() + 1);
+        for (String line : s.split("\n")) {
+            if (line.equals(""))
+                break;
+            headersList.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1]));
+        }
+        HTTPHeader[] headers = headersList.toArray(new HTTPHeader[0]);
+        String body = "";
+        try {
+            int start = value.split("\n\n")[0].length() + 2;
+            HTTPHeader header = null;
+            for (int i = 0; i < headers.length; i++) {
+                if(headers[i].key().equals("Content-Length"))
+                    header = headers[i];
+            }
+            assert header != null;
+            int end = start + Integer.parseInt(header.value());
+            body = value.substring(start, end);
+        } catch (Exception ignored) {
+        }
+    
+        HTTPResponseFactory.ResponseCode finalCode = code;
+        String finalBody = body;
+        return new ParsedHTTPValue() {
             @Override
             public String getHTTPVersion() {
-                return value.replaceAll("\r", "").split("\n")[0].split(" ")[0];
+                return httpVersion;
             }
 
             @Override
             public int getStatusCode() {
-                return Integer.parseInt(value.replaceAll("\r", "").split("\n")[0].split(" ")[1]);
+                return statusCode;
             }
 
             @Override
             public String getStatusCodeAsString() {
-                return value.replaceAll("\r", "").split("\n")[0].split(" ")[2];
+                return statusCodeString;
             }
 
             @Override
@@ -41,58 +77,18 @@ public class HTTPResponse extends Value<String> {
 
             @Override
             public HTTPResponseFactory.ResponseCode getStatusCodeAsEnum() {
-                HTTPResponseFactory.ResponseCode code = null;
-                for (int i = 0; i < HTTPResponseFactory.ResponseCode.values().length; i++) {
-                    HTTPResponseFactory.ResponseCode responseCode = HTTPResponseFactory.ResponseCode.values()[i];
-                    if(responseCode.asInt == getStatusCode()) {
-                        code = responseCode;
-                    }
-                }
-                return code;
+                return finalCode;
             }
 
             @Override
             public String getBody() {
-                try {
-                    int start = value.split("\n\n")[0].length() + 2;
-                    HTTPHeader[] headers = getHeaders();
-                    HTTPHeader header = null;
-                    for (int i = 0; i < headers.length; i++) {
-                        if(headers[i].key().equals("Content-Length"))
-                            header = headers[i];
-                    }
-                    assert header != null;
-                    int end = start + Integer.parseInt(header.value());
-                    return value.substring(start, end);
-                } catch (Exception e) {
-                    CInfo.s("Seems like the body doesnt exist.");
-                    return "";
-                }
+                return finalBody;
             }
 
             @Override
             public HTTPHeader[] getHeaders() {
-                ArrayList<HTTPHeader> headers = new ArrayList<>();
-                String s = value.replaceAll("\r", "");
-                s = s.substring(s.split("\n")[0].length() + 1);
-                for (String line : s.split("\n")) {
-                    if (line.equals(""))
-                        break;
-                    headers.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1]));
-                }
-                return headers.toArray(new HTTPHeader[0]);
+                return headers;
             }
         };
-    }
-
-    public interface ParsedHTTPResponse {
-        String getHTTPVersion();
-        int getStatusCode();
-        String getStatusCodeAsString();
-        String getPath();
-        Map<String, String> getQuery();
-        Object getStatusCodeAsEnum();
-        String getBody();
-        HTTPHeader[] getHeaders();
     }
 }
