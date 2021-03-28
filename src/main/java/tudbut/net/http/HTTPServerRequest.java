@@ -47,7 +47,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         close();
     }
 
-    public HTTPResponse.ParsedHTTPValue parse() {
+    public ParsedHTTPValue parse() {
         String[] splitValue = value.split("\n")[0].split(" ");
         
         String httpVersion = splitValue[2];
@@ -96,7 +96,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         } catch (Exception ignored) {
         }
         String finalBody = body;
-        return new HTTPResponse.ParsedHTTPValue() {
+        return new ParsedHTTPValue() {
             @Override
             public String getHTTPVersion() {
                 return httpVersion;
