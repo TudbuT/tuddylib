@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,45 +56,64 @@ public class HTTPServer implements Stoppable {
                 try {
                     socket = serverSocket.accept();
                     Socket finalSocket = socket;
-                    executor.execute(() -> {
-                        try {
-                            List<HTTPHandler> handlers = Arrays.asList(this.handlers.toArray(new HTTPHandler[0]));
-
-                            String s;
-                            ArrayList<HTTPHeader> headers = new ArrayList<>();
-                            StringBuilder fullRequest = new StringBuilder();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(finalSocket.getInputStream()));
-                            int line = 0;
-                            while ((s = reader.readLine()) != null) {
-                                fullRequest.append(s).append("\n");
-                                if (s.equals("")) {
-                                    break;
-                                }
-                                if (line != 0) {
-                                    headers.add(new HTTPHeader(s.split(": ")[0], s.split(": ")[1]));
-                                }
-                                line++;
-                            }
-                            int contentLength = 0;
-                            for (HTTPHeader header : headers) {
-                                if (header.key().equalsIgnoreCase("Content-Length")) {
-                                    contentLength = Integer.parseInt(header.value());
-                                }
-                            }
-                            for (int i = 0; i < contentLength; i++) {
-                                fullRequest.append((char) reader.read());
-                            }
-                            for (HTTPHandler handler : handlers) {
-                                HTTPServerRequest request = new HTTPServerRequest(fullRequest.toString(), finalSocket);
-                                handler.handle(request);
-                            }
-                        } catch (Throwable e) {
+                    boolean b = true;
+                    for (int i = 0 ; i < handlers.size() ; i++) {
+                        if(!handlers.get(i).accept(socket.getRemoteSocketAddress()))
+                            b = false;
+                    }
+                    if(b) {
+                        executor.execute(() -> {
                             try {
-                                new StreamWriter(finalSocket.getOutputStream()).writeChars(serverError.value.toCharArray());
-                            } catch (IOException ignore) {
+                                List<HTTPHandler> handlers = Arrays.asList(this.handlers.toArray(new HTTPHandler[0]));
+            
+                                String s;
+                                ArrayList<HTTPHeader> headers = new ArrayList<>();
+                                StringBuilder fullRequest = new StringBuilder();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(finalSocket.getInputStream()));
+                                int line = 0;
+                                while ((s = reader.readLine()) != null) {
+                                    fullRequest.append(s).append("\n");
+                                    if (s.equals("")) {
+                                        break;
+                                    }
+                                    if (line != 0) {
+                                        headers.add(new HTTPHeader(s.split(": ")[0], s.split(": ")[1]));
+                                    }
+                                    line++;
+                                }
+                                int contentLength = 0;
+                                for (HTTPHeader header : headers) {
+                                    if (header.key().equalsIgnoreCase("Content-Length")) {
+                                        contentLength = Integer.parseInt(header.value());
+                                    }
+                                }
+                                for (int i = 0 ; i < contentLength ; i++) {
+                                    fullRequest.append((char) reader.read());
+                                }
+                                for (HTTPHandler handler : handlers) {
+                                    HTTPServerRequest request = new HTTPServerRequest(fullRequest.toString(), finalSocket);
+                                    handler.handle(request);
+                                }
                             }
-                        }
-                    });
+                            catch (Throwable e) {
+                                try {
+                                    new StreamWriter(finalSocket.getOutputStream()).writeChars(serverError.value.toCharArray());
+                                }
+                                catch (IOException ignore) {
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        executor.execute(() -> {
+                            for (int i = 0 ; i < handlers.size() ; i++) {
+                                try {
+                                    handlers.get(i).handleDeny(new HTTPServerRequest("", finalSocket));
+                                }
+                                catch (Exception ignored) { }
+                            }
+                        });
+                    }
                 } catch (IOException ignore) { }
             }
         }).start();
@@ -105,5 +125,11 @@ public class HTTPServer implements Stoppable {
 
     public interface HTTPHandler {
         void handle(HTTPServerRequest request) throws Exception;
+    
+        default boolean accept(SocketAddress address) {
+            return true;
+        }
+        
+        default void handleDeny(HTTPServerRequest request) throws Exception { }
     }
 }

@@ -58,7 +58,7 @@ public class ThreadPool implements Stoppable {
         }
     }
     
-    public synchronized void run(Runnable runnable) {
+    public void run(Runnable runnable) {
         boolean found = false;
         while (!found) {
             hasFree.waitHere();
@@ -75,5 +75,13 @@ public class ThreadPool implements Stoppable {
     
     public void start() throws NotSupportedException {
         throw new NotSupportedException();
+    }
+    
+    public int available() {
+        return freeThreads.get();
+    }
+    
+    public boolean isBlocked() {
+        return hasFree.isLocked();
     }
 }

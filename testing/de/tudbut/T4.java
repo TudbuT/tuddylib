@@ -10,6 +10,7 @@ import tudbut.net.http.HTTPRequestType;
 import tudbut.obj.Save;
 import tudbut.parsing.TCN;
 import tudbut.tools.*;
+import tudbut.tools.encryption.Key;
 
 import java.io.IOException;
 import java.net.URL;
@@ -135,11 +136,9 @@ public class T4 {
         ImageIO.write(image, "PNG", new FileOutputStream("test5.png"));
         */
     
-    
-        ThreadPool pool = new ThreadPool(5, "t", true);
-        while (true) {
-            pool.run(() -> System.out.println("Test " + Thread.currentThread().getName()));
-        }
+        Key key = new Key("a");
+        System.out.println(key.encryptString("Test"));
+        System.out.println(key.decryptString(key.encryptString("Test")));
         /*
         Lock lock = new Lock();
         System.out.println("Start " + new Date().getTime());
@@ -157,7 +156,9 @@ public class T4 {
         for (int i = 0; i < players.length; i++) {
             uuids[i] = new HTTPRequest(HTTPRequestType.GET, "api.tudbut.de", 80, "/api/getUUID?name=" + players[i]).send().parse().getBody();
         }
+        */
         
+        /*
         String s = "";
         while (true) {
             long sa = new Date().getTime();
@@ -171,8 +172,8 @@ public class T4 {
             try {
                 Thread.sleep(1000 - (new Date().getTime() - sa));
             } catch (Exception ignore) { }
-        }
+        }*/
         
-         */
+        
     }
 }

@@ -25,8 +25,6 @@ public class Bus implements Closeable { // Work in progress, will comment later!
     }
     
     public void write(ByteBuffer buffer) throws IOException {
-        CInfo.s("Synchronizing will 90% of the time block the thread indefinitely");
-        
         String r = "Written: ";
         syncO.waitHere();
         syncO.lock();
@@ -45,8 +43,6 @@ public class Bus implements Closeable { // Work in progress, will comment later!
     }
     
     public void read(ByteBuffer buffer) throws IOException {
-        CInfo.s("Synchronizing will 90% of the time block the thread indefinitely");
-        
         String r = "Read: ";
         syncI.waitHere();
         syncI.lock();

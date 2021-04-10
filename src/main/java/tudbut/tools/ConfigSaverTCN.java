@@ -35,7 +35,7 @@ public class ConfigSaverTCN {
                         map.set(field.getName(), o);
                     }
                 }
-            } catch (IllegalAccessException | ClassNotFoundException e) {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
             
@@ -57,7 +57,7 @@ public class ConfigSaverTCN {
                     if(shouldSave(field)) {
                         // I want to access it
                         field.setAccessible(true);
-                        if (tcn.map.containsKey(field.getName())) {
+                        if (tcn.map.get(field.getName()) != null) {
                             Object o;
                             ObjectSerializerTCN serializer = new ObjectSerializerTCN(tcn.getSub(field.getName()));
                             o = serializer.convertAll().done();
@@ -66,7 +66,7 @@ public class ConfigSaverTCN {
                         }
                     }
                 }
-            } catch (IllegalAccessException | ClassNotFoundException e) {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
             

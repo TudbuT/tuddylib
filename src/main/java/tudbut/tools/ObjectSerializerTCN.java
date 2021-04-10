@@ -2,12 +2,14 @@ package tudbut.tools;
 
 import tudbut.debug.Debug;
 import tudbut.debug.DebugProfiler;
+import tudbut.obj.Save;
+import tudbut.obj.Transient;
 import tudbut.parsing.TCN;
-import tudbut.parsing.TudSort;
 
-import java.lang.reflect.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,26 +40,27 @@ public class ObjectSerializerTCN {
     boolean unable = false;
     boolean isEnum;
     
-    {
-        if(!doneObjects.containsKey(Thread.currentThread()))
-            doneObjects.put(Thread.currentThread(), new ArrayList<>());
-    }
-    
     public DebugProfiler debugProfiler = Debug.getDebugProfiler(getClass(), false);
     
     public ObjectSerializerTCN(TCN tcn) {
         map = tcn;
         type = false;
+        if(!doneObjects.containsKey(Thread.currentThread()))
+            doneObjects.put(Thread.currentThread(), new ArrayList<>());
     }
     
     public ObjectSerializerTCN(String s) throws TCN.TCNException {
         map = TCN.read(s);
         type = false;
+        if(!doneObjects.containsKey(Thread.currentThread()))
+            doneObjects.put(Thread.currentThread(), new ArrayList<>());
     }
     
     public ObjectSerializerTCN(Object o) {
         toBuild = o;
         type = true;
+        if(!doneObjects.containsKey(Thread.currentThread()))
+            doneObjects.put(Thread.currentThread(), new ArrayList<>());
     }
     
     public ObjectSerializerTCN(Class<?> c) {
@@ -69,17 +72,14 @@ public class ObjectSerializerTCN {
         if (type)
             return (T) map;
         else
-            if(unable)
-                return null;
-            else
-                return (T) toBuild;
+        if(unable)
+            return null;
+        else
+            return (T) toBuild;
     }
     
-    private ObjectSerializerTCN convertAll0() throws ClassNotFoundException, IllegalAccessException {
+    private ObjectSerializerTCN convertAll0() {
         convertHeader();
-        /*if(map == null) {
-            return this;
-        }*/
         if(isEnum)
             return this;
         boolean b = false;
@@ -99,12 +99,17 @@ public class ObjectSerializerTCN {
         }
         if (unable || toBuild == null)
             return this;
-        convertNativeVars();
-        convertObjectVars();
+        try {
+            convertNativeVars();
+            convertObjectVars();
+        }
+        catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         return this;
     }
     
-    public ObjectSerializerTCN convertAll() throws ClassNotFoundException, IllegalAccessException {
+    public ObjectSerializerTCN convertAll() {
         doneObjects.get(Thread.currentThread()).clear();
         convertAll0();
         debugProfiler.endAll();
@@ -113,7 +118,7 @@ public class ObjectSerializerTCN {
     
     private boolean checkShouldNotConvert(Object o) {
         ArrayList<Object> converted = doneObjects.get(Thread.currentThread());
-    
+        
         for (int i = 0; i < converted.size(); i++) {
             if(converted.get(i) == o)
                 return true;
@@ -122,7 +127,7 @@ public class ObjectSerializerTCN {
         return false;
     }
     
-    private void convertHeader() throws ClassNotFoundException {
+    private void convertHeader() {
         debugProfiler.next("ConvertHeader");
         try {
             if (type) {
@@ -133,7 +138,7 @@ public class ObjectSerializerTCN {
                     unable = true;
                     return;
                 }
-        
+                
                 array = toBuild.getClass().isArray();
                 isEnum = toBuild.getClass().isEnum();
                 map.set("$isArray", String.valueOf(array));
@@ -155,6 +160,7 @@ public class ObjectSerializerTCN {
                     toBuild = Array.newInstance(forName(map.getString("$type")), map.getInteger("len"));
                 else if(isEnum) {
                     int id = map.getInteger("id");
+                    //noinspection ConstantConditions doesnt apply, check is already done
                     toBuild = forName(map.getString("$type")).getEnumConstants()[id];
                     return;
                 } else
@@ -204,7 +210,7 @@ public class ObjectSerializerTCN {
                     for (int j = 0; j < TypeConverter.values().length; j++) {
                         TypeConverter converter = TypeConverter.values()[j];
                         if (converter.impl.doesApply(toBuild.getClass().getComponentType())) {
-                            if(map.map.containsKey(i + ""))
+                            if(map.map.get(i + "") != null)
                                 o = converter.impl.object(map.getString(i + ""));
                         }
                     }
@@ -228,7 +234,7 @@ public class ObjectSerializerTCN {
                     continue;
                 if (!b)
                     field.setAccessible(true);
-        
+                
                 if (type) {
                     String s = "";
                     for (int j = 0; j < TypeConverter.values().length; j++) {
@@ -240,7 +246,7 @@ public class ObjectSerializerTCN {
                     map.set(field.getName(), s);
                 }
                 else {
-                    if (map.map.containsKey(field.getName())) {
+                    if (map.map.get(field.getName()) != null) {
                         Object o = null;
                         for (int j = 0; j < TypeConverter.values().length; j++) {
                             TypeConverter converter = TypeConverter.values()[j];
@@ -248,7 +254,8 @@ public class ObjectSerializerTCN {
                                 o = converter.impl.object(map.getString(field.getName()));
                             }
                         }
-                        if(!Modifier.toString(field.getModifiers()).contains("final"))
+                        String m = Modifier.toString(field.getModifiers());
+                        if(!m.contains("final") && !ReflectUtil.hasAnnotation(field, Transient.class))
                             field.set(toBuild, o);
                     }
                 }
@@ -257,21 +264,17 @@ public class ObjectSerializerTCN {
         }
     }
     
-    private void convertObjectVars() throws IllegalAccessException, ClassNotFoundException {
+    private void convertObjectVars() throws IllegalAccessException {
         debugProfiler.next("ConvertObjectVars");
         
         if(unable)
             return;
         if(array) {
-            boolean b = false;
             for (int j = 0; j < nativeTypes.length; j++) {
                 if (nativeTypes[j] == toBuild.getClass().getComponentType()) {
-                    b = true;
-                    break;
+                    return;
                 }
             }
-            if (b)
-                return;
             if(type) {
                 int len = Array.getLength(toBuild);
                 map.set("len", len);
@@ -292,7 +295,7 @@ public class ObjectSerializerTCN {
             else {
                 int len = map.getInteger("len");
                 for (int i = 0; i < len; i++) {
-                    if(map.map.containsKey(i + "")) {
+                    if(map.map.get(i + "") != null) {
                         ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub(i + ""));
                         serializer.map.set("$isArray", toBuild.getClass().getComponentType().isArray());
                         serializer.convertAll0();
@@ -318,7 +321,7 @@ public class ObjectSerializerTCN {
                     continue;
                 if (!b)
                     field.setAccessible(true);
-        
+                
                 if (type) {
                     Object o;
                     if(checkShouldNotConvert(o = field.get(toBuild))) {
@@ -332,17 +335,18 @@ public class ObjectSerializerTCN {
                     map.set(field.getName(), serializer.map);
                 }
                 else {
-                    if (map.map.containsKey(field.getName())) {
+                    if (map.map.get(field.getName()) != null) {
                         ObjectSerializerTCN serializer = new ObjectSerializerTCN(map.getSub(field.getName()));
                         serializer.map.set("$isArray", field.getType().isArray());
                         serializer.convertAll0();
                         Object o = serializer.done();
-                        if (!Modifier.toString(field.getModifiers()).contains("final")) {
+                        String m = Modifier.toString(field.getModifiers());
+                        if(!m.contains("final") && !ReflectUtil.hasAnnotation(field, Transient.class)) {
                             if (o != null) {
                                 field.set(toBuild, o);
                             }
                         }
-                        else if(field.getType().isArray()) {
+                        else if(field.getType().isArray() && !ReflectUtil.hasAnnotation(field, Transient.class)) {
                             Object array = field.get(toBuild);
                             if(Array.getLength(array) == Array.getLength(o)) {
                                 assert o != null;
@@ -364,27 +368,27 @@ public class ObjectSerializerTCN {
         try {
             debugProfiler.next("Instantiating: Finding class");
             Class<?> clazz = forName(type);
+            try {
+                assert clazz != null;
+                Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+                debugProfiler.next("Instantiating: Sort constructors");
+                for (int i = 0 ; i < constructors.length ; i++) {
+                    if(constructors[i].getParameterCount() == 0)
+                        constructors[0] = constructors[i];
+                }
+                debugProfiler.next("Instantiating: Use constructor");
+                constructors[0].setAccessible(true);
+                return constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
+            }
+            catch (Exception e) {
                 try {
-                    assert clazz != null;
-                    Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-                    debugProfiler.next("Instantiating: Sort constructors");
-                    for (int i = 0 ; i < constructors.length ; i++) {
-                        if(constructors[i].getParameterCount() == 0)
-                            constructors[0] = constructors[i];
-                    }
-                    debugProfiler.next("Instantiating: Use constructor");
-                    constructors[0].setAccessible(true);
-                    return constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
+                    debugProfiler.next("Instantiating: Use newInstance");
+                    return clazz.newInstance();
                 }
-                catch (Exception e) {
-                    try {
-                        debugProfiler.next("Instantiating: Use newInstance");
-                        return clazz.newInstance();
-                    }
-                    catch (Throwable ignore) {
-                        return null;
-                    }
+                catch (Throwable ignore) {
+                    return null;
                 }
+            }
         } catch (NullPointerException e) {
             return null;
         }
@@ -403,12 +407,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-    
+            
             @Override
             public Object object(String s) {
                 return Boolean.valueOf(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == boolean.class || clazz == Boolean.class;
@@ -419,12 +423,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-        
+            
             @Override
             public Object object(String s) {
                 return Byte.valueOf(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == byte.class || clazz == Byte.class;
@@ -435,12 +439,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-        
+            
             @Override
             public Object object(String s) {
                 return Short.valueOf(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == short.class || clazz == Short.class;
@@ -451,12 +455,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-        
+            
             @Override
             public Object object(String s) {
                 return (char) Integer.parseInt(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == char.class || clazz == Character.class;
@@ -467,12 +471,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-        
+            
             @Override
             public Object object(String s) {
                 return Integer.valueOf(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == int.class || clazz == Integer.class;
@@ -483,12 +487,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-        
+            
             @Override
             public Object object(String s) {
                 return Float.valueOf(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == float.class || clazz == Float.class;
@@ -499,12 +503,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-        
+            
             @Override
             public Object object(String s) {
                 return Long.valueOf(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == long.class || clazz == Long.class;
@@ -515,12 +519,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return String.valueOf(o);
             }
-        
+            
             @Override
             public Object object(String s) {
-                    return Double.valueOf(s);
+                return Double.valueOf(s);
             }
-    
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == double.class || clazz == Double.class;
@@ -531,12 +535,12 @@ public class ObjectSerializerTCN {
             public String string(Object o) {
                 return (String) o;
             }
-        
+            
             @Override
             public Object object(String s) {
                 return s;
             }
-        
+            
             @Override
             public boolean doesApply(Class<?> clazz) {
                 return clazz == String.class;

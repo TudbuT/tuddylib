@@ -1,6 +1,7 @@
 package de.tudbut.tools;
 
 import de.tudbut.io.StreamReader;
+import de.tudbut.io.StreamWriter;
 import tudbut.logger.LoggerSink;
 import de.tudbut.type.StringArray;
 import tudbut.global.DebugStateManager;
@@ -41,9 +42,7 @@ public class FileRW {
         this.lines.clear();
         this.lines.set(content.split("\n"));
         FileOutputStream fileWriter = new FileOutputStream(this.file);
-        PrintWriter writer = new PrintWriter(fileWriter);
-        writer.write(this.lines.join("\n"));
-        writer.close();
+        new StreamWriter(fileWriter).writeChars(content.toCharArray());
         logger.get().info("Done.");
     }
 

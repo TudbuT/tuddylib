@@ -56,7 +56,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         String path = actualPath.split("\\?")[0];
         Map<String, String> map = new HashMap<>();
         try {
-            String query = actualPath.split("\\?")[0];
+            String query = actualPath.split("\\?")[1];
         
             String[] splitByAnd = query.split("&");
             for (int i = 0; i < splitByAnd.length; i++) {
@@ -76,10 +76,11 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         HTTPRequestType finalCode = code;
         ArrayList<HTTPHeader> headersList = new ArrayList<>();
         String s = value.substring(value.split("\n")[0].length() + "\n".length());
+        String[] lines = s.split("\n");
         String line;
         int i = 0;
-        while (!(line = s.split("\n")[i]).equals("")) {
-            headersList.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1].split("\r")[0]));
+        while (i < lines.length && !(line = lines[i++]).equals("")) {
+            headersList.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1]));
         }
         HTTPHeader[] headers = headersList.toArray(new HTTPHeader[0]);
         String body = "";

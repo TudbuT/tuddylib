@@ -3,15 +3,7 @@ package tudbut.tools;
 import java.util.Date;
 
 public class Time {
-    public static void wait(int ms, int ns) throws InterruptedException {
-        int startedAt = new Date().toInstant().getNano();
-        while (nanos(startedAt) / 10000000 < ns / 10000000);
-        Thread.sleep(ms);
-    }
     
-    public static long nanos(int last) {
-        return last + (Math.max(new Date().toInstant().getNano() - last, 0L));
-    }
     
     public static String ydhmsString(long seconds) {
         String s = "";

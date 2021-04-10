@@ -1,6 +1,5 @@
 package tudbut.obj;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,43 +20,62 @@ public class TLMap<K, V> {
     public V get(K key) {
         return binding.get(key);
     }
-
-    public final Set<K> keys() {
-        return binding.keys();
+    
+    public V get(K key, V def) {
+        V v = binding.get(key);
+        return v == null ? def : v;
     }
 
-    public final Set<V> values() {
+    public Set<K> keys() {
+        return binding.keys();
+    }
+    
+    public int size() {
+        return binding.size();
+    }
+
+    public Set<V> values() {
         return binding.values();
+    }
+    
+    public TLMap<V, K> flip() {
+        TLMap<V, K> map = new TLMap<>();
+        map.binding = binding.flip();
+        return map;
     }
 
 
     protected static class Binding<K, V> {
-        private ArrayList<Entry> entries = new ArrayList<>();
+        protected ArrayList<Entry<K, V>> entries = new ArrayList<>();
 
-        private void set(K key, V value) {
+        protected void set(K key, V value) {
             boolean exists = false;
             for (int i = 0; i < entries.size(); i++) {
-                Entry entry = entries.get(i);
+                Entry<K, V> entry = entries.get(i);
                 if (key == entry.key || entry.key.equals(key)) {
-                    entry.val = value;
                     exists = true;
+                    if(value == null) {
+                        entries.remove(i);
+                        break;
+                    }
+                    entry.val = value;
                 }
             }
-            if(!exists) {
-                this.entries.add(new Entry(key, value));
+            if(!exists && value != null && key != null) {
+                this.entries.add(new Entry<>(key, value));
             }
         }
 
-        private V get(K key) {
-            ArrayList<Entry> entries = (ArrayList<Entry>) this.entries.clone();
-            for (Entry entry : entries) {
+        protected V get(K key) {
+            ArrayList<Entry<K, V>> entries = (ArrayList<Entry<K, V>>) this.entries.clone();
+            for (Entry<K, V> entry : entries) {
                 if (key == entry.key || entry.key.equals(key))
                     return entry.val;
             }
             return null;
         }
 
-        private Set<K> keys() {
+        protected Set<K> keys() {
             HashSet<K> keys = new HashSet<>();
             for (int i = 0; i < entries.size(); i++) {
                 keys.add(entries.get(i).key);
@@ -65,22 +83,35 @@ public class TLMap<K, V> {
             return keys;
         }
 
-        private Set<V> values() {
+        protected Set<V> values() {
             HashSet<V> vals = new HashSet<>();
             for (int i = 0; i < entries.size(); i++) {
                 vals.add(entries.get(i).val);
             }
             return vals;
         }
-
-        private class Entry {
-            private K key;
-            private V val;
     
-            private Entry() {
+        protected Binding<V, K> flip() {
+            Binding<V, K> binding = new Binding<>();
+            for (int i = 0 ; i < entries.size() ; i++) {
+                Entry<K, V> entry = entries.get(i);
+                binding.entries.add(new Entry<>(entry.val, entry.key));
+            }
+            return binding;
+        }
+    
+        public int size() {
+            return entries.size();
+        }
+    
+        protected static class Entry<K, V> {
+            protected K key;
+            protected V val;
+    
+            protected Entry() {
             }
             
-            private Entry(K key, V val) {
+            protected Entry(K key, V val) {
                 this.key = key;
                 this.val = val;
             }

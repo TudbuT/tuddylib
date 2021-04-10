@@ -1,25 +1,18 @@
 package tudbut.net.http;
 
-import com.sun.net.httpserver.HttpsExchange;
-import com.sun.net.ssl.internal.ssl.Provider;
 import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.timer.AsyncTask;
 import de.tudbut.type.Nothing;
-import sun.net.httpserver.HttpsServerImpl;
-import sun.rmi.transport.proxy.HttpReceiveSocket;
 import tudbut.obj.Partial;
 
-import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -78,7 +71,7 @@ public class HTTPRequest {
             socket = new Socket(InetAddress.getByName(host), port);
         StreamWriter writer = new StreamWriter(socket.getOutputStream());
         writer.writeChars(toString().toCharArray());
-        return new HTTPResponse(new String(new StreamReader(socket.getInputStream()).readAllAsChars()));
+        return new HTTPResponse(new String(new StreamReader(socket.getInputStream()).readAllAsBytes()));
     }
 
     public Partial<HTTPResponse> sendKeepAlive() throws IOException {

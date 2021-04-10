@@ -1,6 +1,6 @@
 package tudbut.obj;
 
-public class NotSupportedException extends Exception {
+public class NotSupportedException extends RuntimeException {
     public NotSupportedException() {
         super();
     }

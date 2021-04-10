@@ -2,6 +2,7 @@ package tudbut.parsing;
 
 
 import de.tudbut.tools.Tools;
+import tudbut.obj.TLMap;
 import tudbut.tools.Stack;
 import tudbut.tools.StringTools;
 
@@ -14,19 +15,19 @@ import java.util.*;
  */
 public class TCN {
     
-    public Map<String, Object> map = new HashMap<>();
+    public TLMap<String, Object> map = new TLMap<>();
     
     private TCN() { }
     
     public void set(String key, Object o) {
-        Map<String, Object> map = this.map;
+        TLMap<String, Object> map = this.map;
         ArrayList<String> path = new ArrayList<>(Arrays.asList(key.split("#")));
     
         while (path.size() > 1) {
             map = ((TCN) map.get(path.remove(0))).map;
         }
         
-        map.put(key, o);
+        map.set(key, o);
     }
     
     public String getString(String key) {
@@ -94,7 +95,7 @@ public class TCN {
     }
     
     public Object get(String key) {
-        Map<String, Object> map = this.map;
+        TLMap<String, Object> map = this.map;
         ArrayList<String> path = new ArrayList<>(Arrays.asList(key.split("#")));
         
         while (path.size() > 1) {
@@ -113,10 +114,10 @@ public class TCN {
             String s = map.get(key);
             
             if(s.contains(":")) {
-                tcn.map.put(key, TCN.readMap(Tools.stringToMap(s)));
+                tcn.map.set(key, TCN.readMap(Tools.stringToMap(s)));
             }
             else {
-                tcn.map.put(key, s);
+                tcn.map.set(key, s.replaceAll("%C", ":").replaceAll("%P", "%"));
             }
         }
         
@@ -126,16 +127,19 @@ public class TCN {
     public Map<String, String> toMap() {
         Map<String, String> r = new HashMap<>();
     
-        String[] array = map.keySet().toArray(new String[0]);
+        String[] array = map.keys().toArray(new String[0]);
         for (int i = 0, arrayLength = array.length; i < arrayLength; i++) {
             String key = array[i];
             Object o = map.get(key);
+            
+            if(o == null)
+                continue;
             
             if(o.getClass() == TCN.class) {
                 r.put(key, Tools.mapToString(((TCN) o).toMap()));
             }
             else
-                r.put(key, o.toString());
+                r.put(key, o.toString().replaceAll("%", "%P").replaceAll(":", "%C"));
         }
         
         return r;
@@ -153,7 +157,7 @@ public class TCN {
         path.add("");
         while (tcnStack.size() > 0) {
             boolean b = false;
-            for(String key : tcnStack.peek().map.keySet()) {
+            for(String key : tcnStack.peek().map.keys()) {
                 Object o = tcnStack.peek().map.get(key);
                 
                 if(o == null)
@@ -211,11 +215,11 @@ public class TCN {
     private static void deepPut(Stack<String> path, TCN tcn, String value) throws TCNException {
         try {
             if (path.size() == 1) {
-                tcn.map.put(path.next(), value);
+                tcn.map.set(path.next(), value);
             }
             else {
-                TCN toPut = (TCN) tcn.map.getOrDefault(path.getBottom(), new TCN());
-                tcn.map.put(path.popBottom(), toPut);
+                TCN toPut = (TCN) tcn.map.get(path.getBottom(), new TCN());
+                tcn.map.set(path.popBottom(), toPut);
                 deepPut(path, toPut, value);
             }
         } catch (Exception e) {

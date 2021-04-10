@@ -34,17 +34,22 @@ public class Lock {
         b = locked;
     }
     
-    private int checkTime(int timeout) {
+    public long timeLeft() {
+        updateLocked();
+        return (ts + t) - new Date().getTime();
+    }
+    
+    protected int checkTime(int timeout) {
         return b ? checkNegative(Math.min((int) ( t - ( new Date().getTime() - ts ) ), timeout <= 0 ? Integer.MAX_VALUE : timeout), timeout) : timeout;
     }
     
-    private int checkNegative(int i, int alt) {
+    protected int checkNegative(int i, int alt) {
         if(i <= 0)
             return alt;
         return i;
     }
     
-    private void updateLocked() {
+    protected void updateLocked() {
         if(new Date().getTime() - ts >= t && ts != 0)
             b = false;
     }
@@ -73,24 +78,26 @@ public class Lock {
         }
         updateLocked();
     }
-    public void unlock() {
+    public synchronized void unlock() {
         if(b) {
             locker.unlock();
         }
         b = false;
     }
-    public void lock() {
+    public synchronized void lock() {
         t = 0;
         ts = 0;
         b = true;
     }
-    public void lock(int time) {
+    public synchronized void lock(int time) {
+        if(time < 0)
+            time = 0;
         b = true;
         t = time;
         ts = new Date().getTime();
     }
     
-    public boolean isLocked() {
+    public synchronized boolean isLocked() {
         updateLocked();
         return b;
     }
