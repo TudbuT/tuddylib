@@ -43,6 +43,7 @@ public class FileRW {
         this.lines.set(content.split("\n"));
         FileOutputStream fileWriter = new FileOutputStream(this.file);
         new StreamWriter(fileWriter).writeChars(content.toCharArray());
+        fileWriter.close();
         logger.get().info("Done.");
     }
 

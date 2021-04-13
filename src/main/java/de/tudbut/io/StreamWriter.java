@@ -18,25 +18,16 @@ public class StreamWriter {
         this.stream = stream;
     }
 
-    public void writeChar(char c) throws IOException {
-        byte[] bytes = Charset.defaultCharset().encode(CharBuffer.wrap(new char[]{c})).array();
-        stream.write(bytes);
-    }
-
     public void writeChars(char[] c) throws IOException {
-        byte[] bytes = Charset.defaultCharset().encode(CharBuffer.wrap(c)).array();
+        byte[] bytes = new String(c).getBytes();
         for (int i = 0; i < bytes.length; i++) {
             writeByte(bytes[i]);
         }
         stream.flush();
     }
-    public void writeChar(char c, String encoding) throws IOException {
-        byte[] bytes = Charset.forName(encoding).encode(CharBuffer.wrap(new char[]{c})).array();
-        stream.write(bytes);
-    }
     
     public void writeChars(char[] c, String encoding) throws IOException {
-        byte[] bytes = Charset.forName(encoding).encode(CharBuffer.wrap(c)).array();
+        byte[] bytes = new String(c).getBytes(encoding);
         for (int i = 0; i < bytes.length; i++) {
             writeByte(bytes[i]);
         }

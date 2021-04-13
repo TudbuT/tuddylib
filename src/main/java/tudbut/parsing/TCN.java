@@ -162,14 +162,15 @@ public class TCN {
                 
                 if(o == null)
                     continue;
-                
+    
+                String k = key.replaceAll("%", "%P").replaceAll(":", "%C").replaceAll("\n", "%N");
                 if(o.getClass() == TCN.class) {
                     path.add(key);
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
                         tcnStack.add((TCN) o);
                         String indent = StringTools.multiply("    ", i);
-                        s.append("\n").append(indent).append(key).append(" {\n");
+                        s.append("\n").append(indent).append(k).append(" {\n");
                         i++;
                         b = true;
                         break;
@@ -180,7 +181,7 @@ public class TCN {
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
                         String indent = StringTools.multiply("    ", i);
-                        s.append(indent).append(key).append(": ").append(o.toString().replaceAll("\n", "\\\\n ").replaceAll("\\\\\\n", "\\\\n")).append("\n");
+                        s.append(indent).append(k).append(": ").append(o.toString().replaceAll("%", "%P").replaceAll("\n", "%N")).append("\n");
                         b = true;
                     }
                     path.next();
@@ -194,8 +195,10 @@ public class TCN {
                 s.append(indent).append("}\n\n");
             }
         }
-        s.setLength(s.length() - "\n#\n\n".length());
-        s.trimToSize();
+        try {
+            s.setLength(s.length() - "\n#\n\n".length());
+            s.trimToSize();
+        } catch (Exception ignored) { }
     
         return s.toString();
     }
@@ -239,13 +242,13 @@ public class TCN {
                     if (line.equals("}")) {
                         path.next();
                     }
-                    else if (line.endsWith(" {")) {
+                    else if (line.endsWith(" {") && !line.contains(": ")) {
                         path.add(line.split(" \\{")[0]);
                     }
                     else {
                         Stack<String> p = path.clone();
-                        p.add(line.split(": ")[0]);
-                        map.put(p, line.substring(line.split(": ")[0].length() + 2).replaceAll("\\\\n ", "\n"));
+                        p.add(line.split(": ")[0].replaceAll("%C", ":").replaceAll("%N", "\n").replaceAll("%P", "%"));
+                        map.put(p, line.substring(line.split(": ")[0].length() + 2).replaceAll("%N", "\n").replaceAll("%P", "%"));
                     }
                 }
             } catch (Exception e) {
