@@ -1,6 +1,8 @@
 package de.tudbut;
 
 import tudbut.io.FileBus;
+import tudbut.io.StreamRedirect;
+import tudbut.io.TypedOutputStream;
 import tudbut.net.http.HTTPRequest;
 import tudbut.net.http.HTTPRequestType;
 import tudbut.obj.Save;
@@ -14,6 +16,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
 public class ee {
@@ -21,8 +24,10 @@ public class ee {
     public static void main(String[] args) throws IllegalAccessException, ClassNotFoundException, NoSuchFieldException, InstantiationException, IOException, TCN.TCNException, NoSuchAlgorithmException, InterruptedException {
     
         FileBus fileBus = new FileBus(new File("test.bus"));
-        fileBus.getTypedWriter().writeDouble(1.59873);
+    
+        TypedOutputStream stream = fileBus.getTypedWriter();
         
+        StreamRedirect.redirect(System.in, fileBus.getWriter(), new HashMap<>());
     }
     
 }

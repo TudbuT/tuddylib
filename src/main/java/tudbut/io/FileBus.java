@@ -4,6 +4,15 @@ import java.io.*;
 import java.net.URI;
 
 public class FileBus extends File {
+    {
+        try {
+            createNewFile();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     FileInputStream i = new FileInputStream(this);
     FileOutputStream o = new FileOutputStream(this);
     TypedInputStream ir = new TypedInputStream(i);

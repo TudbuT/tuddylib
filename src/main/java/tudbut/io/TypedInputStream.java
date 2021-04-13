@@ -76,12 +76,14 @@ public class TypedInputStream {
     private final Object waitForInputLock = new Object();
     public void waitForInput() throws IOException {
         synchronized (waitForInputLock) {
+            if(last != -1)
+                return;
             while ((last = stream.read()) == -1) ;
         }
     }
     
     private final Object readLock = new Object();
-    private int read() throws IOException {
+    public int read() throws IOException {
         synchronized (readLock) {
             synchronized (waitForInputLock) {
                 int i;
