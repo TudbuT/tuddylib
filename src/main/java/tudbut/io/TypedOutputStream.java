@@ -23,6 +23,12 @@ public class TypedOutputStream {
         return s;
     }
     
+    public char writeChar(char c) throws IOException {
+        stream.write(c >> 8*1 & 0xff);
+        stream.write(c >> 8*0 & 0xff);
+        return c;
+    }
+    
     public int writeInt(int i) throws IOException {
         stream.write(i >> 8*3 & 0xff);
         stream.write(i >> 8*2 & 0xff);

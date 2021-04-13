@@ -23,6 +23,13 @@ public class TypedInputStream {
         return s;
     }
     
+    public char readChar() throws IOException {
+        char c = 0;
+        c += (read() << 8*1);
+        c += (read() << 8*0);
+        return c;
+    }
+    
     public int readInt() throws IOException {
         int i = 0;
         i += (read() << 8*3);
