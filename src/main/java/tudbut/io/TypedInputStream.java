@@ -73,6 +73,15 @@ public class TypedInputStream {
         return booleans;
     }
     
+    public String readString() throws IOException {
+        int i = readInt();
+        StringBuilder builder = new StringBuilder();
+        for (int j = 0 ; j < i ; j++) {
+            builder.append(readChar());
+        }
+        return builder.toString();
+    }
+    
     private final Object waitForInputLock = new Object();
     public void waitForInput() throws IOException {
         synchronized (waitForInputLock) {

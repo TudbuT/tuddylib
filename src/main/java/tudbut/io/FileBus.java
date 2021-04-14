@@ -6,15 +6,37 @@ import java.net.URI;
 public class FileBus extends File {
     {
         try {
-            createNewFile();
+            if(createNewFile());
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    FileInputStream i = new FileInputStream(this);
-    FileOutputStream o = new FileOutputStream(this);
+    RandomAccessFile file = new RandomAccessFile(this, "rw");
+    InputStream i;
+    OutputStream o;
+    
+    {
+        try {
+            file.seek((int) file.length());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        i = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                return file.read();
+            }
+        };
+        o = new OutputStream() {
+            @Override
+            public void write(int i) throws IOException {
+                file.write(i);
+            }
+        };
+    }
     TypedInputStream ir = new TypedInputStream(i);
     TypedOutputStream ow = new TypedOutputStream(o);
     

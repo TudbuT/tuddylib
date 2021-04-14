@@ -72,4 +72,13 @@ public class TypedOutputStream {
         stream.write(i);
         return booleans;
     }
+    
+    public String writeString(String string) throws IOException {
+        int i = string.length();
+        writeInt(i);
+        for (int j = 0 ; j < i ; j++) {
+            writeChar(string.toCharArray()[j]);
+        }
+        return string;
+    }
 }
