@@ -2,6 +2,7 @@ package tudbut.io;
 
 import java.io.*;
 import java.net.URI;
+import java.nio.channels.FileLock;
 
 public class FileBus extends File {
     {
@@ -78,5 +79,18 @@ public class FileBus extends File {
     
     public void waitForInput() throws IOException {
         ir.waitForInput();
+    }
+    
+    FileLock lock;
+    
+    public void startWrite() throws IOException {
+        lock = file.getChannel().lock();
+    }
+    
+    public void stopWrite() throws IOException {
+        if(lock != null) {
+            lock.release();
+            lock = null;
+        }
     }
 }
