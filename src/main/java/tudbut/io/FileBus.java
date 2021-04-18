@@ -1,8 +1,11 @@
 package tudbut.io;
 
+import tudbut.tools.Lock;
+
 import java.io.*;
 import java.net.URI;
 import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
 
 public class FileBus extends File {
     {
@@ -82,15 +85,24 @@ public class FileBus extends File {
     }
     
     FileLock lock;
+    Lock localLock = new Lock();
     
     public void startWrite() throws IOException {
-        lock = file.getChannel().lock();
+        localLock.waitHere();
+        localLock.lock();
+        while (lock == null) {
+            try {
+                lock = file.getChannel().lock();
+            } catch (OverlappingFileLockException ignore) {}
+        }
     }
     
     public void stopWrite() throws IOException {
         if(lock != null) {
             lock.release();
+            localLock.unlock();
             lock = null;
         }
+        o.flush();
     }
 }
