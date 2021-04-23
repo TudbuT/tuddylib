@@ -1,0 +1,44 @@
+import java.nio.file.Paths
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+}
+
+test {
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
+
+task makeJar {
+    doLast {
+        File jar = new File("build/libs/tuddylib.jar")
+        File loc = new File("TuddyLIB.jar")
+        jar.renameTo(loc)
+
+        ZipOutputStream out = new ZipOutputStream(new FileOutputStream("TuddyLIB-javadoc.zip"))
+        new File("build/docs/javadoc").eachFileRecurse(groovy.io.FileType.FILES) {
+            out.putNextEntry(new ZipEntry(Paths.get("build/docs/javadoc").relativize(it.toPath()).toString()))
+            byte[] bytes = new byte[it.length() as int]
+            new FileInputStream(it).read(bytes)
+            out.write(bytes)
+            out.closeEntry()
+        }
+        out.close()
+    }
+}
+
+jar.finalizedBy("makeJar")
+jar.dependsOn("javadoc")

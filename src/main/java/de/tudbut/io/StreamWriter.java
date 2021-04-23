@@ -7,14 +7,21 @@ import java.io.OutputStreamWriter;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 
+
+/**
+ * Write data to an {@link OutputStream}
+ */
 public class StreamWriter {
-    public final BufferedOutputStream stream;
-
+    /**
+     * The output stream to write to
+     */
+    public final OutputStream stream;
+    
+    /**
+     * Constructs a new StreamWriter
+     * @param stream
+     */
     public StreamWriter(OutputStream stream) {
-        this.stream = new BufferedOutputStream(stream);
-    }
-
-    public StreamWriter(BufferedOutputStream stream) {
         this.stream = stream;
     }
 

@@ -1,4 +1,0 @@
-yes | rm ../../TuddyLIB.jar
-cd ./target/classes
-yes | zip -r ../../../../TuddyLIB.jar *
-cd ../..
