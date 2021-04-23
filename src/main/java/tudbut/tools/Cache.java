@@ -1,17 +1,33 @@
 package tudbut.tools;
 
-import tudbut.obj.TLMap;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Cache (Map with passively expiring values)
+ * @param <K>
+ * @param <V>
+ */
 public class Cache<K, V> {
     protected ArrayList<Entry<K, V>> entries = new ArrayList<>();
     
+    /**
+     * Add a key
+     * @param key Key
+     * @param ttl Time to live
+     * @param retriever Retriever
+     */
     public void add(K key, long ttl, CacheRetriever<K, V> retriever) {
         add(key, retriever.doRetrieve(null, key), ttl, retriever);
     }
+    /**
+     * Add/Set a value to a key
+     * @param key Key
+     * @param val The value to set
+     * @param ttl Time to live
+     * @param retriever Re-Retriever
+     */
     public void add(K key, V val, long ttl, CacheRetriever<K, V> retriever) {
         boolean exists = false;
         for (int i = 0; i < entries.size(); i++) {
@@ -31,6 +47,11 @@ public class Cache<K, V> {
         }
     }
     
+    /**
+     * Get the value associated to a key
+     * @param key Key
+     * @return The value
+     */
     public V get(K key) {
         ArrayList<Entry<K, V>> entries = (ArrayList<Entry<K, V>>) this.entries.clone();
         V v = null;
@@ -47,6 +68,10 @@ public class Cache<K, V> {
         return v;
     }
     
+    /**
+     *
+     * @return All keys
+     */
     public Set<K> keys() {
         HashSet<K> keys = new HashSet<>();
         for (int i = 0; i < entries.size(); i++) {
@@ -55,6 +80,10 @@ public class Cache<K, V> {
         return keys;
     }
     
+    /**
+     *
+     * @return All values
+     */
     public Set<V> values() {
         HashSet<V> vals = new HashSet<>();
         for (int i = 0; i < entries.size(); i++) {
@@ -63,6 +92,10 @@ public class Cache<K, V> {
         return vals;
     }
     
+    /**
+     * Flip keys and values
+     * @return The flipped cache
+     */
     public Cache<V, K> flip() {
         Cache<V, K> cache = new Cache<>();
         for (int i = 0 ; i < entries.size() ; i++) {

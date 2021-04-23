@@ -73,7 +73,7 @@ public class PBIC {
         }
         
         private Connection onJoin(Socket socket, Bus bus) {
-            PBIC.Connection connection = new PBIC.Connection() {
+            Connection connection = new Connection() {
                 public Bus getBus() {
                     return bus;
                 }

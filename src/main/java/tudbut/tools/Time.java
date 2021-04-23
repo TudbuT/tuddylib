@@ -28,4 +28,10 @@ public class Time {
         s += (seconds % 60) + "s";
         return s;
     }
+    
+    public static long predictTimeLeft(long start, float progress) {
+        long current = new Date().getTime();
+        long diff = current - start;
+        return (long) (diff / progress) + start - current; //
+    }
 }

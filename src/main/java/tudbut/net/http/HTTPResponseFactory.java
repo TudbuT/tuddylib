@@ -1,6 +1,13 @@
 package tudbut.net.http;
 
+/**
+ * Class to build HTTP responses
+ */
 public class HTTPResponseFactory {
+    
+    /**
+     * Response codes to HTTPRequests
+     */
     public enum ResponseCode {
         Continue(100),
         SwitchingProtocols(101),
@@ -70,14 +77,25 @@ public class HTTPResponseFactory {
         NotExtended(510),
         NetworkAuthenticationRequired(511),
         ;
-
+    
+        /**
+         * The id
+         */
         public final int asInt;
 
         ResponseCode(int asIntIn) {
             asInt = asIntIn;
         }
     }
-
+    
+    /**
+     * Creates a HTTPResponse
+     * @param responseCode {@link HTTPResponseFactory.ResponseCode}
+     * @param body The body of the request
+     * @param contentType {@link HTTPContentType}
+     * @param headers {@link HTTPHeader} Headers for the response
+     * @return The constructed {@link HTTPResponse}
+     */
     public static HTTPResponse create(ResponseCode responseCode, String body, HTTPContentType contentType, HTTPHeader... headers) {
         StringBuilder builder = new StringBuilder();
 

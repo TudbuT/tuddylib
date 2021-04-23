@@ -1,11 +1,10 @@
 package tudbut.net.http;
 
-import com.sun.net.httpserver.HttpsServer;
-import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.type.Stoppable;
 
-import javax.net.ssl.*;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,13 +17,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+/**
+ * A HTTP server
+ */
 public class HTTPServer implements Stoppable {
     private final int port;
     private final ServerSocket serverSocket;
     private final HTTPResponse serverError;
     private final ArrayList<HTTPHandler> handlers = new ArrayList<>();
     private final Executor executor;
-
+    
+    /**
+     * Constructs a HTTPServer without HTTPS
+     * @param portIn Port to listen on
+     * @param serverErrorIn Response to send on error
+     * @param executorIn Executor
+     * @throws IOException Inherited
+     */
     public HTTPServer(int portIn, HTTPResponse serverErrorIn, Executor executorIn) throws IOException {
         port = portIn;
         serverError = serverErrorIn;
@@ -32,6 +41,15 @@ public class HTTPServer implements Stoppable {
         executor = executorIn;
     }
     
+    /**
+     * Constructs a HTTPServer with HTTPS
+     * @param portIn Port to listen on
+     * @param serverErrorIn Response to send on error
+     * @param executorIn Executor
+     * @param keyStore {@link KeyStore} The PRIVATE KEY KeyStore
+     * @param keyStorePass Password for the KeyStore
+     * @throws IOException Inherited
+     */
     public HTTPServer(int portIn, HTTPResponse serverErrorIn, Executor executorIn, KeyStore keyStore, String keyStorePass) throws IOException {
         port = portIn;
         serverError = serverErrorIn;
@@ -48,7 +66,10 @@ public class HTTPServer implements Stoppable {
     
         executor = executorIn;
     }
-
+    
+    /**
+     * Start listening for requests
+     */
     public void listen() {
         new Thread(() -> {
             Socket socket;
@@ -118,18 +139,40 @@ public class HTTPServer implements Stoppable {
             }
         }).start();
     }
-
+    
+    /**
+     * Add a handler to handle requests
+     * @param handler The handler to add
+     */
     public void addHandler(HTTPHandler handler) {
         handlers.add(handler);
     }
-
+    
+    /**
+     * Handler for incoming HTTP request
+     */
     public interface HTTPHandler {
+        /**
+         * Handle a request to the server
+         * @param request The request to handle
+         * @throws Exception To make handling easier (less catching required)
+         */
         void handle(HTTPServerRequest request) throws Exception;
     
+        /**
+         * Should the connection be accepted? (Useful for rate-limiting)
+         * @param address The address the connection is coming from
+         * @return If the connection should be accepted
+         */
         default boolean accept(SocketAddress address) {
             return true;
         }
-        
+    
+        /**
+         *
+         * @param request An empty request to hold the response methods
+         * @throws Exception To make handling easier (less catching required)
+         */
         default void handleDeny(HTTPServerRequest request) throws Exception { }
     }
 }

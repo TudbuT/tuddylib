@@ -1,2 +1,4 @@
-# Project exclude paths
-/out/
+/build/classes/
+/build/generated/
+/build/libs/
+/build/tmp/

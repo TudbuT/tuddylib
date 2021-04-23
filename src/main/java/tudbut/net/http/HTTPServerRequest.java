@@ -12,25 +12,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Used by the server to handle incoming HTTP requests
+ */
 public class HTTPServerRequest extends Value<String> implements Closable {
+    /**
+     * The socket of the request
+     */
     public final Socket socket;
-
-    public HTTPServerRequest(String request, Socket socketIn) {
+    
+    HTTPServerRequest(String request, Socket socketIn) {
         super(request.replaceAll("\r", ""));
         socket = socketIn;
     }
-
+    
+    /**
+     * Close the streams
+     * @throws IOException
+     */
     @Override
     public void close() throws IOException {
         Closable.super.close();
         socket.close();
     }
-
+    
+    /**
+     * Not supported.
+     * @throws NotSupportedException [Always thrown]
+     */
     @Override
     public void open() throws NotSupportedException {
         throw new NotSupportedException();
     }
-
+    
+    /**
+     * Responds to the request. Returns if the request was already responded to.
+     * @param response The response to send
+     * @throws IOException Inherited
+     */
     public void respond(HTTPResponse response) throws IOException {
         if(isClosed())
             return;
@@ -38,7 +57,13 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         writer.writeChars(response.value.toCharArray());
         close();
     }
-
+    
+    /**
+     * Responds to the request. Throws if the request was already responded to.
+     * @param response The response to send
+     * @throws IOException Inherited
+     * @throws ClosedClosableException If the request has already been responded to.
+     */
     public void forceRespond(HTTPResponse response) throws IOException, ClosedClosableException {
         if(isClosed())
             throw new ClosedClosableException();
@@ -46,7 +71,11 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         writer.writeChars(response.value.toCharArray());
         close();
     }
-
+    
+    /**
+     * Parses the request
+     * @return The {@link ParsedHTTPValue} of the request
+     */
     public ParsedHTTPValue parse() {
         String[] splitValue = value.split("\n")[0].split(" ");
         

@@ -1,10 +1,16 @@
 package tudbut.io;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * OutputStream for more data types
+ */
 public class TypedOutputStream {
+    
+    public OutputStream getStream() {
+        return stream;
+    }
     
     OutputStream stream;
     

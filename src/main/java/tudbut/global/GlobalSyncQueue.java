@@ -1,6 +1,5 @@
 package tudbut.global;
 
-import com.sun.istack.internal.NotNull;
 import de.tudbut.timer.Ticker;
 import de.tudbut.tools.ThrowingRunnable;
 import tudbut.tools.Queue;
@@ -112,7 +111,7 @@ public class GlobalSyncQueue {
         }
     }
 
-    public static void initAndRunAsynchronously() {
+    private static void initAndRunAsynchronously() {
         new Thread(GlobalSyncQueue::initAndRun, "GlobalSyncQueue").start();
     }
 }

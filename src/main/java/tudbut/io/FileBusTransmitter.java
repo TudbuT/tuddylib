@@ -9,6 +9,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.Executor;
 
+/**
+ * Transmits a FileBus over a different InputStream. always use a separate instance of FileBus
+ * to avoid losing data!
+ */
 public class FileBusTransmitter implements Stoppable {
     
     @Override

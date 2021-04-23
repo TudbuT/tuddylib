@@ -7,6 +7,9 @@ import java.net.URI;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 
+/**
+ * Use files as Sockets/SocketServers, unlimited clients/servers supported on every file
+ */
 public class FileBus extends File {
     {
         try {

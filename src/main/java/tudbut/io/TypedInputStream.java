@@ -3,7 +3,14 @@ package tudbut.io;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * InputStream for more data types
+ */
 public class TypedInputStream {
+    
+    public InputStream getStream() {
+        return stream;
+    }
     
     protected InputStream stream;
     protected int last = -1;

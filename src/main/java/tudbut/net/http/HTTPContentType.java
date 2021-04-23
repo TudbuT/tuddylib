@@ -1,5 +1,8 @@
 package tudbut.net.http;
 
+/**
+ * Content types
+ */
 public enum HTTPContentType {
     AAC("audio/aac"),
     ABW("application/x-abiword"),
@@ -20,6 +23,7 @@ public enum HTTPContentType {
     GZ("application/gzip"),
     GIF("image/gif"),
     HTML("text/html"),
+    HTTP("message/http"),
     ICO("image/vnd.microsoft.icon"),
     ICS("text/calendar"),
     JAR("application/java-archive"),
