@@ -1,5 +1,6 @@
 package tudbut.parsing;
 
+import tudbut.obj.TLMap;
 import tudbut.tools.Stack;
 import tudbut.tools.StringTools;
 
@@ -132,7 +133,6 @@ public class JSON {
         StringBuilder s = new StringBuilder();
         s.append("{");
     
-        HashMap<Stack<String>, String> fullMap = new HashMap<>();
         ArrayList<Stack<String>> paths = new ArrayList<>();
         Stack<TCN> tcnStack = new Stack<>();
         Stack<String> path = new Stack<>();

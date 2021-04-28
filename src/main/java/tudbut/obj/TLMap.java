@@ -2,6 +2,7 @@ package tudbut.obj;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class TLMap<K, V> {
@@ -76,7 +77,7 @@ public class TLMap<K, V> {
         }
 
         protected Set<K> keys() {
-            HashSet<K> keys = new HashSet<>();
+            Set<K> keys = new LinkedHashSet<>();
             for (int i = 0; i < entries.size(); i++) {
                 keys.add(entries.get(i).key);
             }
@@ -84,7 +85,7 @@ public class TLMap<K, V> {
         }
 
         protected Set<V> values() {
-            HashSet<V> vals = new HashSet<>();
+            Set<V> vals = new LinkedHashSet<>();
             for (int i = 0; i < entries.size(); i++) {
                 vals.add(entries.get(i).val);
             }
