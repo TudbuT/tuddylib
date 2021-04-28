@@ -17,7 +17,7 @@ public class Test1 {
                             "{\n" +
                             "  \"test\": \"lol\", \n" +
                             "  \"teli845u\": \"rtrt\", \n" +
-                            "  \"xd\": \"OMG\", \n" +
+                            "  \"xd\": \"OMG\\\\n\", \n" +
                             "  \"hello\": {\n" +
                             "    \"lol\": \"XDD\"\n" +
                             "  }\n" +

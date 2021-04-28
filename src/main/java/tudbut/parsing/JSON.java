@@ -1,23 +1,30 @@
 package tudbut.parsing;
 
-import tudbut.obj.TLMap;
 import tudbut.tools.Stack;
 import tudbut.tools.StringTools;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+/**
+ * Interconverting JSON & TCN
+ */
 public class JSON {
     
+    /**
+     * Converts a JSON string to a TCN object
+     * @param string The JSON string, supports most readable formats
+     * @return The parsed TCN object
+     * @throws JSONFormatException If a format error is found
+     */
     public static TCN read(String string) throws JSONFormatException {
-        TCN tcn = new TCN();
-        boolean escape = false;
         while (string.startsWith(" ")) {
             string = string.substring(1);
         }
         if(!string.startsWith("{")) {
             throw new JSONFormatException("Expected: { at 0 (String is '" + string + "')");
         }
+        TCN tcn = new TCN();
+        boolean escape = false;
         int pos = 1;
         char[] a = string.toCharArray();
         char c = a[pos];
@@ -138,26 +145,62 @@ public class JSON {
             return "";
     }
     
+    /**
+     * Converts a TCN object to a JSON string, uses the most compact form
+     * @param tcn The TCN to write to JSON
+     * @return The JSON string
+     */
     public static String write(TCN tcn) {
         return write(tcn, false, false, 0);
     }
     
+    /**
+     * Converts a TCN object to a JSON string, uses newlines and a indent of 2
+     * @param tcn The TCN to write to JSON
+     * @param spaces If the JSON string should have spaces after : and ,
+     * @return The JSON string
+     */
     public static String write(TCN tcn, boolean spaces) {
         return write(tcn, true, spaces, 2);
     }
     
+    /**
+     * Converts a TCN object to a JSON string, uses newlines with selected indent and without spaces
+     * @param tcn The TCN to write to JSON
+     * @param indent The indent to use
+     * @return The JSON string
+     */
     public static String write(TCN tcn, int indent) {
         return write(tcn, true, false, indent);
     }
     
+    /**
+     * Converts a TCN object to a JSON string, uses newlines with a indent of 2 and spaces
+     * @param tcn The TCN to write to JSON
+     * @return The JSON string
+     */
     public static String writeReadable(TCN tcn) {
         return write(tcn, true, true, 2);
     }
     
+    /**
+     * Converts a TCN object to a JSON string, uses newlines with selected indent and spaces
+     * @param tcn The TCN to write to JSON
+     * @param indent The indent to use
+     * @return The JSON string
+     */
     public static String writeReadable(TCN tcn, int indent) {
         return write(tcn, true, true, indent);
     }
     
+    /**
+     * Converts a TCN object to a JSON string
+     * @param tcn The TCN to write to JSON
+     * @param newlines If the JSON string should have newlines and indents
+     * @param spaces If the JSON string should have spaces after : and ,
+     * @param indentLength The indent to use
+     * @return The JSON string
+     */
     public static String write(TCN tcn, boolean newlines, boolean spaces, int indentLength) {
     
         StringBuilder s = new StringBuilder();
@@ -177,7 +220,7 @@ public class JSON {
                 if(o == null)
                     continue;
             
-                String k = key.replaceAll("\\\\", "\\\\").replaceAll("\n", "\\n").replaceAll("\"", "\\\"");
+                String k = key.replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\"");
                 if(o.getClass() == TCN.class) {
                     path.add(key);
                     if(!paths.contains(path)) {
@@ -193,7 +236,7 @@ public class JSON {
                     path.add(key);
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
-                        s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " \"" : "\"").append(o.toString().replaceAll("\\\\", "\\\\").replaceAll("\n", "\\n").replaceAll("\"", "\\\"")).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
+                        s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " \"" : "\"").append(o.toString().replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\"")).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
                         b = true;
                     }
                     path.next();

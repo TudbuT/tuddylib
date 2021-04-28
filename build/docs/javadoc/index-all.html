@@ -1725,7 +1725,9 @@
 <dt><span class="memberNameLink"><a href="de/tudbut/type/StringArray.html#join-java.lang.String-">join(String)</a></span> - Method in class de.tudbut.type.<a href="de/tudbut/type/StringArray.html" title="class in de.tudbut.type">StringArray</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing"><span class="typeNameLink">JSON</span></a> - Class in <a href="tudbut/parsing/package-summary.html">tudbut.parsing</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Interconverting JSON & TCN</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#JSON--">JSON()</a></span> - Constructor for class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="tudbut/parsing/JSON.JSONFormatException.html" title="class in tudbut.parsing"><span class="typeNameLink">JSON.JSONFormatException</span></a> - Exception in <a href="tudbut/parsing/package-summary.html">tudbut.parsing</a></dt>
@@ -2334,7 +2336,9 @@
 <dt><span class="memberNameLink"><a href="tudbut/net/ic/Bus.html#read-java.nio.ByteBuffer-">read(ByteBuffer)</a></span> - Method in class tudbut.net.ic.<a href="tudbut/net/ic/Bus.html" title="class in tudbut.net.ic">Bus</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#read-java.lang.String-">read(String)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a JSON string to a TCN object</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/TCN.html#read-java.lang.String-">read(String)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/TCN.html" title="class in tudbut.parsing">TCN</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="de/tudbut/io/StreamReader.html#readAllAsBytes--">readAllAsBytes()</a></span> - Method in class de.tudbut.io.<a href="de/tudbut/io/StreamReader.html" title="class in de.tudbut.io">StreamReader</a></dt>
@@ -3532,13 +3536,21 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="tudbut/net/ic/Bus.html#write-java.nio.ByteBuffer-">write(ByteBuffer)</a></span> - Method in class tudbut.net.ic.<a href="tudbut/net/ic/Bus.html" title="class in tudbut.net.ic">Bus</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#write-tudbut.parsing.TCN-">write(TCN)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a TCN object to a JSON string, uses the most compact form</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#write-tudbut.parsing.TCN-boolean-">write(TCN, boolean)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a TCN object to a JSON string, uses newlines and a indent of 2</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#write-tudbut.parsing.TCN-int-">write(TCN, int)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a TCN object to a JSON string, uses newlines with selected indent and without spaces</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#write-tudbut.parsing.TCN-boolean-boolean-int-">write(TCN, boolean, boolean, int)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a TCN object to a JSON string</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/io/TypedOutputStream.html#writeBoolean-boolean-">writeBoolean(boolean)</a></span> - Method in class tudbut.io.<a href="tudbut/io/TypedOutputStream.html" title="class in tudbut.io">TypedOutputStream</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="tudbut/io/TypedOutputStream.html#writeBooleans-boolean:A-">writeBooleans(boolean[])</a></span> - Method in class tudbut.io.<a href="tudbut/io/TypedOutputStream.html" title="class in tudbut.io">TypedOutputStream</a></dt>
@@ -3592,9 +3604,13 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="tudbut/rendering/GIFEncoder.html#writer">writer</a></span> - Variable in class tudbut.rendering.<a href="tudbut/rendering/GIFEncoder.html" title="class in tudbut.rendering">GIFEncoder</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#writeReadable-tudbut.parsing.TCN-">writeReadable(TCN)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a TCN object to a JSON string, uses newlines with a indent of 2 and spaces</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/parsing/JSON.html#writeReadable-tudbut.parsing.TCN-int-">writeReadable(TCN, int)</a></span> - Static method in class tudbut.parsing.<a href="tudbut/parsing/JSON.html" title="class in tudbut.parsing">JSON</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a TCN object to a JSON string, uses newlines with selected indent and spaces</div>
+</dd>
 <dt><span class="memberNameLink"><a href="tudbut/io/TypedOutputStream.html#writeShort-short-">writeShort(short)</a></span> - Method in class tudbut.io.<a href="tudbut/io/TypedOutputStream.html" title="class in tudbut.io">TypedOutputStream</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="tudbut/tools/Serializing.html#writeShort-short-">writeShort(short)</a></span> - Static method in class tudbut.tools.<a href="tudbut/tools/Serializing.html" title="class in tudbut.tools">Serializing</a></dt>
