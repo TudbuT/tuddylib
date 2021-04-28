@@ -127,7 +127,7 @@ public class Key {
      * @return encrypted string
      */
     public String encryptObject(Object o) {
-        return encryptString(Tools.mapToString(Objects.requireNonNull(new ObjectSerializerTCN(o).convertAll().done(TCN.getEmpty())).toMap()));
+        return encryptString(Tools.mapToString(Objects.requireNonNull(new ObjectSerializerTCN(o).convertAll().done(new TCN())).toMap()));
     }
     
     /**

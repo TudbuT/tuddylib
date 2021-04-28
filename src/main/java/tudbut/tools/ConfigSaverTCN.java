@@ -15,7 +15,7 @@ public class ConfigSaverTCN {
         DebugProfiler profiler = Debug.getDebugProfiler(ConfigSaverTCN.class, false);
         
         profiler.next("Create TCN");
-        TCN map = TCN.getEmpty();
+        TCN map = new TCN();
         profiler.next("Get class");
         Class<?> clazz = object.getClass();
         while (clazz != Object.class) {

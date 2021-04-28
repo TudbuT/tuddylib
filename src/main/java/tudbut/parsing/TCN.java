@@ -9,16 +9,27 @@ import tudbut.tools.StringTools;
 import java.util.*;
 
 /**
- * T udbuT
- * C onfig
- * N otation
+ * T udbuT<br/>
+ * C onfig<br/>
+ * N otation<br/>
  */
 public class TCN {
     
+    /**
+     * The map
+     */
     public TLMap<String, Object> map = new TLMap<>();
     
-    TCN() { }
+    /**
+     * Creates a new, empty TCN
+     */
+    public TCN() { }
     
+    /**
+     * Sets something in the map
+     * @param key Key
+     * @param o Object, can be a native type, string, or another TCN
+     */
     public void set(String key, Object o) {
         TLMap<String, Object> map = this.map;
         ArrayList<String> path = new ArrayList<>(Arrays.asList(key.split("#")));
@@ -105,9 +116,14 @@ public class TCN {
         return map.get(path.get(0));
     }
     
+    /**
+     * Converts a Map to a TCN
+     * @param map The map to convert
+     * @return The converted TCN
+     */
     public static TCN readMap(Map<String, String> map) {
         TCN tcn = new TCN();
-        
+    
         String[] array = map.keySet().toArray(new String[0]);
         for (int i = 0, arrayLength = array.length; i < arrayLength; i++) {
             String key = array[i];
@@ -124,6 +140,11 @@ public class TCN {
         return tcn;
     }
     
+    /**
+     * Converts this TCN object to a Map
+     * {@link #readMap}
+     * @return The converted Map
+     */
     public Map<String, String> toMap() {
         Map<String, String> r = new HashMap<>();
     
@@ -145,6 +166,10 @@ public class TCN {
         return r;
     }
     
+    /**
+     * Converts this TCN to a reversible string
+     * @return The converted string
+     */
     public String toString() {
         StringBuilder s = new StringBuilder();
         int i = 0;
@@ -203,6 +228,12 @@ public class TCN {
         return s.toString();
     }
     
+    /**
+     * Converts a string {@link #toString()} to a TCN object
+     * @param s The string
+     * @return The converted TCN
+     * @throws TCNException If a format error occurs
+     */
     public static TCN read(String s) throws TCNException {
         TCN tcn = new TCN();
         
@@ -274,6 +305,12 @@ public class TCN {
         return s;
     }
     
+    /**
+     * Creates a new, empty TCN object
+     * @deprecated Use {@code new} {@link #TCN()}
+     * @return The new TCN
+     */
+    @Deprecated
     public static TCN getEmpty() {
         return new TCN();
     }

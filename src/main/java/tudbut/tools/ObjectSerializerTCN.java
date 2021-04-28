@@ -33,7 +33,7 @@ public class ObjectSerializerTCN {
             String.class
     };
     
-    TCN map = TCN.getEmpty();
+    TCN map = new TCN();
     Object toBuild = null;
     boolean type;
     boolean array;

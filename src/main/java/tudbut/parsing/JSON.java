@@ -12,7 +12,7 @@ public class JSON {
     
     /**
      * Converts a JSON string to a TCN object
-     * @param string The JSON string, supports most readable formats
+     * @param string The JSON string, supports most compact and readable formats
      * @return The parsed TCN object
      * @throws JSONFormatException If a format error is found
      */
@@ -155,7 +155,7 @@ public class JSON {
     }
     
     /**
-     * Converts a TCN object to a JSON string, uses newlines and a indent of 2
+     * Converts a TCN object to a JSON string, uses newlines and an indent of 2
      * @param tcn The TCN to write to JSON
      * @param spaces If the JSON string should have spaces after : and ,
      * @return The JSON string
@@ -175,7 +175,7 @@ public class JSON {
     }
     
     /**
-     * Converts a TCN object to a JSON string, uses newlines with a indent of 2 and spaces
+     * Converts a TCN object to a JSON string, uses newlines with an indent of 2 and spaces
      * @param tcn The TCN to write to JSON
      * @return The JSON string
      */
