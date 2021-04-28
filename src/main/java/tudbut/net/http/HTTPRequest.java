@@ -96,7 +96,7 @@ public class HTTPRequest {
     
     /**
      * Sends the request asynchronously
-     * @return The response enclosed in a {@link Partial<HTTPResponse>}
+     * @return The response enclosed in a {@link Partial}
      */
     public Partial<HTTPResponse> sendKeepAlive() {
         return sendKeepAlive(-1);
@@ -105,7 +105,7 @@ public class HTTPRequest {
     /**
      * Sends the request asynchronously with optional timeout
      * @param timeout The timeout at which to stop receiving, use -1 for infinity
-     * @return The response enclosed in a {@link Partial<HTTPResponse>}
+     * @return The response enclosed in a {@link Partial}
      */
     public Partial<HTTPResponse> sendKeepAlive(int timeout) {
         Partial<HTTPResponse> partialResponse = new Partial<>(null);

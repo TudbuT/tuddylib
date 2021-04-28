@@ -17,8 +17,10 @@ tudbut.gui
 tudbut.gui.settingsgui
 tudbut.io
 tudbut.logger
+tudbut.math
 tudbut.net.http
 tudbut.net.ic
+tudbut.net.smtp
 tudbut.obj
 tudbut.parsing
 tudbut.rendering

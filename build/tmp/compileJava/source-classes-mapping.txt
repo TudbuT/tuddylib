@@ -55,6 +55,8 @@ de/tudbut/tools/BetterJ.java
  de.tudbut.tools.BetterJ$ForLoop$ForLoop3
  de.tudbut.tools.BetterJ$ForLoop$ForLoop4
  de.tudbut.tools.BetterJ$ForLoop$ForLoopRunnable
+tudbut/io/CLSPrintWriter.java
+ tudbut.io.CLSPrintWriter
 de/tudbut/ui/windowgui/FontRenderer.java
  de.tudbut.ui.windowgui.FontRenderer
 tudbut/io/DirectBuffers.java
@@ -106,6 +108,8 @@ tudbut/net/ic/PBIC.java
 de/tudbut/window/Window.java
  de.tudbut.window.Window
  de.tudbut.window.Window$1
+tudbut/net/smtp/SMTPServerErrorException.java
+ tudbut.net.smtp.SMTPServerErrorException
 tudbut/net/http/HTTPRequest.java
  tudbut.net.http.HTTPRequest
 tudbut/net/ic/Bus.java
@@ -224,6 +228,8 @@ tudbut/obj/TLMap.java
  tudbut.obj.TLMap$Binding$Entry
 de/tudbut/tools/Hasher.java
  de.tudbut.tools.Hasher
+tudbut/net/smtp/SMTPSender.java
+ tudbut.net.smtp.SMTPSender
 de/tudbut/tools/bintools/encoding/TCryptV2.java
  de.tudbut.tools.bintools.encoding.TCryptV2
 tudbut/tools/Stack.java
@@ -265,6 +271,11 @@ de/tudbut/type/ShortArrayList.java
  de.tudbut.type.ShortArrayList
 de/tudbut/tools/Catcher.java
  de.tudbut.tools.Catcher
+tudbut/net/smtp/SMTPDataOutput.java
+ tudbut.net.smtp.SMTPDataOutput
+ tudbut.net.smtp.SMTPDataOutput$1
+ tudbut.net.smtp.SMTPDataOutput$DataClosedException
+ tudbut.net.smtp.SMTPDataOutput$HeadersClosedException
 de/tudbut/net/ws/Server.java
  de.tudbut.net.ws.Server
 tudbut/tools/Queue.java
@@ -323,6 +334,8 @@ tudbut/obj/Save.java
  tudbut.obj.Save
 tudbut/obj/TypedList.java
  tudbut.obj.TypedList
+tudbut/math/ComplexFunction.java
+ tudbut.math.ComplexFunction
 tudbut/io/Buffer.java
  tudbut.io.Buffer
 de/tudbut/net/ws/Connection.java
@@ -356,6 +369,8 @@ tudbut/logger/LoggerSink.java
  tudbut.logger.LoggerSink$4
 tudbut/tools/MoreMath.java
  tudbut.tools.MoreMath
+tudbut/math/Function.java
+ tudbut.math.Function
 tudbut/net/http/HTTPServer.java
  tudbut.net.http.HTTPServer
  tudbut.net.http.HTTPServer$HTTPHandler
@@ -370,10 +385,15 @@ tudbut/rendering/Maths2D.java
 tudbut/net/http/HTTPServerRequest.java
  tudbut.net.http.HTTPServerRequest
  tudbut.net.http.HTTPServerRequest$1
+tudbut/math/ComplexNumber.java
+ tudbut.math.ComplexNumber
 tudbut/parsing/ArgumentParser.java
  tudbut.parsing.ArgumentParser
 tudbut/obj/RayCast.java
  tudbut.obj.RayCast
+tudbut/parsing/JSON.java
+ tudbut.parsing.JSON
+ tudbut.parsing.JSON$JSONFormatException
 de/tudbut/tools/ExtendedMath.java
  de.tudbut.tools.ExtendedMath
 de/tudbut/type/StringArray.java

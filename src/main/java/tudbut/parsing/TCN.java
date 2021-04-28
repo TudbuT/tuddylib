@@ -17,7 +17,7 @@ public class TCN {
     
     public TLMap<String, Object> map = new TLMap<>();
     
-    private TCN() { }
+    TCN() { }
     
     public void set(String key, Object o) {
         TLMap<String, Object> map = this.map;

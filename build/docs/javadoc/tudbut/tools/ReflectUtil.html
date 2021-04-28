@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9};
+var methods = {"i0":9,"i1":9,"i2":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -145,9 +145,24 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;T</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/ReflectUtil.html#getPrivateFieldByTypeIndex-java.lang.Class-java.lang.Object-java.lang.Class-int-">getPrivateFieldByTypeIndex</a></span>(java.lang.Class&lt;?&gt;&nbsp;clazz,
+                          java.lang.Object&nbsp;o,
+                          java.lang.Class&lt;? extends T&gt;&nbsp;type,
+                          int&nbsp;index)</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/ReflectUtil.html#hasAnnotation-java.lang.reflect.Field-java.lang.Class-">hasAnnotation</a></span>(java.lang.reflect.Field&nbsp;field,
              java.lang.Class&lt;? extends java.lang.annotation.Annotation&gt;&nbsp;clazz)</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;T</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/ReflectUtil.html#setPrivateFieldByTypeIndex-java.lang.Class-java.lang.Object-java.lang.Class-int-T-">setPrivateFieldByTypeIndex</a></span>(java.lang.Class&lt;?&gt;&nbsp;clazz,
+                          java.lang.Object&nbsp;o,
+                          java.lang.Class&lt;? extends T&gt;&nbsp;type,
+                          int&nbsp;index,
+                          T&nbsp;t)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -191,11 +206,38 @@ extends java.lang.Object</pre>
 <a name="hasAnnotation-java.lang.reflect.Field-java.lang.Class-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>hasAnnotation</h4>
 <pre>public static&nbsp;boolean&nbsp;hasAnnotation(java.lang.reflect.Field&nbsp;field,
                                     java.lang.Class&lt;? extends java.lang.annotation.Annotation&gt;&nbsp;clazz)</pre>
+</li>
+</ul>
+<a name="getPrivateFieldByTypeIndex-java.lang.Class-java.lang.Object-java.lang.Class-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPrivateFieldByTypeIndex</h4>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;getPrivateFieldByTypeIndex(java.lang.Class&lt;?&gt;&nbsp;clazz,
+                                               java.lang.Object&nbsp;o,
+                                               java.lang.Class&lt;? extends T&gt;&nbsp;type,
+                                               int&nbsp;index)</pre>
+</li>
+</ul>
+<a name="setPrivateFieldByTypeIndex-java.lang.Class-java.lang.Object-java.lang.Class-int-java.lang.Object-">
+<!--   -->
+</a><a name="setPrivateFieldByTypeIndex-java.lang.Class-java.lang.Object-java.lang.Class-int-T-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setPrivateFieldByTypeIndex</h4>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;setPrivateFieldByTypeIndex(java.lang.Class&lt;?&gt;&nbsp;clazz,
+                                               java.lang.Object&nbsp;o,
+                                               java.lang.Class&lt;? extends T&gt;&nbsp;type,
+                                               int&nbsp;index,
+                                               T&nbsp;t)</pre>
 </li>
 </ul>
 </li>

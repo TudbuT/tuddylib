@@ -30,8 +30,8 @@ public class Time {
     }
     
     public static long predictTimeLeft(long start, float progress) {
-        long current = new Date().getTime();
+        long current = System.currentTimeMillis();
         long diff = current - start;
-        return (long) (diff / progress) + start - current; //
+        return (long) (diff / progress) + start - current;
     }
 }
