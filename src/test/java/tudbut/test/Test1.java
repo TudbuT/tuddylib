@@ -13,9 +13,17 @@ public class Test1 {
     public static void main(String[] args) throws IOException, JSON.JSONFormatException {
     
         // {"test":"lol","xd":"OMG"}
-        TCN tcn = JSON.read("{\"test\": \"lol\", \"teli845u\":rtrt, \"xd\": \"OMG\",\"hello\":{\"lol\":\"XDD\"}}");
+        TCN tcn = JSON.read("" +
+                            "{\n" +
+                            "  \"test\": \"lol\", \n" +
+                            "  \"teli845u\": \"rtrt\", \n" +
+                            "  \"xd\": \"OMG\", \n" +
+                            "  \"hello\": {\n" +
+                            "    \"lol\": \"XDD\"\n" +
+                            "  }\n" +
+                            "}");
         System.out.println(tcn.toString());
-        System.out.println(JSON.write(tcn));
-        System.out.println(JSON.write(JSON.read(JSON.write(tcn))));
+        System.out.println(JSON.writeReadable(tcn));
+        System.out.println(JSON.writeReadable(JSON.read(JSON.writeReadable(tcn))));
     }
 }

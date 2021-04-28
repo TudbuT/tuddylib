@@ -12,8 +12,11 @@ public class JSON {
     public static TCN read(String string) throws JSONFormatException {
         TCN tcn = new TCN();
         boolean escape = false;
+        while (string.startsWith(" ")) {
+            string = string.substring(1);
+        }
         if(!string.startsWith("{")) {
-            throw new JSONFormatException("Expected: { at 0");
+            throw new JSONFormatException("Expected: { at 0 (String is '" + string + "')");
         }
         int pos = 1;
         char[] a = string.toCharArray();
@@ -128,10 +131,38 @@ public class JSON {
         }
     }
     
+    private static String indent(boolean b, int i, int il) {
+        if(b)
+            return StringTools.multiply(StringTools.multiply(" ", il), i);
+        else
+            return "";
+    }
+    
     public static String write(TCN tcn) {
+        return write(tcn, false, false, 0);
+    }
+    
+    public static String write(TCN tcn, boolean spaces) {
+        return write(tcn, true, spaces, 2);
+    }
+    
+    public static String write(TCN tcn, int indent) {
+        return write(tcn, true, false, indent);
+    }
+    
+    public static String writeReadable(TCN tcn) {
+        return write(tcn, true, true, 2);
+    }
+    
+    public static String writeReadable(TCN tcn, int indent) {
+        return write(tcn, true, true, indent);
+    }
+    
+    public static String write(TCN tcn, boolean newlines, boolean spaces, int indentLength) {
     
         StringBuilder s = new StringBuilder();
-        s.append("{");
+        s.append("{").append(newlines ? "\n" : "");
+        int i = 1;
     
         ArrayList<Stack<String>> paths = new ArrayList<>();
         Stack<TCN> tcnStack = new Stack<>();
@@ -152,8 +183,9 @@ public class JSON {
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
                         tcnStack.add((TCN) o);
-                        s.append("\"").append(k).append("\":").append("{");
+                        s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " " : "").append("{").append(newlines ? "\n" : "");
                         b = true;
+                        i++;
                         break;
                     } else
                         path.next();
@@ -161,7 +193,7 @@ public class JSON {
                     path.add(key);
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
-                        s.append("\"").append(k).append("\":\"").append(o.toString().replaceAll("\\\\", "\\\\").replaceAll("\n", "\\n").replaceAll("\"", "\\\"")).append("\",");
+                        s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " \"" : "\"").append(o.toString().replaceAll("\\\\", "\\\\").replaceAll("\n", "\\n").replaceAll("\"", "\\\"")).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
                         b = true;
                     }
                     path.next();
@@ -170,12 +202,13 @@ public class JSON {
             if(!b) {
                 tcnStack.next();
                 path.next();
-                s.deleteCharAt(s.length() - 1);
-                s.append("},");
+                i--;
+                s.delete(s.length() - ((newlines ? 2 : 1) + (spaces ? 1 : 0)), s.length());
+                s.append(newlines ? "\n" : "").append(indent(newlines, i, indentLength)).append("},").append(spaces ? " " : "").append(newlines ? "\n" : "");
             }
         }
     
-        s.deleteCharAt(s.length() - 1);
+        s.delete(s.length() - ((newlines ? 2 : 1) + (spaces ? 1 : 0)), s.length());
         return s.toString();
     }
     
