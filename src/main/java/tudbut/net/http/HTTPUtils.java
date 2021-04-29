@@ -25,4 +25,12 @@ public class HTTPUtils {
             throw new RuntimeException("Too old OS");
         }
     }
+    
+    public static String rawToUtf8(String raw) {
+        return new String(raw.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+    }
+    
+    public static String utf8ToRaw(String utf8) {
+        return new String(utf8.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+    }
 }

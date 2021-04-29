@@ -6,15 +6,15 @@ Overall document style
 @import url('resources/fonts/dejavu.css');
 
 body {
-    background-color:#ffffff;
-    color:#353833;
+    background-color:#202020;
+    color: #afd1de;
     font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
     font-size:14px;
     margin:0;
 }
 a:link, a:visited {
     text-decoration:none;
-    color:#4A6782;
+    color:#AAA7C2;
 }
 a:hover, a:focus {
     text-decoration:none;
@@ -22,14 +22,18 @@ a:hover, a:focus {
 }
 a:active {
     text-decoration:none;
-    color:#4A6782;
+    color:#AAA7C2;
+}
+.subNav a {
+    text-decoration:none;
+    color:#4A4732;
 }
 a[name] {
-    color:#353833;
+    color:#252f33;
 }
 a[name]:hover {
     text-decoration:none;
-    color:#353833;
+    color:#252f33;
 }
 pre {
     font-family:'DejaVu Sans Mono', monospace;
@@ -97,7 +101,7 @@ Document title and Copyright styles
     margin-left:.5em;
 }
 .bar a, .bar a:link, .bar a:visited, .bar a:active {
-    color:#FFFFFF;
+    color:#202020;
     text-decoration:none;
 }
 .bar a:hover, .bar a:focus {
@@ -105,7 +109,7 @@ Document title and Copyright styles
 }
 .tab {
     background-color:#0066FF;
-    color:#ffffff;
+    color:#202020;
     padding:8px;
     width:5em;
     font-weight:bold;
@@ -114,16 +118,16 @@ Document title and Copyright styles
 Navigation bar styles
 */
 .bar {
-    background-color:#4D7A97;
-    color:#FFFFFF;
+    background-color:#6DAAD7;
+    color:#202020;
     padding:.8em .5em .4em .8em;
     height:auto;/*height:1.8em;*/
     font-size:11px;
     margin:0;
 }
 .topNav {
-    background-color:#4D7A97;
-    color:#FFFFFF;
+    background-color: #abd9fd;
+    color:#202020;
     float:left;
     padding:0;
     width:100%;
@@ -131,12 +135,11 @@ Navigation bar styles
     height:2.8em;
     padding-top:10px;
     overflow:hidden;
-    font-size:12px; 
+    font-size:12px;
 }
 .bottomNav {
-    margin-top:10px;
-    background-color:#4D7A97;
-    color:#FFFFFF;
+    background-color: #abd9fd;
+    color:#202020;
     float:left;
     padding:0;
     width:100%;
@@ -160,6 +163,7 @@ Navigation bar styles
     text-transform:uppercase;
 }
 ul.navList, ul.subNavList {
+    color: dimgray;
     float:left;
     margin:0 25px 0 0;
     padding:0;
@@ -169,13 +173,14 @@ ul.navList li{
     float:left;
     padding: 5px 6px;
     text-transform:uppercase;
+    color: dimgray;
 }
 ul.subNavList li{
     list-style:none;
     float:left;
 }
 .topNav a:link, .topNav a:active, .topNav a:visited, .bottomNav a:link, .bottomNav a:active, .bottomNav a:visited {
-    color:#FFFFFF;
+    color:#202020;
     text-decoration:none;
     text-transform:uppercase;
 }
@@ -214,7 +219,7 @@ Page header and footer styles
     font-size:13px;
 }
 .title {
-    color:#2c4557;
+    color:#8ca597;
     margin:10px 0;
 }
 .subTitle {
@@ -235,14 +240,14 @@ Page header and footer styles
 Heading styles
 */
 div.details ul.blockList ul.blockList ul.blockList li.blockList h4, div.details ul.blockList ul.blockList ul.blockListLast li.blockList h4 {
-    background-color:#dee3e9;
-    border:1px solid #d0d9e0;
+    background-color: #33383e;
+    border:1px solid #394249;
     margin:0 0 6px -8px;
     padding:7px 5px;
 }
 ul.blockList ul.blockList ul.blockList li.blockList h3 {
-    background-color:#dee3e9;
-    border:1px solid #d0d9e0;
+    background-color: #33383e;
+    border:1px solid #394249;
     margin:0 0 6px -8px;
     padding:7px 5px;
 }
@@ -282,7 +287,7 @@ Page layout container styles
     font-size:12px;
     font-weight:bold;
     margin:10px 0 0 0;
-    color:#4E4E4E;
+    color: #cdcdcd;
 }
 .contentContainer .description dl dd, .contentContainer .details dl dd, .serializedFormContainer dl dd {
     margin:5px 0 10px 0px;
@@ -331,12 +336,12 @@ ul.blockList li.blockList, ul.blockListLast li.blockList {
 }
 ul.blockList ul.blockList li.blockList, ul.blockList ul.blockListLast li.blockList {
     padding:0px 20px 5px 10px;
-    border:1px solid #ededed; 
-    background-color:#f8f8f8;
+    border:1px solid #3e3e3e;
+    background-color: #383838;
 }
 ul.blockList ul.blockList ul.blockList li.blockList, ul.blockList ul.blockList ul.blockListLast li.blockList {
     padding:0 0 5px 8px;
-    background-color:#ffffff;
+    background-color:#202020;
     border:none;
 }
 ul.blockList ul.blockList ul.blockList ul.blockList li.blockList {
@@ -359,9 +364,9 @@ Table styles
 */
 .overviewSummary, .memberSummary, .typeSummary, .useSummary, .constantsSummary, .deprecatedSummary {
     width:100%;
-    border-left:1px solid #EEE; 
-    border-right:1px solid #EEE; 
-    border-bottom:1px solid #EEE; 
+    border-left:1px solid #4b4b4b;
+    border-right:1px solid #555555;
+    border-bottom:1px solid #535353;
 }
 .overviewSummary, .memberSummary  {
     padding:0px;
@@ -389,7 +394,7 @@ Table styles
 .useSummary caption a:active, .constantsSummary caption a:active, .deprecatedSummary caption a:active,
 .overviewSummary caption a:visited, .memberSummary caption a:visited, .typeSummary caption a:visited,
 .useSummary caption a:visited, .constantsSummary caption a:visited, .deprecatedSummary caption a:visited {
-    color:#FFFFFF;
+    color:#202020;
 }
 .overviewSummary caption span, .memberSummary caption span, .typeSummary caption span,
 .useSummary caption span, .constantsSummary caption span, .deprecatedSummary caption span {
@@ -423,7 +428,7 @@ Table styles
     margin-right:3px;
     display:inline-block;
     float:left;
-    background-color:#4D7A97;
+    background-color:#6DAAD7;
     height:16px;
 }
 .memberSummary caption span.tableTab, .memberSummary caption span.activeTableTab {
@@ -446,7 +451,7 @@ Table styles
     display:none;
     width:5px;
     margin-right:3px;
-    position:relative; 
+    position:relative;
     float:left;
     background-color:#F8981D;
 }
@@ -455,7 +460,7 @@ Table styles
     width:5px;
     margin-right:3px;
     position:relative;
-    background-color:#4D7A97;
+    background-color:#6DAAD7;
     float:left;
 
 }
@@ -472,7 +477,7 @@ td.colOne, td.colFirst, td.colLast, .useSummary td, .constantsSummary td{
     padding-bottom:3px;
 }
 th.colFirst, th.colLast, th.colOne, .constantsSummary th {
-    background:#dee3e9;
+    background: #3d4249;
     text-align:left;
     padding:8px 3px 3px 7px;
 }
@@ -499,13 +504,13 @@ td.colOne a:link, td.colOne a:active, td.colOne a:visited, td.colOne a:hover, td
     font-weight:bold;
 }
 .tableSubHeadingColor {
-    background-color:#EEEEFF;
+    background-color:#202030;
 }
 .altColor {
-    background-color:#FFFFFF;
+    background-color:#202020;
 }
 .rowColor {
-    background-color:#EEEEEF;
+    background-color:#202025;
 }
 /*
 Content styles
@@ -553,7 +558,7 @@ h1.hidden {
 .block {
     display:block;
     margin:3px 10px 2px 0px;
-    color:#474747;
+    color: #c1c1c1;
 }
 .deprecatedLabel, .descfrmTypeLabel, .memberNameLabel, .memberNameLink,
 .overrideSpecifyLabel, .packageHierarchyLabel, .paramLabel, .returnLabel,

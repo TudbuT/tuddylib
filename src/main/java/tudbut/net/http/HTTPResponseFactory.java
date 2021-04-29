@@ -1,5 +1,7 @@
 package tudbut.net.http;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * Class to build HTTP responses
  */
@@ -101,7 +103,7 @@ public class HTTPResponseFactory {
 
         builder.append("HTTP/1.1 ").append(responseCode.asInt).append(" ").append(responseCode.name()).append("\r\n");
         builder.append(new HTTPHeader("Content-Type", contentType.asHeaderString).toString()).append("\r\n");
-        builder.append(new HTTPHeader("Content-Length", String.valueOf(body.length())).toString()).append("\r\n");
+        builder.append(new HTTPHeader("Content-Length", String.valueOf(body.getBytes(StandardCharsets.ISO_8859_1).length)).toString()).append("\r\n");
         for (HTTPHeader header : headers) {
             builder.append(header.toString()).append("\r\n");
         }

@@ -7,10 +7,12 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,7 +92,7 @@ public class HTTPServer implements Stoppable {
                                 String s;
                                 ArrayList<HTTPHeader> headers = new ArrayList<>();
                                 StringBuilder fullRequest = new StringBuilder();
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(finalSocket.getInputStream()));
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(finalSocket.getInputStream(), StandardCharsets.ISO_8859_1));
                                 int line = 0;
                                 while ((s = reader.readLine()) != null) {
                                     fullRequest.append(s).append("\n");
@@ -108,9 +110,10 @@ public class HTTPServer implements Stoppable {
                                         contentLength = Integer.parseInt(header.value());
                                     }
                                 }
-                                for (int i = 0 ; i < contentLength ; i++) {
-                                    fullRequest.append((char) reader.read());
-                                }
+                                if(contentLength != 0)
+                                    for (int i = 0 ; i < contentLength ; i++) {
+                                        fullRequest.append((char) reader.read());
+                                    }
                                 for (HTTPHandler handler : handlers) {
                                     HTTPServerRequest request = new HTTPServerRequest(fullRequest.toString(), finalSocket);
                                     handler.handle(request);

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -181,6 +181,12 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../tudbut/obj/DoubleTypedObject.html" title="class in tudbut.obj">DoubleTypedObject</a>&lt;<a href="../../../tudbut/obj/Partial.html" title="class in tudbut.obj">Partial</a>&lt;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&gt;,<a href="../../../de/tudbut/timer/AsyncTask.html" title="class in de.tudbut.timer">AsyncTask</a>&lt;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPRequest.html#sendKeepAliveWithTask-int-">sendKeepAliveWithTask</a></span>(int&nbsp;timeout)</code>
+<div class="block">Sends the request asynchronously with optional timeout</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPRequest.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -311,7 +317,7 @@ extends java.lang.Object</pre>
 <a name="sendKeepAlive-int-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>sendKeepAlive</h4>
 <pre>public&nbsp;<a href="../../../tudbut/obj/Partial.html" title="class in tudbut.obj">Partial</a>&lt;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&gt;&nbsp;sendKeepAlive(int&nbsp;timeout)</pre>
@@ -321,6 +327,22 @@ extends java.lang.Object</pre>
 <dd><code>timeout</code> - The timeout at which to stop receiving, use -1 for infinity</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>The response enclosed in a <a href="../../../tudbut/obj/Partial.html" title="class in tudbut.obj"><code>Partial</code></a></dd>
+</dl>
+</li>
+</ul>
+<a name="sendKeepAliveWithTask-int-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>sendKeepAliveWithTask</h4>
+<pre>public&nbsp;<a href="../../../tudbut/obj/DoubleTypedObject.html" title="class in tudbut.obj">DoubleTypedObject</a>&lt;<a href="../../../tudbut/obj/Partial.html" title="class in tudbut.obj">Partial</a>&lt;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&gt;,<a href="../../../de/tudbut/timer/AsyncTask.html" title="class in de.tudbut.timer">AsyncTask</a>&lt;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&gt;&gt;&nbsp;sendKeepAliveWithTask(int&nbsp;timeout)</pre>
+<div class="block">Sends the request asynchronously with optional timeout</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>timeout</code> - The timeout at which to stop receiving, use -1 for infinity</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The task and enclosed response (in a <a href="../../../tudbut/obj/Partial.html" title="class in tudbut.obj"><code>Partial</code></a>), enclosed in a <a href="../../../tudbut/obj/DoubleTypedObject.html" title="class in tudbut.obj"><code>DoubleTypedObject</code></a></dd>
 </dl>
 </li>
 </ul>

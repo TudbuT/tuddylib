@@ -35,8 +35,8 @@ public class SMTPSender {
     }
     
     public SMTPSender(InputStream inputStream, OutputStream outputStream) {
-        in = new InputStreamReader(inputStream, StandardCharsets.US_ASCII);
-        out = new OutputStreamWriter(outputStream, StandardCharsets.US_ASCII);
+        in = new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1);
+        out = new OutputStreamWriter(outputStream, StandardCharsets.ISO_8859_1);
         write = new CLSPrintWriter(out);
         ((CLSPrintWriter)write).customLineSeparator = "\r\n";
         read = new BufferedReader(in);

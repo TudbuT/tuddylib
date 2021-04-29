@@ -4,6 +4,7 @@ import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.timer.AsyncTask;
 import de.tudbut.type.Nothing;
+import tudbut.obj.DoubleTypedObject;
 import tudbut.obj.Partial;
 
 import javax.net.ssl.SSLSocket;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -60,7 +62,7 @@ public class HTTPRequest {
         headers.add(new HTTPHeader("Host", ssl ? host.split("https://")[1] : host));
         if(!contentIn.equals("")) {
             headers.add(new HTTPHeader("Content-Type", type.asHeaderString));
-            headers.add(new HTTPHeader("Content-Length", String.valueOf(contentIn.length())));
+            headers.add(new HTTPHeader("Content-Length", String.valueOf(contentIn.getBytes(StandardCharsets.ISO_8859_1).length)));
         }
         if(Arrays.stream(headersIn).noneMatch(httpHeader -> httpHeader.toString().startsWith("Connection: ")))
             headers.add(new HTTPHeader("Connection", "Close"));
@@ -91,7 +93,7 @@ public class HTTPRequest {
      */
     public HTTPResponse send() throws IOException {
         Socket socket = connect();
-        return new HTTPResponse(new String(new StreamReader(socket.getInputStream()).readAllAsBytes()));
+        return new HTTPResponse(new String(new StreamReader(socket.getInputStream()).readAllAsBytes(), StandardCharsets.ISO_8859_1));
     }
     
     /**
@@ -109,25 +111,54 @@ public class HTTPRequest {
      */
     public Partial<HTTPResponse> sendKeepAlive(int timeout) {
         Partial<HTTPResponse> partialResponse = new Partial<>(null);
-        AsyncTask<Nothing> task = new AsyncTask<>(() -> {
+        AsyncTask<HTTPResponse> task = new AsyncTask<>(() -> {
             try {
                 Socket socket = connect();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String line;
+                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.ISO_8859_1));
+                int c;
                 StringBuilder builder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line).append("\n");
-                    partialResponse.change(new HTTPResponse(builder.toString()));
+                while ((c = reader.read()) != -1) {
+                    builder.append(c);
+                    if(c == '\n')
+                        partialResponse.change(new HTTPResponse(builder.toString()));
                 }
                 socket.close();
                 partialResponse.complete(partialResponse.get());
+                return partialResponse.get();
             } catch (Exception ignored) { }
-            return null;
+            return partialResponse.get();
         });
         task.setTimeout(timeout);
         return partialResponse;
     }
     
+    /**
+     * Sends the request asynchronously with optional timeout
+     * @param timeout The timeout at which to stop receiving, use -1 for infinity
+     * @return The task and enclosed response (in a {@link Partial}), enclosed in a {@link DoubleTypedObject}
+     */
+    public DoubleTypedObject<Partial<HTTPResponse>, AsyncTask<HTTPResponse>> sendKeepAliveWithTask(int timeout) {
+        Partial<HTTPResponse> partialResponse = new Partial<>(null);
+        AsyncTask<HTTPResponse> task = new AsyncTask<>(() -> {
+            try {
+                Socket socket = connect();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.ISO_8859_1));
+                int c;
+                StringBuilder builder = new StringBuilder();
+                while ((c = reader.read()) != -1) {
+                    builder.append(c);
+                    if(c == '\n')
+                        partialResponse.change(new HTTPResponse(builder.toString()));
+                }
+                socket.close();
+                partialResponse.complete(partialResponse.get());
+                return partialResponse.get();
+            } catch (Exception ignored) { }
+            return partialResponse.get();
+        });
+        task.setTimeout(timeout);
+        return new DoubleTypedObject<>(partialResponse, task);
+    }
     /**
      * Sends the request and return the socket from which {@link #send} and {@link #sendKeepAlive} will read
      * @return The created socket
@@ -143,7 +174,7 @@ public class HTTPRequest {
         else
             socket = new Socket(InetAddress.getByName(host), port);
         StreamWriter writer = new StreamWriter(socket.getOutputStream());
-        writer.writeChars(toString().toCharArray());
+        writer.writeChars(toString().toCharArray(), "ISO_8859_1");
         return socket;
     }
 }

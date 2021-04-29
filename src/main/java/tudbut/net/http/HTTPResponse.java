@@ -21,7 +21,17 @@ public class HTTPResponse extends Value<String> {
      * @param value The content
      */
     public HTTPResponse(String value) {
-        super(value.replaceAll("\r", ""));
+        super(spl(value));
+    }
+    
+    private static String spl(String s) {
+        String[] splitString = s.split("\r\n\r\n", 2);
+        if(splitString.length == 1) {
+            return s.replaceAll("\r", "");
+        }
+        else {
+            return splitString[0].replaceAll("\r", "") + "\n\n" + splitString[1];
+        }
     }
     
     /**
@@ -42,7 +52,7 @@ public class HTTPResponse extends Value<String> {
             }
         }
         ArrayList<HTTPHeader> headersList = new ArrayList<>();
-        String s = value.replaceAll("\r", "");
+        String s = value;
         s = s.substring(s.split("\n")[0].length() + 1);
         for (String line : s.split("\n")) {
             if (line.equals(""))
@@ -67,14 +77,15 @@ public class HTTPResponse extends Value<String> {
                 /*
                  * INCREDIBLY hacky way to make chunk transfer work, will make better later
                  */
-                ByteArrayInputStream b = new ByteArrayInputStream(value.substring(start).getBytes(StandardCharsets.UTF_8));
-                
+                ByteArrayInputStream b = new ByteArrayInputStream(value.substring(start).getBytes(StandardCharsets.ISO_8859_1));
+    
                 for (int chunk = 0, i = -1 ; i != 0 ; chunk++) {
                     String sbuf = "";
-                    while (!sbuf.endsWith("\n")) {
-                        sbuf += (char) b.read();
+                    int c;
+                    while (!sbuf.endsWith("\n") && (c = b.read()) != -1) {
+                        sbuf += (char)c;
                     }
-                    i = Integer.parseInt(sbuf.split("\n")[0], 16);
+                    i = Integer.parseInt(sbuf.replaceAll("\r", "").split("\n")[0], 16);
                     byte[] buf = new byte[i];
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     b.read(buf);
@@ -119,10 +130,10 @@ public class HTTPResponse extends Value<String> {
             }
 
             @Override
-            public String getBody() {
+            public String getBodyRaw() {
                 return finalBody;
             }
-
+    
             @Override
             public HTTPHeader[] getHeaders() {
                 return headers;

@@ -312,6 +312,8 @@ tudbut/obj/InstanceBoundMap.java
  tudbut.obj.InstanceBoundMap$1
  tudbut.obj.InstanceBoundMap$Binding
  tudbut.obj.InstanceBoundMap$Binding$Entry
+tudbut/obj/DoubleTypedObject.java
+ tudbut.obj.DoubleTypedObject
 de/tudbut/timer/AsyncThenRunnable.java
  de.tudbut.timer.AsyncThenRunnable
 tudbut/rendering/tph/TPH302.java

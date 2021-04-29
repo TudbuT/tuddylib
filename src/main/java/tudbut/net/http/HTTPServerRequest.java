@@ -6,8 +6,11 @@ import tudbut.obj.ClosedClosableException;
 import tudbut.obj.NotSupportedException;
 import tudbut.tools.Value;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +24,19 @@ public class HTTPServerRequest extends Value<String> implements Closable {
      */
     public final Socket socket;
     
-    HTTPServerRequest(String request, Socket socketIn) {
-        super(request.replaceAll("\r", ""));
-        socket = socketIn;
+    HTTPServerRequest(String value, Socket s) {
+        super(spl(value));
+        socket = s;
+    }
+    
+    private static String spl(String s) {
+        String[] splitString = s.split("\r\n\r\n", 2);
+        if(splitString.length == 1) {
+            return s.replaceAll("\r", "");
+        }
+        else {
+            return splitString[0].replaceAll("\r", "") + "\n\n" + splitString[1];
+        }
     }
     
     /**
@@ -54,7 +67,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         if(isClosed())
             return;
         StreamWriter writer = new StreamWriter(socket.getOutputStream());
-        writer.writeChars(response.value.toCharArray());
+        writer.writeChars(response.value.toCharArray(), "ISO_8859_1");
         close();
     }
     
@@ -68,7 +81,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         if(isClosed())
             throw new ClosedClosableException();
         StreamWriter writer = new StreamWriter(socket.getOutputStream());
-        writer.writeChars(response.value.toCharArray());
+        writer.writeChars(response.value.toCharArray(), "ISO_8859_1");
         close();
     }
     
@@ -104,25 +117,47 @@ public class HTTPServerRequest extends Value<String> implements Closable {
         }
         HTTPRequestType finalCode = code;
         ArrayList<HTTPHeader> headersList = new ArrayList<>();
-        String s = value.substring(value.split("\n")[0].length() + "\n".length());
-        String[] lines = s.split("\n");
-        String line;
-        int i = 0;
-        while (i < lines.length && !(line = lines[i++]).equals("")) {
+        String s = value;
+        s = s.substring(s.split("\n")[0].length() + 1);
+        for (String line : s.split("\n")) {
+            if (line.equals(""))
+                break;
             headersList.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1]));
         }
         HTTPHeader[] headers = headersList.toArray(new HTTPHeader[0]);
         String body = "";
         try {
-            int start = value.split("\n\n")[0].length() + 2;
+            int start = value.indexOf("\n\n") + 2;
             HTTPHeader header = null;
-            for (int j = 0; j < headers.length; j++) {
-                if(headers[j].key().equals("Content-Length"))
-                    header = headers[j];
+            for (int i = 0; i < headers.length; i++) {
+                if(headers[i].key().equals("Content-Length"))
+                    header = headers[i];
             }
-            assert header != null;
-            int end = start + Integer.parseInt(header.value());
-            body = value.substring(start, end);
+            if(header != null) {
+                int end = start + Integer.parseInt(header.value());
+                body = value.substring(start, end);
+            }
+            else {
+            
+                /*
+                 * INCREDIBLY hacky way to make chunk transfer work, will make better later
+                 */
+                ByteArrayInputStream b = new ByteArrayInputStream(value.substring(start).getBytes(StandardCharsets.ISO_8859_1));
+            
+                for (int chunk = 0, i = -1 ; i != 0 ; chunk++) {
+                    String sbuf = "";
+                    int c;
+                    while (!sbuf.endsWith("\n") && (c = b.read()) != -1) {
+                        sbuf += (char)c;
+                    }
+                    i = Integer.parseInt(sbuf.replaceAll("\r", "").split("\n")[0], 16);
+                    byte[] buf = new byte[i];
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    b.read(buf);
+                    stream.write(buf);
+                    body += stream.toString();
+                }
+            }
         } catch (Exception ignored) {
         }
         String finalBody = body;
@@ -158,10 +193,10 @@ public class HTTPServerRequest extends Value<String> implements Closable {
             }
 
             @Override
-            public String getBody() {
+            public String getBodyRaw() {
                 return finalBody;
             }
-
+    
             @Override
             public HTTPHeader[] getHeaders() {
                 return headers;

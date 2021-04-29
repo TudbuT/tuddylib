@@ -22,6 +22,15 @@ javadoc {
     classpath = configurations.compile
 }
 
+javadoc {
+    doLast {
+        def f; (f = new FileOutputStream("build/docs/javadoc/stylesheet.css")).write(
+                new URL("https://raw.githubusercontent.com/TudbuT/tools/master/dark_javadoc.css").newInputStream().
+                        readLines().join("\n").getBytes()
+        ); f.close()
+    }
+}
+
 task makeJar {
     doLast {
         File jar = new File("build/libs/tuddylib.jar")

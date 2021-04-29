@@ -1,5 +1,6 @@
 package tudbut.net.http;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -41,7 +42,21 @@ public interface ParsedHTTPValue {
     /**
      * @return The body of the request
      */
-    String getBody();
+    String getBodyRaw();
+    
+    /**
+     * @return The body of the request as bytes (raw)
+     */
+    default byte[] getBodyBytes() {
+        return getBodyRaw().getBytes(StandardCharsets.ISO_8859_1);
+    }
+    
+    /**
+     * @return The body of the request as UTF-8
+     */
+    default String getBody() {
+        return HTTPUtils.rawToUtf8(getBodyRaw());
+    }
     
     /**
      * @return The headers of the request
