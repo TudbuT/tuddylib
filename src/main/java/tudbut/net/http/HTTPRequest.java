@@ -118,7 +118,7 @@ public class HTTPRequest {
                 int c;
                 StringBuilder builder = new StringBuilder();
                 while ((c = reader.read()) != -1) {
-                    builder.append(c);
+                    builder.append((char)c);
                     if(c == '\n')
                         partialResponse.change(new HTTPResponse(builder.toString()));
                 }
@@ -146,7 +146,7 @@ public class HTTPRequest {
                 int c;
                 StringBuilder builder = new StringBuilder();
                 while ((c = reader.read()) != -1) {
-                    builder.append(c);
+                    builder.append((char)c);
                     if(c == '\n')
                         partialResponse.change(new HTTPResponse(builder.toString()));
                 }

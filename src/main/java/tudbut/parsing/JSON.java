@@ -87,13 +87,15 @@ public class JSON {
                     inString = false;
                     escape = false;
                     theString = new StringBuilder("{");
+                    System.out.print(c);
                     c = a[++pos];
                     int layer = 1;
-                    while (layer != 0) {
+                    while (layer > 0) {
                         if(c == '{' && !inString)
                             layer++;
                         if(c == '}' && !inString)
                             layer--;
+                        System.out.print(c);
                         
                         if (c == '\\') {
                             escape = !escape;
@@ -107,7 +109,8 @@ public class JSON {
                         theString.append(c);
                         c = a[++pos];
                     }
-                    theString.append(c);
+                    theString.append(']');
+                    pos--;
                     sub = read(theString.toString());
                 }
                 // Arrays
@@ -192,7 +195,7 @@ public class JSON {
         } catch (JSONFormatException e) {
             throw e;
         } catch (Throwable e) {
-            throw new JSONFormatException("At " + pos + " in " + string, e);
+            throw new JSONFormatException("At " + pos + " in " + string + " (Debug: " + inString + " " + kv + " " + theString + " " + key + " " + array + ")", e);
         }
     }
     

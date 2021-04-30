@@ -39,7 +39,7 @@ public class HTTPResponse extends Value<String> {
      * @return The {@link ParsedHTTPValue} of the response
      */
     public ParsedHTTPValue parse() {
-        String[] splitValue = value.split("\n")[0].split(" ");
+        String[] splitValue = value.split("\n", 2)[0].split(" ");
     
         String httpVersion = splitValue[0];
         int statusCode = Integer.parseInt(splitValue[1]);
