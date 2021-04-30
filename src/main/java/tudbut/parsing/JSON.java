@@ -20,17 +20,19 @@ public class JSON {
         while (string.startsWith(" ")) {
             string = string.substring(1);
         }
-        if(!string.startsWith("{")) {
-            throw new JSONFormatException("Expected: { at 0 (String is '" + string + "')");
+        if(!string.startsWith("{") && !string.startsWith("[")) {
+            throw new JSONFormatException("Expected: { or [ at 0 (String is '" + string + "')");
         }
-        TCN tcn = new TCN();
+        boolean array = string.startsWith("[");
+        TCN tcn = new TCN(array);
         boolean escape = false;
         int pos = 1;
         char[] a = string.toCharArray();
         char c = a[pos];
+        int arrayPos = 0;
         boolean inString = false;
         boolean startString = false;
-        String theString = "";
+        StringBuilder theString = new StringBuilder();
         boolean kv = false;
         String key = "";
         boolean inStringKV = false;
@@ -38,7 +40,11 @@ public class JSON {
         TCN sub = null;
         
         try {
-            while (inString || c != '}') {
+            while (inString || (c != '}' && c != ']')) {
+                if(array) {
+                    kv = true;
+                }
+                
                 if (startString) {
                     inString = true;
                     startString = false;
@@ -51,28 +57,28 @@ public class JSON {
                     if (startString) {
                         if (kv)
                             inStringKV = true;
-                        theString = "";
+                        theString = new StringBuilder();
                     }
                     else {
                         inString = false;
                         if (!kv) { // Key
-                            key = theString;
+                            key = theString.toString();
                         }
                     }
                 }
                 if (inString) {
                     if (!escape)
-                        theString += c;
+                        theString.append(c);
                     else {
                         // Make \n work
                         if (c == 'n')
-                            theString += '\n';
+                            theString.append('\n');
                     }
                 }
         
                 // Booleans, ints, etc
-                else if (kv && !startString && !inStringKV && c != ',') {
-                    theString += c;
+                else if (kv && !startString && !inStringKV && c != ',' && Character.isLetterOrDigit(c)) {
+                    theString.append(c);
                 }
         
                 // SubObjects
@@ -80,8 +86,15 @@ public class JSON {
                     inObjectKV = true;
                     inString = false;
                     escape = false;
+                    theString = new StringBuilder("{");
                     c = a[++pos];
-                    while (c != '}' || inString) {
+                    int layer = 1;
+                    while (layer != 0) {
+                        if(c == '{' && !inString)
+                            layer++;
+                        if(c == '}' && !inString)
+                            layer--;
+                        
                         if (c == '\\') {
                             escape = !escape;
                         }
@@ -91,32 +104,72 @@ public class JSON {
                         if (c != '\\') {
                             escape = false;
                         }
-                        theString += c;
+                        theString.append(c);
                         c = a[++pos];
                     }
-                    theString += c;
-                    sub = read(theString);
+                    theString.append(c);
+                    sub = read(theString.toString());
                 }
+                // Arrays
+                if (!inString && c == '[') {
+                    inObjectKV = true;
+                    inString = false;
+                    escape = false;
+                    theString = new StringBuilder("[");
+                    c = a[++pos];
+                    int layer = 1;
+                    while (layer != 0) {
+                        if(c == '[' && !inString) {
+                            layer++;
+                        }
+                        if(c == ']' && !inString) {
+                            layer--;
+                        }
         
+                        if (c == '\\') {
+                            escape = !escape;
+                        }
+                        if (c == '\"' && !escape) {
+                            inString = !inString;
+                        }
+                        if (c != '\\') {
+                            escape = false;
+                        }
+                        theString.append(c);
+                        c = a[++pos];
+                    }
+                    theString.append(c);
+                    sub = read(theString.toString());
+                }
+                
+                
+                if(array) {
+                    kv = true;
+                }
                 // Key vs Value parsing
                 if (!inString && c == ':') {
-                    theString = "";
+                    theString = new StringBuilder();
                     if (!kv)
                         kv = true;
                     else
-                        throw new JSONFormatException("Unexpected: : at " + pos + " - Should be ,");
+                        throw new JSONFormatException("Unexpected: '" + c + "' at " + pos + " - Should be ','");
                 }
                 if (!inString && c == ',') {
-                    if (inObjectKV)
+                    if(array)
+                        key = String.valueOf(arrayPos++);
+    
+                    if (inObjectKV) {
                         tcn.set(key, sub);
-                    else
-                        tcn.set(key, theString);
+                    } else {
+                        tcn.set(key, theString.toString());
+                    }
                     inObjectKV = false;
                     inStringKV = false;
                     if (kv)
                         kv = false;
                     else
-                        throw new JSONFormatException("Unexpected: : at " + pos + " - Should be ,");
+                        throw new JSONFormatException("Unexpected: '" + c + "' at " + pos + " - Should be ':'");
+                    
                 }
         
                 if (c != '\\') {
@@ -125,11 +178,16 @@ public class JSON {
         
                 c = a[++pos];
             }
+            if(array)
+                key = String.valueOf(arrayPos);
             if (inObjectKV)
                 tcn.set(key, sub);
             else
-                tcn.set(key, theString);
-    
+                tcn.set(key, theString.toString());
+            
+            for (String theKey : tcn.map.keys()) {
+                TCN.deepConvert(theKey, tcn.get(theKey), tcn);
+            }
             return tcn;
         } catch (JSONFormatException e) {
             throw e;
@@ -204,7 +262,7 @@ public class JSON {
     public static String write(TCN tcn, boolean newlines, boolean spaces, int indentLength) {
     
         StringBuilder s = new StringBuilder();
-        s.append("{").append(newlines ? "\n" : "");
+        s.append(tcn.isArray ? "[" : "{").append(newlines ? "\n" : "");
         int i = 1;
     
         ArrayList<Stack<String>> paths = new ArrayList<>();
@@ -225,29 +283,68 @@ public class JSON {
                     path.add(key);
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
+                        TCN theTCN = tcnStack.peek();
                         tcnStack.add((TCN) o);
-                        s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " " : "").append("{").append(newlines ? "\n" : "");
+                        if(theTCN.isArray) {
+                            s.append(indent(newlines, i, indentLength)).append("{").append(newlines ? "\n" : "");
+                        }
+                        else
+                            s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " " : "").append("{").append(newlines ? "\n" : "");
                         b = true;
                         i++;
-                        break;
                     } else
                         path.next();
-                } else {
+                } else if(o.getClass() == TCNArray.class) {
                     path.add(key);
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
-                        s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " \"" : "\"").append(o.toString().replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\"")).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
+                        TCN theTCN = tcnStack.peek();
+                        tcnStack.add(((TCNArray) o).toTCN());
+                        String indent = StringTools.multiply("    ", i);
+                        if(theTCN.isArray) {
+                            s.append(indent(newlines, i, indentLength)).append("[").append(newlines ? "\n" : "");
+                        }
+                        else
+                            s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " " : "").append("[").append(newlines ? "\n" : "");
+                        i++;
+                        b = true;
+                    } else
+                        path.next();
+                } else if (o instanceof String) {
+                    path.add(key);
+                    if(!paths.contains(path)) {
+                        paths.add(path.clone());
+                        String val = o.toString().replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\"");
+                        if(tcnStack.peek().isArray) {
+                            s.append(indent(newlines, i, indentLength)).append("\"").append(val).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
+                        }
+                        else
+                            s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " \"" : "\"").append(val).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
+                        b = true;
+                    }
+                    path.next();
+                }
+                else {
+                    path.add(key);
+                    if(!paths.contains(path)) {
+                        paths.add(path.clone());
+                        String val = o.toString();
+                        if(tcnStack.peek().isArray) {
+                            s.append(indent(newlines, i, indentLength)).append(val).append(",").append(spaces ? " " : "").append(newlines ? "\n" : "");
+                        }
+                        else
+                            s.append(indent(newlines, i, indentLength)).append("\"").append(k).append("\":").append(spaces ? " " : "").append(val).append(",").append(spaces ? " " : "").append(newlines ? "\n" : "");
                         b = true;
                     }
                     path.next();
                 }
             }
             if(!b) {
-                tcnStack.next();
+                TCN theTCN = tcnStack.next();
                 path.next();
                 i--;
                 s.delete(s.length() - ((newlines ? 2 : 1) + (spaces ? 1 : 0)), s.length());
-                s.append(newlines ? "\n" : "").append(indent(newlines, i, indentLength)).append("},").append(spaces ? " " : "").append(newlines ? "\n" : "");
+                s.append(newlines ? "\n" : "").append(indent(newlines, i, indentLength)).append(theTCN.isArray ? "]" : "}").append(",").append(spaces ? " " : "").append(newlines ? "\n" : "");
             }
         }
     

@@ -1,5 +1,7 @@
 package tudbut.tools;
 
+import tudbut.parsing.TCN;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
@@ -47,5 +49,20 @@ public class ReflectUtil {
             }
         }
         return null;
+    }
+    public static <T> T forceClone(T t) {
+        if(t.getClass() != Object.class) {
+            try {
+                return (T) t.getClass().getDeclaredMethod("clone").invoke(t);
+            }
+            catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
+                try {
+                    return new ObjectSerializerTCN(new ObjectSerializerTCN(t).convertAll().done((TCN) null)).convertAll().done();
+                } catch (Exception ignored1) { }
+            }
+        }
+        else
+            return (T) new Object();
+        return t;
     }
 }

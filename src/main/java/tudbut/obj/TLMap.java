@@ -1,9 +1,12 @@
 package tudbut.obj;
 
+import tudbut.tools.Retriever;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class TLMap<K, V> {
     protected Binding<K, V> binding = new Binding<>();
@@ -25,6 +28,10 @@ public class TLMap<K, V> {
     public V get(K key, V def) {
         V v = binding.get(key);
         return v == null ? def : v;
+    }
+    public V get(K key, Retriever<V> def) {
+        V v = binding.get(key);
+        return v == null ? def.retrieve() : v;
     }
 
     public Set<K> keys() {
