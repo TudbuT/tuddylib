@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class HTTPUtf8Test {
     
     public static void main(String[] args) throws IOException {
-        HTTPServer server = new HTTPServer(28735, HTTPResponseFactory.create(ResponseCode.NotImplemented, "", HTTPContentType.ANY), Runnable::run);
+        HTTPServer server = new HTTPServer(28735, HTTPResponseFactory.create(HTTPResponseCode.NotImplemented, "", HTTPContentType.ANY), Runnable::run);
     
         AtomicReference<String> check = new AtomicReference<>("");
     
@@ -18,7 +18,7 @@ public class HTTPUtf8Test {
             System.out.println(s);
             request.respond(
                     HTTPResponseFactory.create(
-                            ResponseCode.OK,
+                            HTTPResponseCode.OK,
                             HTTPUtils.utf8ToRaw("Hello world! Ǫ"),
                             HTTPContentType.BIN
                     )

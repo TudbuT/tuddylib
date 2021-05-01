@@ -2,7 +2,6 @@ package tudbut.net.http;
 
 import tudbut.tools.Value;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -42,9 +41,9 @@ public class HTTPResponse extends Value<String> {
         String httpVersion = splitValue[0];
         int statusCode = Integer.parseInt(splitValue[1]);
         String statusCodeString = splitValue[2];
-       ResponseCode code = null;
-        for (int i = 0; i < ResponseCode.values().length; i++) {
-            ResponseCode responseCode = ResponseCode.values()[i];
+       HTTPResponseCode code = null;
+        for (int i = 0 ; i < HTTPResponseCode.values().length; i++) {
+            HTTPResponseCode responseCode = HTTPResponseCode.values()[i];
             if(responseCode.asInt == statusCode) {
                 code = responseCode;
             }
@@ -94,7 +93,7 @@ public class HTTPResponse extends Value<String> {
         } catch (Exception ignored) {
         }
     
-        ResponseCode finalCode = code;
+        HTTPResponseCode finalCode = code;
         String finalBody = body;
         return new ParsedHTTPValue() {
             @Override
@@ -123,7 +122,7 @@ public class HTTPResponse extends Value<String> {
             }
 
             @Override
-            public ResponseCode getStatusCodeAsEnum() {
+            public HTTPResponseCode getStatusCodeAsEnum() {
                 return finalCode;
             }
 

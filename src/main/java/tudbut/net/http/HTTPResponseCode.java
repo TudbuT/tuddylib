@@ -3,7 +3,7 @@ package tudbut.net.http;
 /**
  * Response codes to HTTPRequests
  */
-public enum ResponseCode {
+public enum HTTPResponseCode {
     Continue(100),
     SwitchingProtocols(101),
     Processing(102),
@@ -78,7 +78,7 @@ public enum ResponseCode {
      */
     public final int asInt;
     
-    ResponseCode(int asIntIn) {
+    HTTPResponseCode(int asIntIn) {
         asInt = asIntIn;
     }
 }

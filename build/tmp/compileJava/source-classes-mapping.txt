@@ -317,8 +317,8 @@ tudbut/net/http/HTTPContentType.java
  tudbut.net.http.HTTPContentType
 tudbut/rendering/Rectangle2D.java
  tudbut.rendering.Rectangle2D
-tudbut/net/http/ResponseCode.java
- tudbut.net.http.ResponseCode
+tudbut/net/http/HTTPResponseCode.java
+ tudbut.net.http.HTTPResponseCode
 tudbut/net/http/HTTPHeader.java
  tudbut.net.http.HTTPHeader
 tudbut/io/IntBuffer.java
