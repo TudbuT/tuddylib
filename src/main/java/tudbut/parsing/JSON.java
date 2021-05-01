@@ -214,13 +214,13 @@ public class JSON {
     }
     
     /**
-     * Converts a TCN object to a JSON string, uses newlines and an indent of 2
+     * Converts a TCN object to a JSON string
      * @param tcn The TCN to write to JSON
      * @param spaces If the JSON string should have spaces after : and ,
      * @return The JSON string
      */
     public static String write(TCN tcn, boolean spaces) {
-        return write(tcn, true, spaces, 2);
+        return write(tcn, false, spaces, 0);
     }
     
     /**
