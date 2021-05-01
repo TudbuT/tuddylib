@@ -168,7 +168,7 @@ public class TCN {
      * @return The converted Map
      */
     public Map<String, String> toMap() {
-        Map<String, String> r = new HashMap<>();
+        Map<String, String> r = new LinkedHashMap<>();
         
         if(isArray)
             r.put("TCN%isArray", "true");

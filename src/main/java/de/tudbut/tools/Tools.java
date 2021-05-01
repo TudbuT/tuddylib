@@ -7,10 +7,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.sql.Time;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Tools {
 
@@ -94,7 +91,7 @@ public class Tools {
     }
     
     public static Map<String, String> stringToMap(String mapStringParsable) {
-        HashMap<String, String> map = new HashMap<>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         
         String[] splitTiles = mapStringParsable.split(";");
         for (int i = 0; i < splitTiles.length; i++) {
