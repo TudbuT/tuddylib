@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class HTTPByteTest {
     
     public static void main(String[] args) throws IOException {
-        HTTPServer server = new HTTPServer(28735, HTTPResponseFactory.create(HTTPResponseFactory.ResponseCode.NotImplemented, "", HTTPContentType.ANY), Runnable::run);
+        HTTPServer server = new HTTPServer(28735, HTTPResponseFactory.create(ResponseCode.NotImplemented, "", HTTPContentType.ANY), Runnable::run);
         
         AtomicReference<String> check = new AtomicReference<>("");
         
@@ -21,7 +21,7 @@ public class HTTPByteTest {
             System.out.println(s);
             request.respond(
                     HTTPResponseFactory.create(
-                            HTTPResponseFactory.ResponseCode.OK,
+                            ResponseCode.OK,
                             new String(new byte[] { 0, 1, 2, (byte) 255 }, StandardCharsets.ISO_8859_1),
                             HTTPContentType.BIN
                     )

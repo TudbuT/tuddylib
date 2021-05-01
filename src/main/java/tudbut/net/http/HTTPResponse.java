@@ -42,9 +42,9 @@ public class HTTPResponse extends Value<String> {
         String httpVersion = splitValue[0];
         int statusCode = Integer.parseInt(splitValue[1]);
         String statusCodeString = splitValue[2];
-        HTTPResponseFactory.ResponseCode code = null;
-        for (int i = 0; i < HTTPResponseFactory.ResponseCode.values().length; i++) {
-            HTTPResponseFactory.ResponseCode responseCode = HTTPResponseFactory.ResponseCode.values()[i];
+       ResponseCode code = null;
+        for (int i = 0; i < ResponseCode.values().length; i++) {
+            ResponseCode responseCode = ResponseCode.values()[i];
             if(responseCode.asInt == statusCode) {
                 code = responseCode;
             }
@@ -94,7 +94,7 @@ public class HTTPResponse extends Value<String> {
         } catch (Exception ignored) {
         }
     
-        HTTPResponseFactory.ResponseCode finalCode = code;
+        ResponseCode finalCode = code;
         String finalBody = body;
         return new ParsedHTTPValue() {
             @Override
@@ -123,7 +123,7 @@ public class HTTPResponse extends Value<String> {
             }
 
             @Override
-            public HTTPResponseFactory.ResponseCode getStatusCodeAsEnum() {
+            public ResponseCode getStatusCodeAsEnum() {
                 return finalCode;
             }
 

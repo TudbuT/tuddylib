@@ -28,7 +28,7 @@ public class TCNFullTest {
         check += s + "\n";
         System.out.println(s="\n\n\nTCN 2: ");
         check += s + "\n";
-        System.out.println(s=TCN.read(test.toString()).toString());
+        System.out.println(s=TCN.read(TCN.readMap(test.toMap()).toString()).toString());
         check += s + "\n";
         System.out.println(s="\n\n\nTCN Read: ");
         check += s + "\n";

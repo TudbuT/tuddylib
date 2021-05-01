@@ -140,6 +140,8 @@ public class TCN {
     public static TCN readMap(Map<String, String> map) {
         TCN tcn = new TCN(map.containsKey("TCN%isArray") && Boolean.parseBoolean(map.get("TCN%isArray")));
     
+        map.remove("TCN%isArray");
+        
         String[] array = map.keySet().toArray(new String[0]);
         for (int i = 0, arrayLength = array.length; i < arrayLength; i++) {
             String key = array[i];
@@ -151,6 +153,10 @@ public class TCN {
             else {
                 tcn.map.set(key, s.replaceAll("%C", ":").replaceAll("%P", "%"));
             }
+        }
+        
+        for (String key : tcn.map.keys()) {
+            deepConvert(key, tcn.get(key), tcn);
         }
         
         return tcn;

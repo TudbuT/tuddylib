@@ -4,51 +4,21 @@ de/tudbut/pluginapi/PluginEvent.java
  de.tudbut.pluginapi.PluginEvent
 tudbut/obj/TLClassLoader.java
  tudbut.obj.TLClassLoader
-tudbut/parsing/TCNArray.java
- tudbut.parsing.TCNArray
-tudbut/tools/Time.java
- tudbut.tools.Time
-de/tudbut/timer/AsyncCatcher.java
- de.tudbut.timer.AsyncCatcher
-tudbut/rendering/Maths3D.java
- tudbut.rendering.Maths3D
 tudbut/obj/DoubleObject.java
  tudbut.obj.DoubleObject
-tudbut/net/http/HTTPUtils.java
- tudbut.net.http.HTTPUtils
-de/tudbut/tools/Config.java
- de.tudbut.tools.Config
 de/tudbut/tools/CMD.java
  de.tudbut.tools.CMD
 tudbut/tools/ArrayTools.java
  tudbut.tools.ArrayTools
  tudbut.tools.ArrayTools$Getter
-de/tudbut/type/Nothing.java
- de.tudbut.type.Nothing
-tudbut/rendering/RenderOutputType.java
- tudbut.rendering.RenderOutputType
-de/tudbut/type/FileFormatException.java
- de.tudbut.type.FileFormatException
 de/tudbut/ui/windowgui/AdaptedGraphics.java
  de.tudbut.ui.windowgui.AdaptedGraphics
-de/tudbut/tools/bintools/encoding/Value.java
- de.tudbut.tools.bintools.encoding.Value
 de/tudbut/net/nethandler/Packet.java
  de.tudbut.net.nethandler.Packet
  de.tudbut.net.nethandler.Packet$1
  de.tudbut.net.nethandler.Packet$2
-de/tudbut/type/ByteArrayList.java
- de.tudbut.type.ByteArrayList
-tudbut/rendering/RenderObject2D.java
- tudbut.rendering.RenderObject2D
 de/tudbut/io/StreamWriter.java
  de.tudbut.io.StreamWriter
-tudbut/tools/Retriever.java
- tudbut.tools.Retriever
-tudbut/obj/Atomic.java
- tudbut.obj.Atomic
-tudbut/debug/Debug.java
- tudbut.debug.Debug
 de/tudbut/timer/AsyncTask.java
  de.tudbut.timer.AsyncTask
 de/tudbut/tools/BetterJ.java
@@ -59,42 +29,231 @@ de/tudbut/tools/BetterJ.java
  de.tudbut.tools.BetterJ$ForLoop$ForLoop3
  de.tudbut.tools.BetterJ$ForLoop$ForLoop4
  de.tudbut.tools.BetterJ$ForLoop$ForLoopRunnable
-tudbut/io/CLSPrintWriter.java
- tudbut.io.CLSPrintWriter
 de/tudbut/ui/windowgui/FontRenderer.java
  de.tudbut.ui.windowgui.FontRenderer
 tudbut/io/DirectBuffers.java
  tudbut.io.DirectBuffers
-de/tudbut/tools/YMLFile.java
- de.tudbut.tools.YMLFile
-de/tudbut/type/Token.java
- de.tudbut.type.Token
 tudbut/gui/settingsgui/Setting.java
  tudbut.gui.settingsgui.Setting
  tudbut.gui.settingsgui.Setting$Type
 de/tudbut/pluginapi/PluginException.java
  de.tudbut.pluginapi.PluginException
-de/tudbut/pluginapi/PluginManager.java
- de.tudbut.pluginapi.PluginManager
 de/tudbut/type/WIP.java
  de.tudbut.type.WIP
-de/tudbut/type/Vector3d.java
- de.tudbut.type.Vector3d
 tudbut/tools/encryption/Key.java
  tudbut.tools.encryption.Key
-tudbut/algorithm/Algorithm.java
- tudbut.algorithm.Algorithm
- tudbut.algorithm.Algorithm$Input
 tudbut/io/CharBuffer.java
  tudbut.io.CharBuffer
 de/tudbut/net/nethandler/PacketData.java
  de.tudbut.net.nethandler.PacketData
-tudbut/tools/OValue.java
- tudbut.tools.OValue
 de/tudbut/tools/Mouse.java
  de.tudbut.tools.Mouse
 tudbut/obj/RelativeVector2d.java
  tudbut.obj.RelativeVector2d
+tudbut/net/http/HTTPRequest.java
+ tudbut.net.http.HTTPRequest
+de/tudbut/tools/Tools.java
+ de.tudbut.tools.Tools
+ de.tudbut.tools.Tools$ObjectMapping
+ de.tudbut.tools.Tools$TFS
+ de.tudbut.tools.Tools$TFS$TFSException
+ de.tudbut.tools.Tools$TFS$TFSException$TFSFileAlreadyExistsException
+ de.tudbut.tools.Tools$TFS$TFSException$TFSFileNotFoundException
+ de.tudbut.tools.Tools$TFS$TFSException$TFSPathNotFromRootException
+de/tudbut/type/INothing.java
+ de.tudbut.type.INothing
+tudbut/net/http/HTTPRequestType.java
+ tudbut.net.http.HTTPRequestType
+tudbut/io/FileBusTransmitter.java
+ tudbut.io.FileBusTransmitter
+tudbut/rendering/Graph.java
+ tudbut.rendering.Graph
+de/tudbut/pluginapi/PluginLoadEvent.java
+ de.tudbut.pluginapi.PluginLoadEvent
+de/tudbut/type/FInfo.java
+ de.tudbut.type.FInfo
+tudbut/tools/Timer.java
+ tudbut.tools.Timer
+tudbut/tools/NoiseGenerator.java
+ tudbut.tools.NoiseGenerator
+tudbut/rendering/RenderObjectType.java
+ tudbut.rendering.RenderObjectType
+tudbut/tools/MultidimensionalMaths.java
+ tudbut.tools.MultidimensionalMaths
+tudbut/obj/RelativeVector3d.java
+ tudbut.obj.RelativeVector3d
+de/tudbut/ui/windowgui/GUIWindow.java
+ de.tudbut.ui.windowgui.GUIWindow
+de/tudbut/io/StreamReader.java
+ de.tudbut.io.StreamReader
+tudbut/tools/SimpleTimer.java
+ tudbut.tools.SimpleTimer
+tudbut/parsing/StringMapParser.java
+ tudbut.parsing.StringMapParser
+tudbut/net/http/ParsedHTTPValue.java
+ tudbut.net.http.ParsedHTTPValue
+de/tudbut/tools/FileRW.java
+ de.tudbut.tools.FileRW
+de/tudbut/net/ws/Client.java
+ de.tudbut.net.ws.Client
+tudbut/tools/AudioPlayer.java
+ tudbut.tools.AudioPlayer
+ tudbut.tools.AudioPlayer$AudioException
+ tudbut.tools.AudioPlayer$AudioTrackPlayer
+tudbut/tools/Stopwatch.java
+ tudbut.tools.Stopwatch
+tudbut/obj/TLMap.java
+ tudbut.obj.TLMap
+ tudbut.obj.TLMap$Binding
+ tudbut.obj.TLMap$Binding$Entry
+tudbut/net/smtp/SMTPSender.java
+ tudbut.net.smtp.SMTPSender
+de/tudbut/tools/bintools/encoding/TCryptV2.java
+ de.tudbut.tools.bintools.encoding.TCryptV2
+tudbut/tools/Stack.java
+ tudbut.tools.Stack
+tudbut/logger/DetailedLogger.java
+ tudbut.logger.DetailedLogger
+ tudbut.logger.DetailedLogger$1
+de/tudbut/net/ws/Server.java
+ de.tudbut.net.ws.Server
+tudbut/tools/StringTools.java
+ tudbut.tools.StringTools
+tudbut/parsing/Lang.java
+ tudbut.parsing.Lang
+ tudbut.parsing.Lang$1
+ tudbut.parsing.Lang$Factory
+de/tudbut/pluginapi/Plugin.java
+ de.tudbut.pluginapi.Plugin
+tudbut/algorithm/AlgorithmAI.java
+ tudbut.algorithm.AlgorithmAI
+ tudbut.algorithm.AlgorithmAI$Association
+de/tudbut/pluginapi/PluginGetEvent.java
+ de.tudbut.pluginapi.PluginGetEvent
+tudbut/obj/InstanceBoundMap.java
+ tudbut.obj.InstanceBoundMap
+ tudbut.obj.InstanceBoundMap$1
+ tudbut.obj.InstanceBoundMap$Binding
+ tudbut.obj.InstanceBoundMap$Binding$Entry
+tudbut/tools/MappableIO.java
+ tudbut.tools.MappableIO
+tudbut/rendering/GIFEncoder.java
+ tudbut.rendering.GIFEncoder
+tudbut/obj/ClosedClosableException.java
+ tudbut.obj.ClosedClosableException
+tudbut/obj/AtomicUtils.java
+ tudbut.obj.AtomicUtils
+de/tudbut/type/Stoppable.java
+ de.tudbut.type.Stoppable
+ de.tudbut.type.Stoppable$C
+tudbut/global/GlobalSyncQueue.java
+ tudbut.global.GlobalSyncQueue
+ tudbut.global.GlobalSyncQueue$1
+ tudbut.global.GlobalSyncQueue$2
+de/tudbut/type/CharArrayList.java
+ de.tudbut.type.CharArrayList
+de/tudbut/type/CInfo.java
+ de.tudbut.type.CInfo
+tudbut/math/Function.java
+ tudbut.math.Function
+tudbut/net/http/HTTPServer.java
+ tudbut.net.http.HTTPServer
+ tudbut.net.http.HTTPServer$HTTPHandler
+tudbut/rendering/Maths2D.java
+ tudbut.rendering.Maths2D
+tudbut/obj/RayCast.java
+ tudbut.obj.RayCast
+tudbut/parsing/JSON.java
+ tudbut.parsing.JSON
+ tudbut.parsing.JSON$JSONFormatException
+de/tudbut/tools/ExtendedMath.java
+ de.tudbut.tools.ExtendedMath
+de/tudbut/tools/NoiseMap.java
+ de.tudbut.tools.NoiseMap
+de/tudbut/net/nethandler/PacketDataID.java
+ de.tudbut.net.nethandler.PacketDataID
+tudbut/obj/PAtomic.java
+ tudbut.obj.PAtomic
+tudbut/io/TypedInputStream.java
+ tudbut.io.TypedInputStream
+de/tudbut/type/O.java
+ de.tudbut.type.O
+tudbut/tools/Serializing.java
+ tudbut.tools.Serializing
+de/tudbut/ui/windowgui/Design.java
+ de.tudbut.ui.windowgui.Design
+tudbut/net/http/HTTPResponseFactory.java
+ tudbut.net.http.HTTPResponseFactory
+de/tudbut/tools/bintools/encoding/TCryptV1.java
+ de.tudbut.tools.bintools.encoding.TCryptV1
+tudbut/tools/Cache.java
+ tudbut.tools.Cache
+ tudbut.tools.Cache$1
+ tudbut.tools.Cache$CacheRetriever
+ tudbut.tools.Cache$Entry
+tudbut/tools/ConfigSaverTCN.java
+ tudbut.tools.ConfigSaverTCN
+tudbut/parsing/TudSort.java
+ tudbut.parsing.TudSort
+ tudbut.parsing.TudSort$Sorter
+ tudbut.parsing.TudSort$SorterDouble
+de/tudbut/timer/Ticks.java
+ de.tudbut.timer.Ticks
+tudbut/tools/Tools2.java
+ tudbut.tools.Tools2
+tudbut/parsing/TCN.java
+ tudbut.parsing.TCN
+ tudbut.parsing.TCN$TCNException
+de/tudbut/tools/Application.java
+ de.tudbut.tools.Application
+ de.tudbut.tools.Application$1
+tudbut/obj/TypedArray.java
+ tudbut.obj.TypedArray
+tudbut/parsing/TCNArray.java
+ tudbut.parsing.TCNArray
+tudbut/tools/Time.java
+ tudbut.tools.Time
+de/tudbut/timer/AsyncCatcher.java
+ de.tudbut.timer.AsyncCatcher
+tudbut/rendering/Maths3D.java
+ tudbut.rendering.Maths3D
+tudbut/net/http/HTTPUtils.java
+ tudbut.net.http.HTTPUtils
+de/tudbut/tools/Config.java
+ de.tudbut.tools.Config
+de/tudbut/type/Nothing.java
+ de.tudbut.type.Nothing
+tudbut/rendering/RenderOutputType.java
+ tudbut.rendering.RenderOutputType
+de/tudbut/type/FileFormatException.java
+ de.tudbut.type.FileFormatException
+de/tudbut/tools/bintools/encoding/Value.java
+ de.tudbut.tools.bintools.encoding.Value
+de/tudbut/type/ByteArrayList.java
+ de.tudbut.type.ByteArrayList
+tudbut/rendering/RenderObject2D.java
+ tudbut.rendering.RenderObject2D
+tudbut/tools/Retriever.java
+ tudbut.tools.Retriever
+tudbut/obj/Atomic.java
+ tudbut.obj.Atomic
+tudbut/debug/Debug.java
+ tudbut.debug.Debug
+tudbut/io/CLSPrintWriter.java
+ tudbut.io.CLSPrintWriter
+de/tudbut/tools/YMLFile.java
+ de.tudbut.tools.YMLFile
+de/tudbut/type/Token.java
+ de.tudbut.type.Token
+de/tudbut/pluginapi/PluginManager.java
+ de.tudbut.pluginapi.PluginManager
+de/tudbut/type/Vector3d.java
+ de.tudbut.type.Vector3d
+tudbut/algorithm/Algorithm.java
+ tudbut.algorithm.Algorithm
+ tudbut.algorithm.Algorithm$Input
+tudbut/tools/OValue.java
+ tudbut.tools.OValue
 de/tudbut/tools/StringTools.java
  de.tudbut.tools.StringTools
 tudbut/net/ic/PBIC.java
@@ -114,21 +273,11 @@ de/tudbut/window/Window.java
  de.tudbut.window.Window$1
 tudbut/net/smtp/SMTPServerErrorException.java
  tudbut.net.smtp.SMTPServerErrorException
-tudbut/net/http/HTTPRequest.java
- tudbut.net.http.HTTPRequest
 tudbut/net/ic/Bus.java
  tudbut.net.ic.Bus
 tudbut/net/http/HTTPResponse.java
  tudbut.net.http.HTTPResponse
  tudbut.net.http.HTTPResponse$1
-de/tudbut/tools/Tools.java
- de.tudbut.tools.Tools
- de.tudbut.tools.Tools$ObjectMapping
- de.tudbut.tools.Tools$TFS
- de.tudbut.tools.Tools$TFS$TFSException
- de.tudbut.tools.Tools$TFS$TFSException$TFSFileAlreadyExistsException
- de.tudbut.tools.Tools$TFS$TFSException$TFSFileNotFoundException
- de.tudbut.tools.Tools$TFS$TFSException$TFSPathNotFromRootException
 tudbut/gui/SettingsGUI.java
  tudbut.gui.SettingsGUI
  tudbut.gui.SettingsGUI$1
@@ -138,47 +287,23 @@ tudbut/io/FileBus.java
  tudbut.io.FileBus$2
 tudbut/obj/AtomicSink.java
  tudbut.obj.AtomicSink
-de/tudbut/type/INothing.java
- de.tudbut.type.INothing
-tudbut/net/http/HTTPRequestType.java
- tudbut.net.http.HTTPRequestType
 tudbut/debug/DebugProfiler.java
  tudbut.debug.DebugProfiler
  tudbut.debug.DebugProfiler$1
  tudbut.debug.DebugProfiler$Results
  tudbut.debug.DebugProfiler$Section
-tudbut/io/FileBusTransmitter.java
- tudbut.io.FileBusTransmitter
 de/tudbut/tools/ThrowingRunnable.java
  de.tudbut.tools.ThrowingRunnable
-tudbut/rendering/Graph.java
- tudbut.rendering.Graph
 de/tudbut/timer/SyncQueue.java
  de.tudbut.timer.SyncQueue
  de.tudbut.timer.SyncQueue$1
  de.tudbut.timer.SyncQueue$2
-de/tudbut/pluginapi/PluginLoadEvent.java
- de.tudbut.pluginapi.PluginLoadEvent
-de/tudbut/type/FInfo.java
- de.tudbut.type.FInfo
 tudbut/tools/ThreadPool.java
  tudbut.tools.ThreadPool
 tudbut/rendering/tph/TPH300.java
  tudbut.rendering.tph.TPH300
-tudbut/tools/Timer.java
- tudbut.tools.Timer
-tudbut/tools/NoiseGenerator.java
- tudbut.tools.NoiseGenerator
 tudbut/io/StreamRedirect.java
  tudbut.io.StreamRedirect
-tudbut/rendering/RenderObjectType.java
- tudbut.rendering.RenderObjectType
-tudbut/tools/MultidimensionalMaths.java
- tudbut.tools.MultidimensionalMaths
-tudbut/obj/RelativeVector3d.java
- tudbut.obj.RelativeVector3d
-de/tudbut/ui/windowgui/GUIWindow.java
- de.tudbut.ui.windowgui.GUIWindow
 de/tudbut/ui/windowgui/WindowGUI.java
  de.tudbut.ui.windowgui.WindowGUI
 de/tudbut/net/ws/ConnectionHandler.java
@@ -190,24 +315,14 @@ tudbut/io/TypedOutputStream.java
  tudbut.io.TypedOutputStream
 tudbut/net/http/HTTPContentType.java
  tudbut.net.http.HTTPContentType
-de/tudbut/io/StreamReader.java
- de.tudbut.io.StreamReader
-tudbut/tools/SimpleTimer.java
- tudbut.tools.SimpleTimer
 tudbut/rendering/Rectangle2D.java
  tudbut.rendering.Rectangle2D
-tudbut/parsing/StringMapParser.java
- tudbut.parsing.StringMapParser
-tudbut/net/http/ParsedHTTPValue.java
- tudbut.net.http.ParsedHTTPValue
-de/tudbut/tools/FileRW.java
- de.tudbut.tools.FileRW
+tudbut/net/http/ResponseCode.java
+ tudbut.net.http.ResponseCode
 tudbut/net/http/HTTPHeader.java
  tudbut.net.http.HTTPHeader
 tudbut/io/IntBuffer.java
  tudbut.io.IntBuffer
-de/tudbut/net/ws/Client.java
- de.tudbut.net.ws.Client
 tudbut/logger/EmptyLogger.java
  tudbut.logger.EmptyLogger
 tudbut/io/ImageIOUtils.java
@@ -216,28 +331,12 @@ tudbut/tools/Value.java
  tudbut.tools.Value
 tudbut/tools/VarTools.java
  tudbut.tools.VarTools
-tudbut/tools/AudioPlayer.java
- tudbut.tools.AudioPlayer
- tudbut.tools.AudioPlayer$AudioException
- tudbut.tools.AudioPlayer$AudioTrackPlayer
-tudbut/tools/Stopwatch.java
- tudbut.tools.Stopwatch
 tudbut/tools/Lock.java
  tudbut.tools.Lock
  tudbut.tools.Lock$1
  tudbut.tools.Lock$Locker
-tudbut/obj/TLMap.java
- tudbut.obj.TLMap
- tudbut.obj.TLMap$Binding
- tudbut.obj.TLMap$Binding$Entry
 de/tudbut/tools/Hasher.java
  de.tudbut.tools.Hasher
-tudbut/net/smtp/SMTPSender.java
- tudbut.net.smtp.SMTPSender
-de/tudbut/tools/bintools/encoding/TCryptV2.java
- de.tudbut.tools.bintools.encoding.TCryptV2
-tudbut/tools/Stack.java
- tudbut.tools.Stack
 de/tudbut/tools/bintools/BinFileRW.java
  de.tudbut.tools.bintools.BinFileRW
 tudbut/tools/ObjectSerializerTCN.java
@@ -260,9 +359,6 @@ tudbut/obj/Closable.java
  tudbut.obj.Closable$C
 tudbut/rendering/Projection2D.java
  tudbut.rendering.Projection2D
-tudbut/logger/DetailedLogger.java
- tudbut.logger.DetailedLogger
- tudbut.logger.DetailedLogger$1
 de/tudbut/tools/Keyboard.java
  de.tudbut.tools.Keyboard
 tudbut/obj/PrintThrowRunnable.java
@@ -280,42 +376,22 @@ tudbut/net/smtp/SMTPDataOutput.java
  tudbut.net.smtp.SMTPDataOutput$1
  tudbut.net.smtp.SMTPDataOutput$DataClosedException
  tudbut.net.smtp.SMTPDataOutput$HeadersClosedException
-de/tudbut/net/ws/Server.java
- de.tudbut.net.ws.Server
 tudbut/tools/Queue.java
  tudbut.tools.Queue
 tudbut/rendering/Rectangle3D.java
  tudbut.rendering.Rectangle3D
-tudbut/tools/StringTools.java
- tudbut.tools.StringTools
 tudbut/obj/Transient.java
  tudbut.obj.Transient
 de/tudbut/type/Vector2d.java
  de.tudbut.type.Vector2d
 de/tudbut/timer/AsyncRunnable.java
  de.tudbut.timer.AsyncRunnable
-tudbut/parsing/Lang.java
- tudbut.parsing.Lang
- tudbut.parsing.Lang$1
- tudbut.parsing.Lang$Factory
-de/tudbut/pluginapi/Plugin.java
- de.tudbut.pluginapi.Plugin
 de/tudbut/tools/Bash.java
  de.tudbut.tools.Bash
-tudbut/algorithm/AlgorithmAI.java
- tudbut.algorithm.AlgorithmAI
- tudbut.algorithm.AlgorithmAI$Association
-de/tudbut/pluginapi/PluginGetEvent.java
- de.tudbut.pluginapi.PluginGetEvent
 de/tudbut/ui/consoleui/ConsoleUI.java
  de.tudbut.ui.consoleui.ConsoleUI
 tudbut/tools/ArrayGetter.java
  tudbut.tools.ArrayGetter
-tudbut/obj/InstanceBoundMap.java
- tudbut.obj.InstanceBoundMap
- tudbut.obj.InstanceBoundMap$1
- tudbut.obj.InstanceBoundMap$Binding
- tudbut.obj.InstanceBoundMap$Binding$Entry
 tudbut/obj/DoubleTypedObject.java
  tudbut.obj.DoubleTypedObject
 de/tudbut/timer/AsyncThenRunnable.java
@@ -324,12 +400,6 @@ tudbut/rendering/tph/TPH302.java
  tudbut.rendering.tph.TPH302
 tudbut/tools/ReflectUtil.java
  tudbut.tools.ReflectUtil
-tudbut/tools/MappableIO.java
- tudbut.tools.MappableIO
-tudbut/rendering/GIFEncoder.java
- tudbut.rendering.GIFEncoder
-tudbut/obj/ClosedClosableException.java
- tudbut.obj.ClosedClosableException
 tudbut/obj/IgnoreThrowRunnable.java
  tudbut.obj.IgnoreThrowRunnable
 de/tudbut/type/IntArrayList.java
@@ -348,25 +418,12 @@ de/tudbut/net/ws/Connection.java
  de.tudbut.net.ws.Connection
 tudbut/rendering/RenderObject3D.java
  tudbut.rendering.RenderObject3D
-tudbut/obj/AtomicUtils.java
- tudbut.obj.AtomicUtils
 tudbut/rendering/RenderAssistant.java
  tudbut.rendering.RenderAssistant
-de/tudbut/type/Stoppable.java
- de.tudbut.type.Stoppable
- de.tudbut.type.Stoppable$C
-tudbut/global/GlobalSyncQueue.java
- tudbut.global.GlobalSyncQueue
- tudbut.global.GlobalSyncQueue$1
- tudbut.global.GlobalSyncQueue$2
 tudbut/tools/ValueArray.java
  tudbut.tools.ValueArray
 de/tudbut/tools/BYMLFile.java
  de.tudbut.tools.BYMLFile
-de/tudbut/type/CharArrayList.java
- de.tudbut.type.CharArrayList
-de/tudbut/type/CInfo.java
- de.tudbut.type.CInfo
 tudbut/logger/LoggerSink.java
  tudbut.logger.LoggerSink
  tudbut.logger.LoggerSink$1
@@ -375,19 +432,12 @@ tudbut/logger/LoggerSink.java
  tudbut.logger.LoggerSink$4
 tudbut/tools/MoreMath.java
  tudbut.tools.MoreMath
-tudbut/math/Function.java
- tudbut.math.Function
-tudbut/net/http/HTTPServer.java
- tudbut.net.http.HTTPServer
- tudbut.net.http.HTTPServer$HTTPHandler
 de/tudbut/timer/Ticker.java
  de.tudbut.timer.Ticker
 tudbut/obj/Mappable.java
  tudbut.obj.Mappable
 tudbut/tools/BufferManager.java
  tudbut.tools.BufferManager
-tudbut/rendering/Maths2D.java
- tudbut.rendering.Maths2D
 tudbut/net/http/HTTPServerRequest.java
  tudbut.net.http.HTTPServerRequest
  tudbut.net.http.HTTPServerRequest$1
@@ -395,21 +445,8 @@ tudbut/math/ComplexNumber.java
  tudbut.math.ComplexNumber
 tudbut/parsing/ArgumentParser.java
  tudbut.parsing.ArgumentParser
-tudbut/obj/RayCast.java
- tudbut.obj.RayCast
-tudbut/parsing/JSON.java
- tudbut.parsing.JSON
- tudbut.parsing.JSON$JSONFormatException
-de/tudbut/tools/ExtendedMath.java
- de.tudbut.tools.ExtendedMath
 de/tudbut/type/StringArray.java
  de.tudbut.type.StringArray
-de/tudbut/tools/NoiseMap.java
- de.tudbut.tools.NoiseMap
-de/tudbut/net/nethandler/PacketDataID.java
- de.tudbut.net.nethandler.PacketDataID
-tudbut/obj/PAtomic.java
- tudbut.obj.PAtomic
 tudbut/tools/ClassLoaderAdapter.java
  tudbut.tools.ClassLoaderAdapter
 tudbut/rendering/Projection3D.java
@@ -419,36 +456,12 @@ tudbut/io/DoubleBuffer.java
 tudbut/obj/Partial.java
  tudbut.obj.Partial
  tudbut.obj.Partial$Listener
-tudbut/io/TypedInputStream.java
- tudbut.io.TypedInputStream
-de/tudbut/type/O.java
- de.tudbut.type.O
 tudbut/global/DebugStateManager.java
  tudbut.global.DebugStateManager
-tudbut/tools/Serializing.java
- tudbut.tools.Serializing
-de/tudbut/ui/windowgui/Design.java
- de.tudbut.ui.windowgui.Design
-tudbut/net/http/HTTPResponseFactory.java
- tudbut.net.http.HTTPResponseFactory
- tudbut.net.http.HTTPResponseFactory$ResponseCode
-de/tudbut/tools/bintools/encoding/TCryptV1.java
- de.tudbut.tools.bintools.encoding.TCryptV1
 tudbut/rendering/tph/TPH301.java
  tudbut.rendering.tph.TPH301
-tudbut/tools/Cache.java
- tudbut.tools.Cache
- tudbut.tools.Cache$1
- tudbut.tools.Cache$CacheRetriever
- tudbut.tools.Cache$Entry
 tudbut/tools/MapTools.java
  tudbut.tools.MapTools
-tudbut/tools/ConfigSaverTCN.java
- tudbut.tools.ConfigSaverTCN
-tudbut/parsing/TudSort.java
- tudbut.parsing.TudSort
- tudbut.parsing.TudSort$Sorter
- tudbut.parsing.TudSort$SorterDouble
 tudbut/logger/Logger.java
  tudbut.logger.Logger
  tudbut.logger.Logger$1
@@ -460,21 +473,9 @@ tudbut/logger/Logger.java
  tudbut.logger.Logger$7
  tudbut.logger.Logger$8
  tudbut.logger.Logger$9
-de/tudbut/timer/Ticks.java
- de.tudbut.timer.Ticks
 de/tudbut/tools/bintools/encoding/Seed.java
  de.tudbut.tools.bintools.encoding.Seed
 tudbut/obj/Vector2i.java
  tudbut.obj.Vector2i
-tudbut/tools/Tools2.java
- tudbut.tools.Tools2
-tudbut/parsing/TCN.java
- tudbut.parsing.TCN
- tudbut.parsing.TCN$TCNException
 tudbut/tools/BetterClassLoader.java
  tudbut.tools.BetterClassLoader
-de/tudbut/tools/Application.java
- de.tudbut.tools.Application
- de.tudbut.tools.Application$1
-tudbut/obj/TypedArray.java
- tudbut.obj.TypedArray
