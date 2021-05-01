@@ -87,7 +87,6 @@ public class JSON {
                     inString = false;
                     escape = false;
                     theString = new StringBuilder("{");
-                    System.out.print(c);
                     c = a[++pos];
                     int layer = 1;
                     while (layer > 0) {
@@ -95,7 +94,6 @@ public class JSON {
                             layer++;
                         if(c == '}' && !inString)
                             layer--;
-                        System.out.print(c);
                         
                         if (c == '\\') {
                             escape = !escape;
