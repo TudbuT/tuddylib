@@ -14,8 +14,6 @@ import java.util.Map;
  */
 public class HTTPResponse extends Value<String> {
     
-    private String original;
-    
     /**
      * Constructs a HTTPResponse from plain content
      * @param value The content

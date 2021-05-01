@@ -123,8 +123,8 @@ public class HTTPRequest {
                         partialResponse.change(new HTTPResponse(builder.toString()));
                 }
                 socket.close();
+                partialResponse.change(new HTTPResponse(builder.toString()));
                 partialResponse.complete(partialResponse.get());
-                return partialResponse.get();
             } catch (Exception ignored) { }
             return partialResponse.get();
         });
@@ -151,6 +151,7 @@ public class HTTPRequest {
                         partialResponse.change(new HTTPResponse(builder.toString()));
                 }
                 socket.close();
+                partialResponse.change(new HTTPResponse(builder.toString()));
                 partialResponse.complete(partialResponse.get());
                 return partialResponse.get();
             } catch (Exception ignored) { }
