@@ -13,20 +13,11 @@ import java.util.Objects;
  */
 public class RawKey extends Key {
     
-    protected final String string;
-    
     /**
      * Generates a random Key
      */
     public RawKey() {
-        StringBuilder string;
-        string = new StringBuilder();
-        for (int i = 0 ; i < 16 ; i++) {
-            if(i != 0)
-                string.append("_");
-            string.append(Tools.randomAlphanumericString(64));
-        }
-        this.string = string.toString();
+        super();
     }
     
     /**
@@ -34,7 +25,7 @@ public class RawKey extends Key {
      * @param s Key as string
      */
     public RawKey(String s) {
-        string = s;
+        super(s);
     }
     
     /**
@@ -42,29 +33,7 @@ public class RawKey extends Key {
      * @param bytes Key as byte[]
      */
     public RawKey(byte[] bytes) {
-        string = new String(bytes, StandardCharsets.ISO_8859_1);
-    }
-    
-    /**
-     * Compares two keys
-     * @param other The key to compare to
-     * @return If other is equal to this
-     */
-    public boolean equals(RawKey other) {
-        return string.equals(other.string);
-    }
-    
-    /**
-     * Hashes the Kay
-     * @return the hash
-     */
-    public String toHashString() {
-        String[] strings = string.split("_");
-        StringBuilder hash = new StringBuilder();
-        for (int i = 0 ; i < strings.length ; i++) {
-            hash.append(Hasher.sha512hex(strings[i]));
-        }
-        return hash.toString();
+        super(new String(bytes, StandardCharsets.ISO_8859_1));
     }
     
     /**
@@ -72,16 +41,7 @@ public class RawKey extends Key {
      * @return the bytes of the key
      */
     public byte[] toBytes() {
-        return string.getBytes();
-    }
-    
-    /**
-     * Returns the key as string. USE {@link #toHashString} TO GET A HASH, THIS WILL RETURN THE ENCRYPTION KEY!
-     * @return the key as string
-     */
-    @Override
-    public String toString() {
-        return string;
+        return string.getBytes(StandardCharsets.ISO_8859_1);
     }
     
     /**
@@ -120,23 +80,5 @@ public class RawKey extends Key {
             }
         }
         return new String(bytes, StandardCharsets.ISO_8859_1);
-    }
-    
-    /**
-     * Encrypts an object
-     * @param o object to encrypt
-     * @return encrypted string
-     */
-    public String encryptObject(Object o) {
-        return encryptString(Tools.mapToString(Objects.requireNonNull(new ObjectSerializerTCN(o).convertAll().done(new TCN())).toMap()));
-    }
-    
-    /**
-     * Decrypts an object
-     * @param s string to decrypt
-     * @return decrypted object
-     */
-    public <T> T decryptObject(String s) {
-        return new ObjectSerializerTCN(TCN.readMap(Tools.stringToMap(decryptString(s)))).convertAll().done();
     }
 }

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -73,13 +73,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#fields.inherited.from.class.tudbut.tools.encryption.Key">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -127,17 +127,13 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <!--   -->
 </a>
 <h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#string">string</a></span></code>&nbsp;</td>
-</tr>
-</table>
+<ul class="blockList">
+<li class="blockList"><a name="fields.inherited.from.class.tudbut.tools.encryption.Key">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;tudbut.tools.encryption.<a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></h3>
+<code><a href="../../../tudbut/tools/encryption/Key.html#string">string</a></code></li>
+</ul>
 </li>
 </ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -182,51 +178,21 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#decryptObject-java.lang.String-">decryptObject</a></span>(java.lang.String&nbsp;s)</code>
-<div class="block">Decrypts an object</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#decryptString-java.lang.String-">decryptString</a></span>(java.lang.String&nbsp;s)</code>
 <div class="block">Decrypts a string</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#encryptObject-java.lang.Object-">encryptObject</a></span>(java.lang.Object&nbsp;o)</code>
-<div class="block">Encrypts an object</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#encryptString-java.lang.String-">encryptString</a></span>(java.lang.String&nbsp;s)</code>
 <div class="block">Encrypts a string</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#equals-tudbut.tools.encryption.RawKey-">equals</a></span>(<a href="../../../tudbut/tools/encryption/RawKey.html" title="class in tudbut.tools.encryption">RawKey</a>&nbsp;other)</code>
-<div class="block">Compares two keys</div>
-</td>
-</tr>
-<tr id="i5" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>byte[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#toBytes--">toBytes</a></span>()</code>
 <div class="block">Gets the bytes of the key</div>
-</td>
-</tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#toHashString--">toHashString</a></span>()</code>
-<div class="block">Hashes the Kay</div>
-</td>
-</tr>
-<tr id="i7" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/RawKey.html#toString--">toString</a></span>()</code>
-<div class="block">Returns the key as string.</div>
 </td>
 </tr>
 </table>
@@ -235,7 +201,7 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;tudbut.tools.encryption.<a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></h3>
-<code><a href="../../../tudbut/tools/encryption/Key.html#equals-tudbut.tools.encryption.Key-">equals</a></code></li>
+<code><a href="../../../tudbut/tools/encryption/Key.html#decryptObject-java.lang.String-">decryptObject</a>, <a href="../../../tudbut/tools/encryption/Key.html#encryptObject-java.lang.Object-">encryptObject</a>, <a href="../../../tudbut/tools/encryption/Key.html#equals-tudbut.tools.encryption.Key-">equals</a>, <a href="../../../tudbut/tools/encryption/Key.html#toHashString--">toHashString</a>, <a href="../../../tudbut/tools/encryption/Key.html#toString--">toString</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -252,23 +218,6 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="string">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>string</h4>
-<pre>protected final&nbsp;java.lang.String string</pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -321,38 +270,6 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="equals-tudbut.tools.encryption.RawKey-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;equals(<a href="../../../tudbut/tools/encryption/RawKey.html" title="class in tudbut.tools.encryption">RawKey</a>&nbsp;other)</pre>
-<div class="block">Compares two keys</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>other</code> - The key to compare to</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>If other is equal to this</dd>
-</dl>
-</li>
-</ul>
-<a name="toHashString--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>toHashString</h4>
-<pre>public&nbsp;java.lang.String&nbsp;toHashString()</pre>
-<div class="block">Hashes the Kay</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../tudbut/tools/encryption/Key.html#toHashString--">toHashString</a></code>&nbsp;in class&nbsp;<code><a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the hash</dd>
-</dl>
-</li>
-</ul>
 <a name="toBytes--">
 <!--   -->
 </a>
@@ -366,22 +283,6 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <dd><code><a href="../../../tudbut/tools/encryption/Key.html#toBytes--">toBytes</a></code>&nbsp;in class&nbsp;<code><a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the bytes of the key</dd>
-</dl>
-</li>
-</ul>
-<a name="toString--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>toString</h4>
-<pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
-<div class="block">Returns the key as string. USE <a href="../../../tudbut/tools/encryption/RawKey.html#toHashString--"><code>toHashString()</code></a> TO GET A HASH, THIS WILL RETURN THE ENCRYPTION KEY!</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../tudbut/tools/encryption/Key.html#toString--">toString</a></code>&nbsp;in class&nbsp;<code><a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the key as string</dd>
 </dl>
 </li>
 </ul>
@@ -406,7 +307,7 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <a name="decryptString-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>decryptString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;decryptString(java.lang.String&nbsp;s)</pre>
@@ -418,42 +319,6 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <dd><code>s</code> - string to decrypt</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>decrypted string</dd>
-</dl>
-</li>
-</ul>
-<a name="encryptObject-java.lang.Object-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>encryptObject</h4>
-<pre>public&nbsp;java.lang.String&nbsp;encryptObject(java.lang.Object&nbsp;o)</pre>
-<div class="block">Encrypts an object</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../tudbut/tools/encryption/Key.html#encryptObject-java.lang.Object-">encryptObject</a></code>&nbsp;in class&nbsp;<code><a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>o</code> - object to encrypt</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>encrypted string</dd>
-</dl>
-</li>
-</ul>
-<a name="decryptObject-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>decryptObject</h4>
-<pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;decryptObject(java.lang.String&nbsp;s)</pre>
-<div class="block">Decrypts an object</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../tudbut/tools/encryption/Key.html#decryptObject-java.lang.String-">decryptObject</a></code>&nbsp;in class&nbsp;<code><a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - string to decrypt</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>decrypted object</dd>
 </dl>
 </li>
 </ul>
@@ -510,13 +375,13 @@ extends <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudb
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#fields.inherited.from.class.tudbut.tools.encryption.Key">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
