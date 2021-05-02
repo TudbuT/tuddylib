@@ -241,6 +241,8 @@ tudbut/debug/Debug.java
  tudbut.debug.Debug
 tudbut/io/CLSPrintWriter.java
  tudbut.io.CLSPrintWriter
+tudbut/tools/encryption/RawKey.java
+ tudbut.tools.encryption.RawKey
 de/tudbut/tools/YMLFile.java
  de.tudbut.tools.YMLFile
 de/tudbut/type/Token.java
