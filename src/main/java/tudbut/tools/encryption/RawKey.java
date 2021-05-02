@@ -19,7 +19,6 @@ public class RawKey extends Key {
      * Generates a random Key
      */
     public RawKey() {
-        super();
         StringBuilder string;
         string = new StringBuilder();
         for (int i = 0 ; i < 16 ; i++) {
@@ -35,7 +34,6 @@ public class RawKey extends Key {
      * @param s Key as string
      */
     public RawKey(String s) {
-        super(s);
         string = s;
     }
     
@@ -44,8 +42,7 @@ public class RawKey extends Key {
      * @param bytes Key as byte[]
      */
     public RawKey(byte[] bytes) {
-        super(bytes);
-        string = new String(bytes);
+        string = new String(bytes, StandardCharsets.ISO_8859_1);
     }
     
     /**
