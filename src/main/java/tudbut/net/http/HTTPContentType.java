@@ -55,6 +55,8 @@ public enum HTTPContentType {
     SVG("image/svg+xml"),
     SWF("application/x-shockwave-flash"),
     TAR("application/x-tar"),
+    TCN("text/tcn"),
+    TCNMAP("application/tcnmap"),
     TS("video/mp2t"),
     TTF("font/ttf"),
     TXT("text/plain"),

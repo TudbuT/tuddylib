@@ -39,7 +39,7 @@ public class HTTPRequest {
      * @param headers HTTPHeaders to use, can be empty
      */
     public HTTPRequest(HTTPRequestType requestType, String host, int port, String path, HTTPHeader... headers) {
-        this(requestType, host, port, path, null, "", headers);
+        this(requestType, host, port, path, (String) null, "", headers);
     }
     
     /**
@@ -53,6 +53,20 @@ public class HTTPRequest {
      * @param headersIn HTTPHeaders to use, can be empty
      */
     public HTTPRequest(HTTPRequestType requestTypeIn, String hostIn, int portIn, String pathIn, HTTPContentType type, String contentIn, HTTPHeader... headersIn) {
+        this(requestTypeIn, hostIn, portIn, pathIn, type.asHeaderString, contentIn, headersIn);
+    }
+    
+    /**
+     * Constructs a HTTPRequest without sending it
+     * @param requestTypeIn The type of the request, see {@link HTTPRequestType}.
+     * @param hostIn Host, add "https://" in front to attempt a HTTPS connection, otherwise, dont specify protocol
+     * @param portIn Port, 80 is standard for HTTP, 443 is standard for HTTPS
+     * @param pathIn Path to request, use "/" for main path
+     * @param type The type of the body
+     * @param contentIn The body
+     * @param headersIn HTTPHeaders to use, can be empty
+     */
+    public HTTPRequest(HTTPRequestType requestTypeIn, String hostIn, int portIn, String pathIn, String type, String contentIn, HTTPHeader... headersIn) {
         ssl = hostIn.startsWith("https://");
         
         requestType = requestTypeIn;
@@ -61,7 +75,7 @@ public class HTTPRequest {
         port = portIn;
         headers.add(new HTTPHeader("Host", ssl ? host.split("https://")[1] : host));
         if(!contentIn.equals("")) {
-            headers.add(new HTTPHeader("Content-Type", type.asHeaderString));
+            headers.add(new HTTPHeader("Content-Type", type));
             headers.add(new HTTPHeader("Content-Length", String.valueOf(contentIn.getBytes(StandardCharsets.ISO_8859_1).length)));
         }
         if(Arrays.stream(headersIn).noneMatch(httpHeader -> httpHeader.toString().startsWith("Connection: ")))

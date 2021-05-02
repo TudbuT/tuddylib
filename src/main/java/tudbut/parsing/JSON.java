@@ -77,7 +77,7 @@ public class JSON {
                 }
         
                 // Booleans, ints, etc
-                else if (kv && !startString && !inStringKV && c != ',' && Character.isLetterOrDigit(c)) {
+                else if (kv && !startString && !inStringKV && c != ',' && (Character.isLetterOrDigit(c) || c == '.')) {
                     theString.append(c);
                 }
         
@@ -107,9 +107,9 @@ public class JSON {
                         theString.append(c);
                         c = a[++pos];
                     }
-                    theString.append(']');
-                    pos--;
+                    theString.append('}');
                     sub = read(theString.toString());
+                    theString = new StringBuilder();
                 }
                 // Arrays
                 if (!inString && c == '[') {
@@ -139,8 +139,9 @@ public class JSON {
                         theString.append(c);
                         c = a[++pos];
                     }
-                    theString.append(c);
+                    theString.append(']');
                     sub = read(theString.toString());
+                    theString = new StringBuilder();
                 }
                 
                 
@@ -185,6 +186,7 @@ public class JSON {
                 tcn.set(key, sub);
             else
                 tcn.set(key, theString.toString());
+            
             
             for (String theKey : tcn.map.keys()) {
                 TCN.deepConvert(theKey, tcn.get(theKey), tcn);
