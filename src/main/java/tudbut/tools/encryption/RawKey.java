@@ -5,6 +5,7 @@ import de.tudbut.tools.Tools;
 import tudbut.parsing.TCN;
 import tudbut.tools.ObjectSerializerTCN;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -80,5 +81,15 @@ public class RawKey extends Key {
             }
         }
         return new String(bytes, StandardCharsets.ISO_8859_1);
+    }
+    
+    @Override
+    protected RawKey clone() {
+        try {
+            return (RawKey) Object.class.getDeclaredMethod("clone").invoke(this);
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            return new RawKey(string);
+        }
     }
 }

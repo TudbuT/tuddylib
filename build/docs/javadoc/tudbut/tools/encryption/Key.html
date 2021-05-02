@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -106,13 +106,18 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>java.lang.Cloneable</dd>
+</dl>
+<dl>
 <dt>Direct Known Subclasses:</dt>
 <dd><a href="../../../tudbut/tools/encryption/RawKey.html" title="class in tudbut.tools.encryption">RawKey</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">Key</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements java.lang.Cloneable</pre>
 <div class="block">Key to encrypt objects and strings</div>
 </li>
 </ul>
@@ -181,48 +186,52 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>protected <a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#clone--">clone</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#decryptObject-java.lang.String-">decryptObject</a></span>(java.lang.String&nbsp;s)</code>
 <div class="block">Decrypts an object</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#decryptString-java.lang.String-">decryptString</a></span>(java.lang.String&nbsp;s)</code>
 <div class="block">Decrypts a string</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#encryptObject-java.lang.Object-">encryptObject</a></span>(java.lang.Object&nbsp;o)</code>
 <div class="block">Encrypts an object</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#encryptString-java.lang.String-">encryptString</a></span>(java.lang.String&nbsp;s)</code>
 <div class="block">Encrypts a string</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#equals-tudbut.tools.encryption.Key-">equals</a></span>(<a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a>&nbsp;other)</code>
 <div class="block">Compares two keys</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>byte[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#toBytes--">toBytes</a></span>()</code>
 <div class="block">Gets the bytes of the key</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#toHashString--">toHashString</a></span>()</code>
 <div class="block">Hashes the Kay</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/tools/encryption/Key.html#toString--">toString</a></span>()</code>
 <div class="block">Returns the key as string.</div>
@@ -234,7 +243,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<code>equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -424,7 +433,7 @@ extends java.lang.Object</pre>
 <a name="decryptObject-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>decryptObject</h4>
 <pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;decryptObject(java.lang.String&nbsp;s)</pre>
@@ -434,6 +443,19 @@ extends java.lang.Object</pre>
 <dd><code>s</code> - string to decrypt</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>decrypted object</dd>
+</dl>
+</li>
+</ul>
+<a name="clone--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>clone</h4>
+<pre>protected&nbsp;<a href="../../../tudbut/tools/encryption/Key.html" title="class in tudbut.tools.encryption">Key</a>&nbsp;clone()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>clone</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 </dl>
 </li>
 </ul>

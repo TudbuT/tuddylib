@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Key to encrypt objects and strings
  */
-public class Key {
+public class Key implements Cloneable {
     
     protected final String string;
     
@@ -137,5 +137,15 @@ public class Key {
      */
     public <T> T decryptObject(String s) {
         return new ObjectSerializerTCN(TCN.readMap(Tools.stringToMap(decryptString(s)))).convertAll().done();
+    }
+    
+    @Override
+    protected Key clone() {
+        try {
+            return (Key) super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            return new Key(string);
+        }
     }
 }
