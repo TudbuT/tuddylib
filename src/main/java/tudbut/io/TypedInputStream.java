@@ -15,6 +15,8 @@ public class TypedInputStream {
     protected InputStream stream;
     protected int last = -1;
     
+    private WriteDirection direction = WriteDirection.HIGH_FIRST;
+    
     public TypedInputStream(InputStream stream) {
         this.stream = stream;
     }
@@ -25,24 +27,44 @@ public class TypedInputStream {
     
     public short readShort() throws IOException {
         short s = 0;
-        s += (read() << 8*1);
-        s += (read() << 8*0);
+        if(direction == WriteDirection.HIGH_FIRST) {
+            s += (read() << 8 * 1);
+            s += (read() << 8 * 0);
+        }
+        else {
+            s += (read() << 8 * 0);
+            s += (read() << 8 * 1);
+        }
         return s;
     }
     
     public char readChar() throws IOException {
         char c = 0;
-        c += (read() << 8*1);
-        c += (read() << 8*0);
+        if(direction == WriteDirection.HIGH_FIRST) {
+            c += (read() << 8 * 1);
+            c += (read() << 8 * 0);
+        }
+        else {
+            c += (read() << 8 * 0);
+            c += (read() << 8 * 1);
+        }
         return c;
     }
     
     public int readInt() throws IOException {
         int i = 0;
-        i += (read() << 8*3);
-        i += (read() << 8*2);
-        i += (read() << 8*1);
-        i += (read() << 8*0);
+        if(direction == WriteDirection.HIGH_FIRST) {
+            i += (read() << 8 * 3);
+            i += (read() << 8 * 2);
+            i += (read() << 8 * 1);
+            i += (read() << 8 * 0);
+        }
+        else {
+            i += (read() << 8 * 0);
+            i += (read() << 8 * 1);
+            i += (read() << 8 * 2);
+            i += (read() << 8 * 3);
+        }
         return i;
     }
     
@@ -52,14 +74,26 @@ public class TypedInputStream {
     
     public long readLong() throws IOException {
         long l = 0;
-        l += ((long)read() << 8*7);
-        l += ((long)read() << 8*6);
-        l += ((long)read() << 8*5);
-        l += ((long)read() << 8*4);
-        l += ((long)read() << 8*3);
-        l += ((long)read() << 8*2);
-        l += ((long)read() << 8*1);
-        l += ((long)read() << 8*0);
+        if(direction == WriteDirection.HIGH_FIRST) {
+            l += ((long) read() << 8 * 7);
+            l += ((long) read() << 8 * 6);
+            l += ((long) read() << 8 * 5);
+            l += ((long) read() << 8 * 4);
+            l += ((long) read() << 8 * 3);
+            l += ((long) read() << 8 * 2);
+            l += ((long) read() << 8 * 1);
+            l += ((long) read() << 8 * 0);
+        }
+        else {
+            l += ((long) read() << 8 * 0);
+            l += ((long) read() << 8 * 1);
+            l += ((long) read() << 8 * 2);
+            l += ((long) read() << 8 * 3);
+            l += ((long) read() << 8 * 4);
+            l += ((long) read() << 8 * 5);
+            l += ((long) read() << 8 * 6);
+            l += ((long) read() << 8 * 7);
+        }
         return l;
     }
     
@@ -113,5 +147,15 @@ public class TypedInputStream {
                 return i;
             }
         }
+    }
+    
+    public WriteDirection getDirection() {
+        return direction;
+    }
+    
+    public void setDirection(WriteDirection direction) {
+        if(direction == null)
+            throw new IllegalArgumentException();
+        this.direction = direction;
     }
 }

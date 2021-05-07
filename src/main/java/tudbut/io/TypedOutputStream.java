@@ -13,6 +13,7 @@ public class TypedOutputStream {
     }
     
     OutputStream stream;
+    private WriteDirection direction = WriteDirection.HIGH_FIRST;
     
     public TypedOutputStream(OutputStream stream) {
         this.stream = stream;
@@ -24,22 +25,42 @@ public class TypedOutputStream {
     }
     
     public short writeShort(short s) throws IOException {
-        stream.write(s >> 8*1 & 0xff);
-        stream.write(s >> 8*0 & 0xff);
+        if(direction == WriteDirection.HIGH_FIRST) {
+            stream.write(s >> 8 * 1 & 0xff);
+            stream.write(s >> 8 * 0 & 0xff);
+        }
+        else {
+            stream.write(s >> 8 * 0 & 0xff);
+            stream.write(s >> 8 * 1 & 0xff);
+        }
         return s;
     }
     
     public char writeChar(char c) throws IOException {
-        stream.write(c >> 8*1 & 0xff);
-        stream.write(c >> 8*0 & 0xff);
+        if(direction == WriteDirection.HIGH_FIRST) {
+            stream.write(c >> 8 * 1 & 0xff);
+            stream.write(c >> 8 * 0 & 0xff);
+        }
+        else {
+            stream.write(c >> 8 * 0 & 0xff);
+            stream.write(c >> 8 * 1 & 0xff);
+        }
         return c;
     }
     
     public int writeInt(int i) throws IOException {
-        stream.write(i >> 8*3 & 0xff);
-        stream.write(i >> 8*2 & 0xff);
-        stream.write(i >> 8*1 & 0xff);
-        stream.write(i >> 8*0 & 0xff);
+        if(direction == WriteDirection.HIGH_FIRST) {
+            stream.write(i >> 8 * 3 & 0xff);
+            stream.write(i >> 8 * 2 & 0xff);
+            stream.write(i >> 8 * 1 & 0xff);
+            stream.write(i >> 8 * 0 & 0xff);
+        }
+        else {
+            stream.write(i >> 8 * 0 & 0xff);
+            stream.write(i >> 8 * 1 & 0xff);
+            stream.write(i >> 8 * 2 & 0xff);
+            stream.write(i >> 8 * 3 & 0xff);
+        }
         return i;
     }
     
@@ -49,14 +70,26 @@ public class TypedOutputStream {
     }
     
     public long writeLong(long l) throws IOException {
-        stream.write((int) (l >> 8*7 & 0xff));
-        stream.write((int) (l >> 8*6 & 0xff));
-        stream.write((int) (l >> 8*5 & 0xff));
-        stream.write((int) (l >> 8*4 & 0xff));
-        stream.write((int) (l >> 8*3 & 0xff));
-        stream.write((int) (l >> 8*2 & 0xff));
-        stream.write((int) (l >> 8*1 & 0xff));
-        stream.write((int) (l >> 8*0 & 0xff));
+        if(direction == WriteDirection.HIGH_FIRST) {
+            stream.write((int) (l >> 8 * 7 & 0xff));
+            stream.write((int) (l >> 8 * 6 & 0xff));
+            stream.write((int) (l >> 8 * 5 & 0xff));
+            stream.write((int) (l >> 8 * 4 & 0xff));
+            stream.write((int) (l >> 8 * 3 & 0xff));
+            stream.write((int) (l >> 8 * 2 & 0xff));
+            stream.write((int) (l >> 8 * 1 & 0xff));
+            stream.write((int) (l >> 8 * 0 & 0xff));
+        }
+        else {
+            stream.write((int) (l >> 8 * 0 & 0xff));
+            stream.write((int) (l >> 8 * 1 & 0xff));
+            stream.write((int) (l >> 8 * 2 & 0xff));
+            stream.write((int) (l >> 8 * 3 & 0xff));
+            stream.write((int) (l >> 8 * 4 & 0xff));
+            stream.write((int) (l >> 8 * 5 & 0xff));
+            stream.write((int) (l >> 8 * 6 & 0xff));
+            stream.write((int) (l >> 8 * 7 & 0xff));
+        }
         return l;
     }
     
@@ -86,5 +119,15 @@ public class TypedOutputStream {
             writeChar(string.toCharArray()[j]);
         }
         return string;
+    }
+    
+    public WriteDirection getDirection() {
+        return direction;
+    }
+    
+    public void setDirection(WriteDirection direction) {
+        if(direction == null)
+            throw new IllegalArgumentException();
+        this.direction = direction;
     }
 }

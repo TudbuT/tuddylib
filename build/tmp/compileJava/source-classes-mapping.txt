@@ -321,6 +321,8 @@ tudbut/rendering/Rectangle2D.java
  tudbut.rendering.Rectangle2D
 tudbut/net/http/HTTPResponseCode.java
  tudbut.net.http.HTTPResponseCode
+tudbut/io/WriteDirection.java
+ tudbut.io.WriteDirection
 tudbut/net/http/HTTPHeader.java
  tudbut.net.http.HTTPHeader
 tudbut/io/IntBuffer.java
@@ -464,6 +466,8 @@ tudbut/rendering/tph/TPH301.java
  tudbut.rendering.tph.TPH301
 tudbut/tools/MapTools.java
  tudbut.tools.MapTools
+tudbut/tools/TrayApp.java
+ tudbut.tools.TrayApp
 tudbut/logger/Logger.java
  tudbut.logger.Logger
  tudbut.logger.Logger$1

@@ -431,6 +431,8 @@ public class TCN {
                         Stack<String> p = path.clone();
                         if(array.peek()) {
                             p.add(String.valueOf(arrayPos.peek()));
+                            if(line.equals(";"))
+                                line = "; ";
                             map.put(new DoubleTypedObject<>(p, arrayPos.clone()), line.substring(2).replaceAll("%N", "\n").replaceAll("%P", "%"));
                             arrayPos.add(arrayPos.next() + 1);
                         }

@@ -31,7 +31,7 @@ javadoc {
     }
 }
 
-task makeJar {
+jar {
     doLast {
         File jar = new File("build/libs/tuddylib.jar")
         File loc = new File("TuddyLIB.jar")
@@ -49,5 +49,4 @@ task makeJar {
     }
 }
 
-jar.finalizedBy("makeJar")
 jar.dependsOn("javadoc")

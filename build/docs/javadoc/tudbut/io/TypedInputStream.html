@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -169,54 +169,62 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code><a href="../../tudbut/io/WriteDirection.html" title="enum in tudbut.io">WriteDirection</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#getDirection--">getDirection</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.io.InputStream</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#getStream--">getStream</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#read--">read</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readBoolean--">readBoolean</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readBooleans--">readBooleans</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>byte</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readByte--">readByte</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>char</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readChar--">readChar</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readDouble--">readDouble</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>float</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readFloat--">readFloat</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readInt--">readInt</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readLong--">readLong</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>short</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readShort--">readShort</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#readString--">readString</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#setDirection-tudbut.io.WriteDirection-">setDirection</a></span>(<a href="../../tudbut/io/WriteDirection.html" title="enum in tudbut.io">WriteDirection</a>&nbsp;direction)</code>&nbsp;</td>
+</tr>
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/io/TypedInputStream.html#waitForInput--">waitForInput</a></span>()</code>&nbsp;</td>
 </tr>
@@ -451,7 +459,7 @@ extends java.lang.Object</pre>
 <a name="read--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
 <pre>public&nbsp;int&nbsp;read()
@@ -460,6 +468,24 @@ extends java.lang.Object</pre>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code></dd>
 </dl>
+</li>
+</ul>
+<a name="getDirection--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDirection</h4>
+<pre>public&nbsp;<a href="../../tudbut/io/WriteDirection.html" title="enum in tudbut.io">WriteDirection</a>&nbsp;getDirection()</pre>
+</li>
+</ul>
+<a name="setDirection-tudbut.io.WriteDirection-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setDirection</h4>
+<pre>public&nbsp;void&nbsp;setDirection(<a href="../../tudbut/io/WriteDirection.html" title="enum in tudbut.io">WriteDirection</a>&nbsp;direction)</pre>
 </li>
 </ul>
 </li>
