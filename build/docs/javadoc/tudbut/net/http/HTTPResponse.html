@@ -149,7 +149,13 @@ extends <a href="../../../tudbut/tools/Value.html" title="class in tudbut.tools"
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPResponse.html#HTTPResponse-java.lang.String-">HTTPResponse</a></span>(java.lang.String&nbsp;value)</code>
-<div class="block">Constructs a HTTPResponse from plain content</div>
+<div class="block">Constructs a HTTPResponse from non-exact content</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPResponse.html#HTTPResponse-java.lang.String-boolean-">HTTPResponse</a></span>(java.lang.String&nbsp;value,
+            boolean&nbsp;exact)</code>
+<div class="block">Constructs a HTTPResponse from content</div>
 </td>
 </tr>
 </table>
@@ -198,11 +204,26 @@ extends <a href="../../../tudbut/tools/Value.html" title="class in tudbut.tools"
 <a name="HTTPResponse-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>HTTPResponse</h4>
 <pre>public&nbsp;HTTPResponse(java.lang.String&nbsp;value)</pre>
-<div class="block">Constructs a HTTPResponse from plain content</div>
+<div class="block">Constructs a HTTPResponse from non-exact content</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - The content</dd>
+</dl>
+</li>
+</ul>
+<a name="HTTPResponse-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>HTTPResponse</h4>
+<pre>public&nbsp;HTTPResponse(java.lang.String&nbsp;value,
+                    boolean&nbsp;exact)</pre>
+<div class="block">Constructs a HTTPResponse from content</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - The content</dd>

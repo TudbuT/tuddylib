@@ -14,11 +14,19 @@ import java.util.Map;
 public class HTTPResponse extends Value<String> {
     
     /**
-     * Constructs a HTTPResponse from plain content
+     * Constructs a HTTPResponse from non-exact content
      * @param value The content
      */
     public HTTPResponse(String value) {
         super(spl(value));
+    }
+    
+    /**
+     * Constructs a HTTPResponse from content
+     * @param value The content
+     */
+    public HTTPResponse(String value, boolean exact) {
+        super(exact ? value : spl(value));
     }
     
     private static String spl(String s) {

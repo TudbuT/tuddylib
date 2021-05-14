@@ -26,11 +26,12 @@ public class AsyncTask<T> {
 
     public AsyncTask(AsyncRunnable<T> runnable) {
         threadLock.lock();
-        Lock stopperLock = new Lock();
-        stopperLock.lock();
+        Lock stopperLock = new Lock(true);
+        Lock sLock = new Lock(true);
         Thread runner = t(() -> {
             startTime = new Date().getTime();
             stopperLock.waitHere();
+            sLock.unlock();
     
             startTime = new Date().getTime();
             try {
@@ -49,19 +50,20 @@ public class AsyncTask<T> {
                     }
                 }
             }
-            
+    
             done = true;
             done();
         });
         Thread stopper = t(() -> {
-            stopperLock.unlock();
+            while (sLock.isLocked())
+                stopperLock.unlock();
             while ((new Date().getTime() < startTime + timeout || timeout == -1) && !done) {
                 threadLock.waitHere(1);
             }
-            runner.stop();
-            
-            if(!done)
+            if(!done) {
+                runner.stop();
                 done();
+            }
         });
     }
     

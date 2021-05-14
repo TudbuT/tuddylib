@@ -27,12 +27,16 @@ public class NoiseGenerator {
     }
     
     public static void smooth(float[][][] floats, int sx, int sy, int sz, int ex, int ey, int ez, int amount) {
+        smooth(floats, sx, sy, sz, ex, ey, ez, amount, 2);
+    }
+    
+    public static void smooth(float[][][] floats, int sx, int sy, int sz, int ex, int ey, int ez, int amount, float m) {
         for (int s = 0; s < amount; s++) {
             for (int x = sx; x < ex; x++) {
                 for (int y = sy; y < ey; y++) {
                     for (int z = sz; z < ez; z++) {
-                        int i = 2;
-                        float f = floats[x][y][z] * 2;
+                        float i = m;
+                        float f = floats[x][y][z] * m;
                         for (int x1 = -1; x1 <= 1; x1++) {
                             for (int y1 = -1; y1 <= 1; y1++) {
                                 for (int z1 = -1; z1 <= 1; z1++) {

@@ -135,9 +135,7 @@ public class Lock {
      * Unlock manually
      */
     public synchronized void unlock() {
-        if(locked) {
-            locker.unlock();
-        }
+        locker.unlock();
         locked = false;
     }
     

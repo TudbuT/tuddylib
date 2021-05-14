@@ -32,14 +32,15 @@ public class HTTPResponseFactory {
 
         builder.append("HTTP/1.1 ").append(responseCode.asInt).append(" ").append(responseCode.name()).append("\r\n");
         builder.append(new HTTPHeader("Content-Type", contentType)).append("\r\n");
-        builder.append(new HTTPHeader("Content-Length", String.valueOf(body.getBytes(StandardCharsets.ISO_8859_1).length))).append("\r\n");
+        builder.append(new HTTPHeader("Content-Length", body.getBytes(StandardCharsets.ISO_8859_1).length + "")).append("\r\n");
         for (HTTPHeader header : headers) {
             builder.append(header.toString()).append("\r\n");
         }
         builder.append("\r\n");
         builder.append(body);
+        System.out.println(builder.toString());
 
 
-        return new HTTPResponse(builder.toString());
+        return new HTTPResponse(builder.toString(), true);
     }
 }

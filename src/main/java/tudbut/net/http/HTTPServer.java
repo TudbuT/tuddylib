@@ -32,6 +32,18 @@ public class HTTPServer implements Stoppable {
     /**
      * Constructs a HTTPServer without HTTPS
      * @param portIn Port to listen on
+     * @throws IOException Inherited
+     */
+    public HTTPServer(int portIn) throws IOException {
+        port = portIn;
+        serverError = HTTPResponseFactory.create(HTTPResponseCode.InternalServerError, "501 InternalServerError", HTTPContentType.TXT);
+        serverSocket = new ServerSocket(port);
+        executor = Runnable::run;
+    }
+    
+    /**
+     * Constructs a HTTPServer without HTTPS
+     * @param portIn Port to listen on
      * @param serverErrorIn Response to send on error
      * @param executorIn Executor
      * @throws IOException Inherited
@@ -81,7 +93,7 @@ public class HTTPServer implements Stoppable {
                     Socket finalSocket = socket;
                     boolean b = true;
                     for (int i = 0 ; i < handlers.size() ; i++) {
-                        if(!handlers.get(i).accept(socket.getRemoteSocketAddress()))
+                        if(!handlers.get(i).accept(socket.getRemoteSocketAddress()) || !handlers.get(i).accept(socket, socket.getRemoteSocketAddress()))
                             b = false;
                     }
                     if(b) {
@@ -168,6 +180,15 @@ public class HTTPServer implements Stoppable {
          * @return If the connection should be accepted
          */
         default boolean accept(SocketAddress address) {
+            return true;
+        }
+        /**
+         * Should the connection be accepted? (Useful for rate-limiting)
+         * @param socket The socket
+         * @param address The address the connection is coming from
+         * @return If the connection should be accepted
+         */
+        default boolean accept(Socket socket, SocketAddress address) {
             return true;
         }
     

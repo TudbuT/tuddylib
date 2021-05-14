@@ -115,8 +115,9 @@ public class TypedOutputStream {
     public String writeString(String string) throws IOException {
         int i = string.length();
         writeInt(i);
+        char[] chars = string.toCharArray();
         for (int j = 0 ; j < i ; j++) {
-            writeChar(string.toCharArray()[j]);
+            writeChar(chars[j]);
         }
         return string;
     }

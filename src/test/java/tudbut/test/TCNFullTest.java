@@ -21,6 +21,7 @@ public class TCNFullTest {
         test.getArray("array").add("LMAO");
         test.getArray("array").add("Lhh");
         test.getArray("array").add(other);
+        test.set("otherArray", new TCNArray());
     
         System.out.println(s="TCN 1: ");
         check += s + "\n";
@@ -48,7 +49,7 @@ public class TCNFullTest {
         check += s + "\n";
         System.out.println(s="\n\n\nJSON 3: ");
         check += s + "\n";
-        System.out.println(s=JSON.writeReadable(JSON.read(JSON.writeReadable(TCN.read(test.toString())))));
+        System.out.println(s=JSON.write(test));
         check += s + "\n";
         System.out.println(s="\n\n\nJSON Part: ");
         check += s + "\n";
@@ -87,6 +88,10 @@ public class TCNFullTest {
                             "    test: lol\n" +
                             "    terr: lolrr\n" +
                             "}\n" +
+                            "\n" +
+                            "\n" +
+                            "otherArray [\n" +
+                            "]\n" +
                             "\n" +
                             "\n" +
                             "\n" +
@@ -147,7 +152,9 @@ public class TCNFullTest {
                             "    ], \n" +
                             "    \"test\": \"lol\", \n" +
                             "    \"terr\": \"lolrr\"\n" +
-                            "  }\n" +
+                            "  }, \n" +
+                            "  \"otherArray\": [\n" +
+                            "  ]\n" +
                             "}\n" +
                             "\n" +
                             "\n" +
@@ -182,6 +189,11 @@ public class TCNFullTest {
                             "}\n" +
                             "\n" +
                             "\n" +
+                            "otherArray [\n" +
+                            "    ; \n" +
+                            "]\n" +
+                            "\n" +
+                            "\n" +
                             "\n" +
                             "\n" +
                             "JSON 2: \n" +
@@ -203,32 +215,17 @@ public class TCNFullTest {
                             "    ], \n" +
                             "    \"test\": \"lol\", \n" +
                             "    \"terr\": \"lolrr\"\n" +
-                            "  }\n" +
+                            "  }, \n" +
+                            "  \"otherArray\": [\n" +
+                            "    \"\"\n" +
+                            "  ]\n" +
                             "}\n" +
                             "\n" +
                             "\n" +
                             "\n" +
                             "JSON 3: \n" +
-                            "{\n" +
-                            "  \"array\": [\n" +
-                            "    \"LMAO\", \n" +
-                            "    \"Lhh\", \n" +
-                            "    {\n" +
-                            "      \"otherArray\": [\n" +
-                            "        \"3\"\n" +
-                            "      ], \n" +
-                            "      \"test\": \"lol\", \n" +
-                            "      \"terr\": \"lolrr\"\n" +
-                            "    }\n" +
-                            "  ], \n" +
-                            "  \"object\": {\n" +
-                            "    \"otherArray\": [\n" +
-                            "      \"3\"\n" +
-                            "    ], \n" +
-                            "    \"test\": \"lol\", \n" +
-                            "    \"terr\": \"lolrr\"\n" +
-                            "  }\n" +
-                            "}\n" +
+                            "{\"array\":[\"LMAO\",\"Lhh\",{\"otherArray\":[3],\"test\":\"lol\",\"terr\":\"lolrr\"}],\"object\":{\"otherArray\":[3],\"test\":\"lol\",\"terr\":\"lolrr\"}," +
+                            "\"otherArray\":[]}\n" +
                             "\n" +
                             "\n" +
                             "\n" +
@@ -266,6 +263,10 @@ public class TCNFullTest {
                                     "    test: lol\n" +
                                     "    terr: lolrr\n" +
                                     "}\n" +
+                                    "\n" +
+                                    "\n" +
+                                    "otherArray [\n" +
+                                    "]\n" +
                                     "\n" +
                                     "\n" +
                                     "\n" +
@@ -326,7 +327,9 @@ public class TCNFullTest {
                                     "    ], \n" +
                                     "    \"test\": \"lol\", \n" +
                                     "    \"terr\": \"lolrr\"\n" +
-                                    "  }\n" +
+                                    "  }, \n" +
+                                    "  \"otherArray\": [\n" +
+                                    "  ]\n" +
                                     "}\n" +
                                     "\n" +
                                     "\n" +
@@ -361,6 +364,11 @@ public class TCNFullTest {
                                     "}\n" +
                                     "\n" +
                                     "\n" +
+                                    "otherArray [\n" +
+                                    "    ; \n" +
+                                    "]\n" +
+                                    "\n" +
+                                    "\n" +
                                     "\n" +
                                     "\n" +
                                     "JSON 2: \n" +
@@ -382,32 +390,17 @@ public class TCNFullTest {
                                     "    ], \n" +
                                     "    \"test\": \"lol\", \n" +
                                     "    \"terr\": \"lolrr\"\n" +
-                                    "  }\n" +
+                                    "  }, \n" +
+                                    "  \"otherArray\": [\n" +
+                                    "    \"\"\n" +
+                                    "  ]\n" +
                                     "}\n" +
                                     "\n" +
                                     "\n" +
                                     "\n" +
                                     "JSON 3: \n" +
-                                    "{\n" +
-                                    "  \"array\": [\n" +
-                                    "    \"LMAO\", \n" +
-                                    "    \"Lhh\", \n" +
-                                    "    {\n" +
-                                    "      \"otherArray\": [\n" +
-                                    "        \"3\"\n" +
-                                    "      ], \n" +
-                                    "      \"test\": \"lol\", \n" +
-                                    "      \"terr\": \"lolrr\"\n" +
-                                    "    }\n" +
-                                    "  ], \n" +
-                                    "  \"object\": {\n" +
-                                    "    \"otherArray\": [\n" +
-                                    "      \"3\"\n" +
-                                    "    ], \n" +
-                                    "    \"test\": \"lol\", \n" +
-                                    "    \"terr\": \"lolrr\"\n" +
-                                    "  }\n" +
-                                    "}\n" +
+                                    "{\"array\":[\"LMAO\",\"Lhh\",{\"otherArray\":[3],\"test\":\"lol\",\"terr\":\"lolrr\"}],\"object\":{\"otherArray\":[3],\"test\":\"lol\",\"terr\":\"lolrr\"}," +
+                                    "\"otherArray\":[]}\n" +
                                     "\n" +
                                     "\n" +
                                     "\n" +

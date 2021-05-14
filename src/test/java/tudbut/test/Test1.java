@@ -1,55 +1,19 @@
 package tudbut.test;
 
-import de.tudbut.tools.Tools;
-import tudbut.net.http.HTTPUtils;
 import tudbut.parsing.JSON;
 import tudbut.parsing.TCN;
-import tudbut.tools.encryption.Key;
-import tudbut.tools.encryption.RawKey;
+import tudbut.rendering.Maths2D;
+import tudbut.tools.ImageUtils;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 
 public class Test1 {
     
     public static void main(String[] args) throws IOException, JSON.JSONFormatException, TCN.TCNException {
     
-        System.out.println(Tools.mapToString(JSON.read("[\n" +
-                                           "    {\n" +
-                                           "        \"urlset\": [\n" +
-                                           "            {\n" +
-                                           "                \"url\": [\n" +
-                                           "                    {\"loc\": \"http://tudbut.de/\"},\n" +
-                                           "                    {\"lastmod\": \"2021-05-02\"},\n" +
-                                           "                    {\"changefreq\": \"weekly\"},\n" +
-                                           "                    {\"priority\": 1}\n" +
-                                           "                ]\n" +
-                                           "            },\n" +
-                                           "            {\n" +
-                                           "                \"url\": [\n" +
-                                           "                    {\"loc\": \"http://tudbut.de/docs\"},\n" +
-                                           "                    {\"lastmod\": \"2021-05-02\"},\n" +
-                                           "                    {\"changefreq\": \"daily\"},\n" +
-                                           "                    {\"priority\": 1}\n" +
-                                           "                ]\n" +
-                                           "            },\n" +
-                                           "            {\n" +
-                                           "                \"url\": [\n" +
-                                           "                    {\"loc\": \"http://tudbut.de/embed\"},\n" +
-                                           "                    {\"lastmod\": \"2021-05-02\"},\n" +
-                                           "                    {\"changefreq\": \"weekly\"},\n" +
-                                           "                    {\"priority\": 0.5}\n" +
-                                           "                ]\n" +
-                                           "            },\n" +
-                                           "            {\n" +
-                                           "                \"url\": [\n" +
-                                           "                    {\"loc\": \"http://tudbut.de/apigui\"},\n" +
-                                           "                    {\"lastmod\": \"2021-05-02\"},\n" +
-                                           "                    {\"changefreq\": \"weekly\"},\n" +
-                                           "                    {\"priority\": 1}\n" +
-                                           "                ]\n" +
-                                           "            }\n" +
-                                           "        ]\n" +
-                                           "    }\n" +
-                                           "]").toMap()));
+        ImageIO.write(ImageUtils.getDifference(Maths2D.distortImage(ImageIO.read(new File("img_1.png")), 8, 8, 1), Maths2D.distortImage(ImageIO.read(new File("img.png")), 8, 8, 1)), "png", new File("img1.png"));
+        System.out.println(ImageUtils.getSimilarity(ImageIO.read(new File("img_1.png")), ImageIO.read(new File("img.png"))));
     }
 }

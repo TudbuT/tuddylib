@@ -4,6 +4,8 @@ de/tudbut/pluginapi/PluginEvent.java
  de.tudbut.pluginapi.PluginEvent
 tudbut/obj/TLClassLoader.java
  tudbut.obj.TLClassLoader
+tudbut/net/pbic2/PBIC2AListener.java
+ tudbut.net.pbic2.PBIC2AListener
 tudbut/obj/DoubleObject.java
  tudbut.obj.DoubleObject
 de/tudbut/tools/CMD.java
@@ -52,6 +54,8 @@ tudbut/obj/RelativeVector2d.java
  tudbut.obj.RelativeVector2d
 tudbut/net/http/HTTPRequest.java
  tudbut.net.http.HTTPRequest
+tudbut/io/LineReader.java
+ tudbut.io.LineReader
 de/tudbut/tools/Tools.java
  de.tudbut.tools.Tools
  de.tudbut.tools.Tools$ObjectMapping
@@ -72,12 +76,16 @@ de/tudbut/pluginapi/PluginLoadEvent.java
  de.tudbut.pluginapi.PluginLoadEvent
 de/tudbut/type/FInfo.java
  de.tudbut.type.FInfo
+tudbut/net/pbic2/PBIC2Passthrough.java
+ tudbut.net.pbic2.PBIC2Passthrough
 tudbut/tools/Timer.java
  tudbut.tools.Timer
 tudbut/tools/NoiseGenerator.java
  tudbut.tools.NoiseGenerator
 tudbut/rendering/RenderObjectType.java
  tudbut.rendering.RenderObjectType
+tudbut/net/pbic2/PBIC2.java
+ tudbut.net.pbic2.PBIC2
 tudbut/tools/MultidimensionalMaths.java
  tudbut.tools.MultidimensionalMaths
 tudbut/obj/RelativeVector3d.java
@@ -143,6 +151,8 @@ tudbut/obj/ClosedClosableException.java
  tudbut.obj.ClosedClosableException
 tudbut/obj/AtomicUtils.java
  tudbut.obj.AtomicUtils
+tudbut/net/pbic2/PBIC2AEventHandler.java
+ tudbut.net.pbic2.PBIC2AEventHandler
 de/tudbut/type/Stoppable.java
  de.tudbut.type.Stoppable
  de.tudbut.type.Stoppable$C
@@ -161,6 +171,8 @@ tudbut/net/http/HTTPServer.java
  tudbut.net.http.HTTPServer$HTTPHandler
 tudbut/rendering/Maths2D.java
  tudbut.rendering.Maths2D
+tudbut/tools/FloatInterpolator.java
+ tudbut.tools.FloatInterpolator
 tudbut/obj/RayCast.java
  tudbut.obj.RayCast
 tudbut/parsing/JSON.java
@@ -211,6 +223,10 @@ tudbut/obj/TypedArray.java
  tudbut.obj.TypedArray
 tudbut/parsing/TCNArray.java
  tudbut.parsing.TCNArray
+tudbut/net/pbic2/PBIC2Client.java
+ tudbut.net.pbic2.PBIC2Client
+ tudbut.net.pbic2.PBIC2Client$1
+ tudbut.net.pbic2.PBIC2Client$2
 tudbut/tools/Time.java
  tudbut.tools.Time
 de/tudbut/timer/AsyncCatcher.java
@@ -306,6 +322,10 @@ tudbut/rendering/tph/TPH300.java
  tudbut.rendering.tph.TPH300
 tudbut/io/StreamRedirect.java
  tudbut.io.StreamRedirect
+tudbut/net/pbic2/PBIC2Server.java
+ tudbut.net.pbic2.PBIC2Server
+ tudbut.net.pbic2.PBIC2Server$1
+ tudbut.net.pbic2.PBIC2Server$2
 de/tudbut/ui/windowgui/WindowGUI.java
  de.tudbut.ui.windowgui.WindowGUI
 de/tudbut/net/ws/ConnectionHandler.java
@@ -341,6 +361,8 @@ tudbut/tools/Lock.java
  tudbut.tools.Lock$Locker
 de/tudbut/tools/Hasher.java
  de.tudbut.tools.Hasher
+tudbut/tools/encryption/KeyStream.java
+ tudbut.tools.encryption.KeyStream
 de/tudbut/tools/bintools/BinFileRW.java
  de.tudbut.tools.bintools.BinFileRW
 tudbut/tools/ObjectSerializerTCN.java
@@ -414,6 +436,8 @@ tudbut/obj/Save.java
  tudbut.obj.Save
 tudbut/obj/TypedList.java
  tudbut.obj.TypedList
+tudbut/tools/CalibratingInterpolator.java
+ tudbut.tools.CalibratingInterpolator
 tudbut/math/ComplexFunction.java
  tudbut.math.ComplexFunction
 tudbut/io/Buffer.java
@@ -451,6 +475,8 @@ tudbut/parsing/ArgumentParser.java
  tudbut.parsing.ArgumentParser
 de/tudbut/type/StringArray.java
  de.tudbut.type.StringArray
+tudbut/tools/ImageUtils.java
+ tudbut.tools.ImageUtils
 tudbut/tools/ClassLoaderAdapter.java
  tudbut.tools.ClassLoaderAdapter
 tudbut/rendering/Projection3D.java

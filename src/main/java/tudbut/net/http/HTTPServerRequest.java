@@ -24,7 +24,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
      */
     public final Socket socket;
     
-    HTTPServerRequest(String value, Socket s) {
+    public HTTPServerRequest(String value, Socket s) {
         super(spl(value));
         socket = s;
     }

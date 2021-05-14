@@ -11,7 +11,7 @@ public interface Stoppable {
     }
 
     default void start() throws NotSupportedException {
-        vars.set(this, C.STOPPED, false);
+        throw new NotSupportedException();
     }
 
     default boolean isStopped() {

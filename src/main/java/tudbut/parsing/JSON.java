@@ -73,6 +73,14 @@ public class JSON {
                         // Make \n work
                         if (c == 'n')
                             theString.append('\n');
+                        if(c == 'u') {
+                            String e = "";
+                            e += c = a[++pos];
+                            e += c = a[++pos];
+                            e += c = a[++pos];
+                            e += c = a[++pos];
+                            theString.append((char) Integer.parseInt(e, 16));
+                        }
                     }
                 }
         
@@ -87,13 +95,16 @@ public class JSON {
                     inString = false;
                     escape = false;
                     theString = new StringBuilder("{");
-                    c = a[++pos];
                     int layer = 1;
                     while (layer > 0) {
-                        if(c == '{' && !inString)
+                        c = a[++pos];
+                        theString.append(c);
+                        if(c == '{' && !inString) {
                             layer++;
-                        if(c == '}' && !inString)
+                        }
+                        if(c == '}' && !inString) {
                             layer--;
+                        }
                         
                         if (c == '\\') {
                             escape = !escape;
@@ -104,10 +115,8 @@ public class JSON {
                         if (c != '\\') {
                             escape = false;
                         }
-                        theString.append(c);
-                        c = a[++pos];
                     }
-                    theString.append('}');
+                    theString.append("}");
                     sub = read(theString.toString());
                     theString = new StringBuilder();
                 }
@@ -117,9 +126,10 @@ public class JSON {
                     inString = false;
                     escape = false;
                     theString = new StringBuilder("[");
-                    c = a[++pos];
                     int layer = 1;
                     while (layer != 0) {
+                        c = a[++pos];
+                        theString.append(c);
                         if(c == '[' && !inString) {
                             layer++;
                         }
@@ -136,8 +146,6 @@ public class JSON {
                         if (c != '\\') {
                             escape = false;
                         }
-                        theString.append(c);
-                        c = a[++pos];
                     }
                     theString.append(']');
                     sub = read(theString.toString());
@@ -162,7 +170,7 @@ public class JSON {
     
                     if (inObjectKV) {
                         tcn.set(key, sub);
-                    } else {
+                    } else if(inStringKV || !theString.toString().equals("null")) {
                         tcn.set(key, theString.toString());
                     }
                     inObjectKV = false;
@@ -180,12 +188,14 @@ public class JSON {
         
                 c = a[++pos];
             }
-            if(array)
-                key = String.valueOf(arrayPos);
-            if (inObjectKV)
-                tcn.set(key, sub);
-            else
-                tcn.set(key, theString.toString());
+            if(kv) {
+                if (array)
+                    key = String.valueOf(arrayPos);
+                if (inObjectKV)
+                    tcn.set(key, sub);
+                else if(inStringKV || !theString.toString().equals("null"))
+                    tcn.set(key, theString.toString());
+            }
             
             
             for (String theKey : tcn.map.keys()) {
@@ -346,11 +356,12 @@ public class JSON {
                 TCN theTCN = tcnStack.next();
                 path.next();
                 i--;
+                if(theTCN.map.keys().isEmpty())
+                    s.append("," + (spaces ? " " : "") + (newlines ? "" : ""));
                 s.delete(s.length() - ((newlines ? 2 : 1) + (spaces ? 1 : 0)), s.length());
                 s.append(newlines ? "\n" : "").append(indent(newlines, i, indentLength)).append(theTCN.isArray ? "]" : "}").append(",").append(spaces ? " " : "").append(newlines ? "\n" : "");
             }
         }
-    
         s.delete(s.length() - ((newlines ? 2 : 1) + (spaces ? 1 : 0)), s.length());
         return s.toString();
     }

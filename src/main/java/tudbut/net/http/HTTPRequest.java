@@ -9,11 +9,13 @@ import tudbut.obj.Partial;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,8 +24,8 @@ import java.util.Arrays;
  * Fully compatible, fast version of java HTTP requests
  */
 public class HTTPRequest {
-    private final ArrayList<HTTPHeader> headers = new ArrayList<>();
-    private final String content;
+    public final ArrayList<HTTPHeader> headers = new ArrayList<>();
+    public final String content;
     private final HTTPRequestType requestType;
     private final String path;
     private final String host;
@@ -107,7 +109,16 @@ public class HTTPRequest {
      */
     public HTTPResponse send() throws IOException {
         Socket socket = connect();
-        return new HTTPResponse(new String(new StreamReader(socket.getInputStream()).readAllAsBytes(), StandardCharsets.ISO_8859_1));
+        return new HTTPResponse(new String(new StreamReader(new BufferedInputStream(socket.getInputStream())).readAllAsBytes(), StandardCharsets.ISO_8859_1));
+    }
+    
+    /**
+     * Sends the request synchronously without returning a response
+     * @return The socket
+     * @throws IOException Inherited
+     */
+    public Socket sendNoRead() throws IOException {
+        return connect();
     }
     
     /**
@@ -188,6 +199,28 @@ public class HTTPRequest {
         }
         else
             socket = new Socket(InetAddress.getByName(host), port);
+        socket.setSoLinger(true, 5000);
+        socket.setReceiveBufferSize(StreamReader.BUFFER_SIZE);
+        StreamWriter writer = new StreamWriter(socket.getOutputStream());
+        writer.writeChars(toString().toCharArray(), "ISO_8859_1");
+        return socket;
+    }
+    /**
+     * Sends the request and return the socket from which {@link #send} and {@link #sendKeepAlive} will read
+     * @return The created socket
+     * @throws IOException Inherited
+     */
+    private Socket connectChannel() throws IOException {
+        Socket socket;
+        if (ssl) {
+            SSLSocket sslSocket = (SSLSocket) SSLSocketFactory.getDefault().createSocket(host.split("https://")[1], port);
+            sslSocket.startHandshake();
+            socket = sslSocket;
+        }
+        else
+            socket = new Socket(InetAddress.getByName(host), port);
+        socket.setSoLinger(true, 5000);
+        socket.setReceiveBufferSize(StreamReader.BUFFER_SIZE);
         StreamWriter writer = new StreamWriter(socket.getOutputStream());
         writer.writeChars(toString().toCharArray(), "ISO_8859_1");
         return socket;
