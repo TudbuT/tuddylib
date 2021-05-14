@@ -2,8 +2,11 @@ package tudbut.tools;
 
 import tudbut.rendering.Maths2D;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import static java.lang.Math.*;
@@ -276,6 +279,12 @@ public class ImageUtils {
         return out;
     }
     
+    /**
+     * Returns the estimated similarity between two images to a computer
+     * @param image0
+     * @param image1
+     * @return The similarity, 0.0f to 1.0f
+     */
     public static float getSimilarity(BufferedImage image0, BufferedImage image1) {
         float f;
         int fullDiff = 0;
@@ -310,6 +319,67 @@ public class ImageUtils {
             f = f*n/4f + fullDiff / 255f;
             f /= n / 4f + 1;
         }
+        return f;
+    }
+    
+    public static Color getAverageColor(BufferedImage image) {
+        float r=0,g=0,b=0,a=0;
+        float[][][] floats = imageToFloats(image);
+        for (int x = 0 ; x < floats.length ; x++) {
+            for (int y = 0 ; y < floats[0].length ; y++) {
+                r += floats[x][y][0];
+                g += floats[x][y][1];
+                b += floats[x][y][2];
+                a += floats[x][y][3];
+            }
+        }
+        r /= image.getWidth() * image.getHeight();
+        g /= image.getWidth() * image.getHeight();
+        b /= image.getWidth() * image.getHeight();
+        a /= image.getWidth() * image.getHeight();
+        return new Color(r,g,b,a);
+    }
+    
+    /**
+     * Returns the estimated similarity between two images to a computer and human,
+     * this uses line and color theme detection to ensure the results staying one
+     * with the ones the human sees
+     * @param image0
+     * @param image1
+     * @return
+     */
+    public static float getSimilarityV2(BufferedImage image0, BufferedImage image1) {
+        float f = 0;
+        Color c0;
+        Color c1;
+        int colorDiff;
+    
+        image0 = Maths2D.distortImage(image0, 128, 128, 1);
+        image1 = Maths2D.distortImage(image1, 128, 128, 1);
+        f += (1-getSimilarity(image0, image1));
+        c0 = getAverageColor(image0);
+        c1 = getAverageColor(image1);
+        colorDiff = 0;
+        colorDiff += abs(c0.getRed() - c1.getRed());
+        colorDiff += abs(c0.getGreen() - c1.getGreen());
+        colorDiff += abs(c0.getBlue() - c1.getBlue());
+        colorDiff += abs(c0.getAlpha() - c1.getAlpha());
+        colorDiff = min(colorDiff, 0x80);
+        f += (colorDiff / 128f) * 3;
+        image0 = getContrastColors(image0);
+        image1 = getContrastColors(image1);
+        f += 1-getSimilarity(image0, image1);
+        c0 = getAverageColor(image0);
+        c1 = getAverageColor(image1);
+        colorDiff = 0;
+        colorDiff += abs(c0.getRed() - c1.getRed());
+        colorDiff += abs(c0.getGreen() - c1.getGreen());
+        colorDiff += abs(c0.getBlue() - c1.getBlue());
+        colorDiff += abs(c0.getAlpha() - c1.getAlpha());
+        colorDiff = min(colorDiff, 0x80);
+        f += (colorDiff / 128f) * 3;
+        f /= 8;
+        f = 1-f;
         return f;
     }
 }
