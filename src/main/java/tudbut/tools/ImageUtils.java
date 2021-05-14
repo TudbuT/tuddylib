@@ -2,11 +2,8 @@ package tudbut.tools;
 
 import tudbut.rendering.Maths2D;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
 import static java.lang.Math.*;
@@ -381,5 +378,24 @@ public class ImageUtils {
         f /= 8;
         f = 1-f;
         return f;
+    }
+    
+    public static BufferedImage invert(BufferedImage image) {
+        BufferedImage r = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    
+        for (int x = 0; x < r.getWidth(); x++) {
+            for (int y = 0; y < r.getHeight(); y++) {
+                Color color = new Color(image.getRGB(x,y));
+                color = new Color(
+                        0xff - color.getRed(),
+                        0xff - color.getGreen(),
+                        0xff - color.getBlue(),
+                        color.getAlpha()
+                );
+                r.setRGB(x, y, color.getRGB());
+            }
+        }
+        
+        return r;
     }
 }
