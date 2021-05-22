@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -146,18 +146,23 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#decodeUTF8-java.lang.String-">decodeUTF8</a></span>(java.lang.String&nbsp;s)</code>&nbsp;</td>
+<td class="colFirst"><code>static <a href="../../../tudbut/net/http/HTTPServer.HTTPHandler.html" title="interface in tudbut.net.http">HTTPServer.HTTPHandler</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#createRateLimitingHandler-int-tudbut.net.http.HTTPServer.HTTPHandler-">createRateLimitingHandler</a></span>(int&nbsp;rps,
+                         <a href="../../../tudbut/net/http/HTTPServer.HTTPHandler.html" title="interface in tudbut.net.http">HTTPServer.HTTPHandler</a>&nbsp;requestHandler)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#encodeUTF8-java.lang.String-">encodeUTF8</a></span>(java.lang.String&nbsp;s)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#decodeUTF8-java.lang.String-">decodeUTF8</a></span>(java.lang.String&nbsp;s)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#rawToUtf8-java.lang.String-">rawToUtf8</a></span>(java.lang.String&nbsp;raw)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#encodeUTF8-java.lang.String-">encodeUTF8</a></span>(java.lang.String&nbsp;s)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#rawToUtf8-java.lang.String-">rawToUtf8</a></span>(java.lang.String&nbsp;raw)</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPUtils.html#utf8ToRaw-java.lang.String-">utf8ToRaw</a></span>(java.lang.String&nbsp;utf8)</code>&nbsp;</td>
 </tr>
@@ -230,10 +235,20 @@ extends java.lang.Object</pre>
 <a name="utf8ToRaw-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>utf8ToRaw</h4>
 <pre>public static&nbsp;java.lang.String&nbsp;utf8ToRaw(java.lang.String&nbsp;utf8)</pre>
+</li>
+</ul>
+<a name="createRateLimitingHandler-int-tudbut.net.http.HTTPServer.HTTPHandler-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>createRateLimitingHandler</h4>
+<pre>public static&nbsp;<a href="../../../tudbut/net/http/HTTPServer.HTTPHandler.html" title="interface in tudbut.net.http">HTTPServer.HTTPHandler</a>&nbsp;createRateLimitingHandler(int&nbsp;rps,
+                                                               <a href="../../../tudbut/net/http/HTTPServer.HTTPHandler.html" title="interface in tudbut.net.http">HTTPServer.HTTPHandler</a>&nbsp;requestHandler)</pre>
 </li>
 </ul>
 </li>

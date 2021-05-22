@@ -235,6 +235,7 @@ tudbut/rendering/Maths3D.java
  tudbut.rendering.Maths3D
 tudbut/net/http/HTTPUtils.java
  tudbut.net.http.HTTPUtils
+ tudbut.net.http.HTTPUtils$1
 de/tudbut/tools/Config.java
  de.tudbut.tools.Config
 de/tudbut/type/Nothing.java
