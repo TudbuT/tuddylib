@@ -1,0 +1,2 @@
+# tuddylib
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/03597936959d4696a5199d612cae33ab)](https://app.codacy.com/gh/TudbuT/tuddylib?utm_source=github.com&utm_medium=referral&utm_content=TudbuT/tuddylib&utm_campaign=Badge_Grade_Settings)
