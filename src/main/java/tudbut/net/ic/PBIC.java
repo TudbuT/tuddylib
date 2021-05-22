@@ -138,13 +138,13 @@ public class PBIC {
     }
     
     public interface Connection {
+        Map<Connection, Boolean> oSync = new HashMap<>();
+        Map<Connection, Boolean> iSync = new HashMap<>();
         
         Bus getBus();
         
         Socket getSocket();
     
-        Map<Connection, Boolean> oSync = new HashMap<>();
-        Map<Connection, Boolean> iSync = new HashMap<>();
         
         default boolean isClosed() {
             return getBus().isClosed() || getSocket().isClosed();

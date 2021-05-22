@@ -8,7 +8,8 @@ import java.util.Map;
 
 public class Lang extends InstanceBoundMap<String, String> {
 
-    private String language = "dafault";
+    private String language = "default";
+    private static final ArrayList<Factory> factories = new ArrayList<>();
 
     public String getLanguage() {
         return language;
@@ -24,8 +25,6 @@ public class Lang extends InstanceBoundMap<String, String> {
 
     private Lang() {
     }
-
-    private static final ArrayList<Factory> factories = new ArrayList<>();
 
     public static Factory factory() {
         for (int i = 0; i < factories.size(); i++) {
@@ -44,10 +43,10 @@ public class Lang extends InstanceBoundMap<String, String> {
     }
 
     public static class Factory {
-        private Factory() {}
-
         private boolean inUse = true;
         private Lang theLang = new Lang();
+        
+        private Factory() {}
 
         public Factory addLanguage(String name, Map<String, String> map) {
             for (String key : map.keySet()) {

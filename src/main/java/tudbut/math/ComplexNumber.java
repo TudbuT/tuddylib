@@ -4,6 +4,11 @@ import de.tudbut.type.Vector2d;
 
 public class ComplexNumber {
     
+    private double real = 0;
+    private double imaginary = 0;
+    private Vector2d vec;
+    public boolean autoRecalculate = true;
+    
     public double getReal() {
         return real;
     }
@@ -15,8 +20,6 @@ public class ComplexNumber {
     public Vector2d getVec() {
         return vec;
     }
-    
-    private double real = 0;
     
     public void setReal(double real) {
         this.real = real;
@@ -31,11 +34,6 @@ public class ComplexNumber {
         if(autoRecalculate)
             recalculateVector();
     }
-    
-    private double imaginary = 0;
-    private Vector2d vec;
-    
-    public boolean autoRecalculate = true;
     
     private ComplexNumber() {}
     

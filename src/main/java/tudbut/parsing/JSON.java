@@ -313,7 +313,6 @@ public class JSON {
                         paths.add(path.clone());
                         TCN theTCN = tcnStack.peek();
                         tcnStack.add(((TCNArray) o).toTCN());
-                        String indent = StringTools.multiply("    ", i);
                         if(theTCN.isArray) {
                             s.append(indent(newlines, i, indentLength)).append("[").append(newlines ? "\n" : "");
                         }

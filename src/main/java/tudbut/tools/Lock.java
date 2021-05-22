@@ -8,6 +8,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Lock {
     
+    private final Locker locker = new Locker();
+    private boolean locked = false;
+    private int t = 0;
+    private long ts = 0;
+    private final AtomicInteger waiting = new AtomicInteger();
+    private volatile boolean[] waiterLocker = null;
+    
     /**
      * Object to handle thread locking
      */
@@ -37,13 +44,6 @@ public class Lock {
             notifyAll();
         }
     }
-    
-    private final Locker locker = new Locker();
-    private boolean locked = false;
-    private int t = 0;
-    private long ts = 0;
-    private final AtomicInteger waiting = new AtomicInteger();
-    private volatile boolean[] waiterLocker = null;
     
     /**
      * Creates a Lock without default state

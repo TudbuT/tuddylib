@@ -8,12 +8,14 @@ import java.io.InputStream;
  */
 public class TypedInputStream {
     
+    protected InputStream stream;
+    protected int last = -1;
+    private final Object waitForInputLock = new Object();
+    private final Object readLock = new Object();
+    
     public InputStream getStream() {
         return stream;
     }
-    
-    protected InputStream stream;
-    protected int last = -1;
     
     private WriteDirection direction = WriteDirection.HIGH_FIRST;
     
@@ -123,7 +125,6 @@ public class TypedInputStream {
         return builder.toString();
     }
     
-    private final Object waitForInputLock = new Object();
     public void waitForInput() throws IOException {
         synchronized (waitForInputLock) {
             if(last != -1)
@@ -132,7 +133,6 @@ public class TypedInputStream {
         }
     }
     
-    private final Object readLock = new Object();
     public int read() throws IOException {
         synchronized (readLock) {
             synchronized (waitForInputLock) {

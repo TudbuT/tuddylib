@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 public class TypedArray<T> {
     
-    private boolean hasClass = false;
     private Class<?> tClass = null;
     private boolean locked = false;
     protected final Object synchronizer = new Object();
@@ -19,7 +18,6 @@ public class TypedArray<T> {
     }
     
     public TypedArray(T[] ts) {
-        hasClass = true;
         tClass = ts.getClass().getComponentType();
         if(ts.length != 0)
             tClass = ts[0].getClass();
@@ -30,7 +28,6 @@ public class TypedArray<T> {
         T[] oTs = ts;
         ts = (T[]) new Object[length];
         Tools.copyArray(oTs, ts, Math.min(ts.length, oTs.length));
-        hasClass = true;
         tClass = ts.getClass().getComponentType();
         if(ts.length != 0 && ts[0] != null)
             tClass = ts[0].getClass();
@@ -59,7 +56,6 @@ public class TypedArray<T> {
     
     public T[] toArray(T... type) {
         synchronized (synchronizer) {
-            hasClass = true;
             tClass = type.getClass().getComponentType();
             T[] nts = (T[]) Array.newInstance(tClass, ts.length);
             Tools.copyArray(ts, nts, nts.length);

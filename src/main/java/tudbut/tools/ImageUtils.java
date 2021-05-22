@@ -429,9 +429,9 @@ public class ImageUtils {
             for (int y = 0 ; y < image.getHeight() ; y++) {
                 Color color = new Color(image.getRGB(x,y));
                 color = new Color(
-                        (int) (Math.floor(color.getRed() / amount) * amount),
-                        (int) (Math.floor(color.getGreen() / amount) * amount),
-                        (int) (Math.floor(color.getBlue() / amount) * amount),
+                        (int) (floor(color.getRed() / amount) * amount),
+                        (int) (floor(color.getGreen() / amount) * amount),
+                        (int) (floor(color.getBlue() / amount) * amount),
                         !alpha ? color.getAlpha() : (int) (Math.floor(color.getAlpha() / amount) * amount)
                 );
                 out.setRGB(x, y, color.getRGB());

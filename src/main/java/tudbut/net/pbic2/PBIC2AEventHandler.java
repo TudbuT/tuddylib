@@ -8,6 +8,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public final class PBIC2AEventHandler implements Stoppable {
+    
+    private final ArrayList<PBIC2> array = new ArrayList<>();
+    private final TLMap<PBIC2, Integer> map = new TLMap<>();
+    private final TLMap<PBIC2, PBIC2AListener> listeners = new TLMap<>();
+    
     public void start(PBIC2 pbic2, PBIC2AListener listener) {
         if(array.contains(pbic2))
             return;
@@ -21,10 +26,6 @@ public final class PBIC2AEventHandler implements Stoppable {
         map.set(pbic2, null);
         listeners.set(pbic2, null);
     }
-    
-    private final ArrayList<PBIC2> array = new ArrayList<>();
-    private final TLMap<PBIC2, Integer> map = new TLMap<>();
-    private final TLMap<PBIC2, PBIC2AListener> listeners = new TLMap<>();
     
     public PBIC2AEventHandler() {
         new Thread(this::run).start();
