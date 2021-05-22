@@ -47,7 +47,7 @@ public class Maths2D {
         for (int i = 0 ; i < y ; i++) {
             for (int j = 0 ; j < x ; j++) {
                 Color c = new Color(color, true);
-                c = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (c.getAlpha() * floats[j][i]));
+                c = new Color(c.getRed() * floats[j][i] / 255, c.getGreen() * floats[j][i] / 255, c.getBlue() * floats[j][i] / 255, 1);
                 graphics.setColor(c);
                 graphics.drawRect(j, i, 1, 1);
             }

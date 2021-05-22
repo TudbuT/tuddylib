@@ -10,7 +10,7 @@ public class ThreadPool implements Stoppable {
     private final Runnable[] toDo;
     private final Lock[] locks;
     private final Lock hasFree = new Lock();
-    private volatile AtomicInteger freeThreads = new AtomicInteger();
+    private final AtomicInteger freeThreads = new AtomicInteger();
     
     public ThreadPool(final int amount, final String name, final boolean enableCrashRecovery) {
         threads = new Thread[amount];

@@ -3,7 +3,7 @@ package tudbut.tools;
 import tudbut.obj.TLClassLoader;
 
 public class ClassLoaderAdapter implements TLClassLoader {
-    private ClassLoader cl;
+    private final ClassLoader cl;
     
     public ClassLoaderAdapter(ClassLoader classLoader) {
         cl = classLoader;

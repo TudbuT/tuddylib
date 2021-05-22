@@ -61,7 +61,7 @@ public class Tools {
         for (int i = 0; i < length; i++) {
             r.append(pool.charAt(ExtendedMath.random(0, pool.length() - 1))).append(readablePool.charAt(ExtendedMath.random(0, readablePool.length() - 1)));
         }
-        return r.toString().substring(0, length);
+        return r.substring(0, length);
     }
 
     public static String getTime() {

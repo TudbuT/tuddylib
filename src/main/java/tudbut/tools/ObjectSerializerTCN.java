@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class ObjectSerializerTCN {
     
-    private static String debugInfo = "/";
+    private static final String debugInfo = "/";
     
     private static final Map<Thread, ArrayList<Object>> doneObjects = new HashMap<>();
     

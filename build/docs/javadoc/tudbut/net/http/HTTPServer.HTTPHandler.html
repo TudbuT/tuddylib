@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":18,"i1":18,"i2":6,"i3":18};
+var methods = {"i0":18,"i1":18,"i2":6,"i3":18,"i4":18};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -146,6 +146,12 @@ var activeTableTab = "activeTableTab";
 <td class="colFirst"><code>default void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPServer.HTTPHandler.html#handleDeny-tudbut.net.http.HTTPServerRequest-">handleDeny</a></span>(<a href="../../../tudbut/net/http/HTTPServerRequest.html" title="class in tudbut.net.http">HTTPServerRequest</a>&nbsp;request)</code>&nbsp;</td>
 </tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>default <a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPServer.HTTPHandler.html#onError-tudbut.net.http.HTTPServerRequest-tudbut.net.http.HTTPResponse-java.lang.Throwable-">onError</a></span>(<a href="../../../tudbut/net/http/HTTPServerRequest.html" title="class in tudbut.net.http">HTTPServerRequest</a>&nbsp;request,
+       <a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&nbsp;defaultResponse,
+       java.lang.Throwable&nbsp;theError)</code>&nbsp;</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -215,7 +221,7 @@ var activeTableTab = "activeTableTab";
 <a name="handleDeny-tudbut.net.http.HTTPServerRequest-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>handleDeny</h4>
 <pre>default&nbsp;void&nbsp;handleDeny(<a href="../../../tudbut/net/http/HTTPServerRequest.html" title="class in tudbut.net.http">HTTPServerRequest</a>&nbsp;request)
@@ -223,6 +229,26 @@ var activeTableTab = "activeTableTab";
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>request</code> - An empty request to hold the response methods</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.Exception</code> - To make handling easier (less catching required)</dd>
+</dl>
+</li>
+</ul>
+<a name="onError-tudbut.net.http.HTTPServerRequest-tudbut.net.http.HTTPResponse-java.lang.Throwable-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>onError</h4>
+<pre>default&nbsp;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&nbsp;onError(<a href="../../../tudbut/net/http/HTTPServerRequest.html" title="class in tudbut.net.http">HTTPServerRequest</a>&nbsp;request,
+                             <a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&nbsp;defaultResponse,
+                             java.lang.Throwable&nbsp;theError)
+                      throws java.lang.Exception</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>request</code> - The request as constructed so far</dd>
+<dd><code>defaultResponse</code> - The server's default response</dd>
+<dd><code>theError</code> - The error</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.Exception</code> - To make handling easier (less catching required)</dd>
 </dl>

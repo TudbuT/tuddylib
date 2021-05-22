@@ -15,6 +15,15 @@ public class ImageUtils {
     }
     
     public static BufferedImage antiAlias(BufferedImage image, int amount, float m) {
+        Color color = getAverageColor(image);
+        int i = 0;
+        i += color.getRed();
+        i += color.getGreen();
+        i += color.getBlue();
+        i += color.getAlpha();
+        if(i > (0xff * 2)) {
+            image = invert(image);
+        }
         BufferedImage img = smoothen(getContrastColors(image), amount, m);
         BufferedImage out = new BufferedImage(image.getWidth(), image.getHeight(), image.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < image.getWidth(); x++) {
@@ -28,6 +37,9 @@ public class ImageUtils {
                         255
                 ).getRGB());
             }
+        }
+        if(i > (0xff * 2)) {
+            out = invert(out);
         }
         return out;
     }
@@ -86,8 +98,15 @@ public class ImageUtils {
         return out;
     }
     
-    public static BufferedImage contrastColored(BufferedImage image, int amount) {
-        BufferedImage img = smoothen(getContrastColors(image), amount);
+    public static BufferedImage contrastColored(BufferedImage image, int smoothness, int amount) {
+        for (int i = 0 ; i < amount ; i++) {
+            image = contrastColored(image, smoothness);
+        }
+        return image;
+    }
+    
+    public static BufferedImage contrastColored(BufferedImage image, int smoothness) {
+        BufferedImage img = smoothen(getContrastColors(image), smoothness);
         BufferedImage out = new BufferedImage(image.getWidth(), image.getHeight(), image.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
@@ -192,7 +211,7 @@ public class ImageUtils {
                         }
                     }
                 }
-                i /= 4*2;
+                i /= 9;
                 i = min(i, 0xff);
                 Color color = new Color(i, i, i, 0xff);
                 out.setRGB(x, y, color.getRGB());
@@ -397,5 +416,28 @@ public class ImageUtils {
         }
         
         return r;
+    }
+    
+    public static BufferedImage detailMap(BufferedImage image) {
+        return smoothen(getContrast(contrastColored(image, 2)), 10);
+    }
+    
+    public static BufferedImage compress(BufferedImage image, float amount, boolean alpha) {
+        BufferedImage out = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    
+        for (int x = 0 ; x < image.getWidth() ; x++) {
+            for (int y = 0 ; y < image.getHeight() ; y++) {
+                Color color = new Color(image.getRGB(x,y));
+                color = new Color(
+                        (int) (Math.floor(color.getRed() / amount) * amount),
+                        (int) (Math.floor(color.getGreen() / amount) * amount),
+                        (int) (Math.floor(color.getBlue() / amount) * amount),
+                        !alpha ? color.getAlpha() : (int) (Math.floor(color.getAlpha() / amount) * amount)
+                );
+                out.setRGB(x, y, color.getRGB());
+            }
+        }
+        
+        return out;
     }
 }

@@ -6,7 +6,7 @@ import de.tudbut.type.StringArray;
 import java.io.*;
 
 public class Config {
-    private File configFile;
+    private final File configFile;
 
     public Config(String file) throws Exception {
         this.configFile = new File(file);

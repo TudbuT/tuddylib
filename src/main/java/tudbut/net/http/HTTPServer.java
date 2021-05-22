@@ -2,6 +2,7 @@ package tudbut.net.http;
 
 import de.tudbut.io.StreamWriter;
 import de.tudbut.type.Stoppable;
+import tudbut.tools.Tools2;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -98,8 +99,9 @@ public class HTTPServer implements Stoppable {
                     }
                     if(b) {
                         executor.execute(() -> {
+                            HTTPServerRequest serverRequest = new HTTPServerRequest("", finalSocket);
                             try {
-                                List<HTTPHandler> handlers = Arrays.asList(this.handlers.toArray(new HTTPHandler[0]));
+                                HTTPHandler[] handlers = this.handlers.toArray(new HTTPHandler[0]);
             
                                 String s;
                                 ArrayList<HTTPHeader> headers = new ArrayList<>();
@@ -122,20 +124,22 @@ public class HTTPServer implements Stoppable {
                                         contentLength = Integer.parseInt(header.value());
                                     }
                                 }
-                                if(contentLength != 0)
+                                if(contentLength != 0) {
                                     for (int i = 0 ; i < contentLength ; i++) {
                                         fullRequest.append((char) reader.read());
                                     }
+                                }
+                                HTTPServerRequest request = new HTTPServerRequest(fullRequest.toString(), finalSocket);
+                                serverRequest = request;
                                 for (HTTPHandler handler : handlers) {
-                                    HTTPServerRequest request = new HTTPServerRequest(fullRequest.toString(), finalSocket);
                                     handler.handle(request);
                                 }
                             }
                             catch (Throwable e) {
                                 try {
-                                    new StreamWriter(finalSocket.getOutputStream()).writeChars(serverError.value.toCharArray());
+                                    new StreamWriter(finalSocket.getOutputStream()).writeChars(handlers.get(0).onError(serverRequest, serverError, e).value.toCharArray(), "ISO-8859-1");
                                 }
-                                catch (IOException ignore) {
+                                catch (Throwable ignore) {
                                 }
                             }
                         });
@@ -198,5 +202,15 @@ public class HTTPServer implements Stoppable {
          * @throws Exception To make handling easier (less catching required)
          */
         default void handleDeny(HTTPServerRequest request) throws Exception { }
+    
+        /**
+         * @param request The request as constructed so far
+         * @param defaultResponse The server's default response
+         * @param theError The error
+         * @throws Exception To make handling easier (less catching required)
+         */
+        default HTTPResponse onError(HTTPServerRequest request, HTTPResponse defaultResponse, Throwable theError) throws Exception {
+            return defaultResponse;
+        }
     }
 }

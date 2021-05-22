@@ -23,6 +23,12 @@ public class Tools2 {
         return new Robot().createScreenCapture(new Rectangle(screenSize));
     }
     
+    public static String getStringStackTrace(Throwable throwable) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        throwable.printStackTrace(new PrintStream(stream));
+        return stream.toString();
+    }
+    
     public synchronized static void addFilesToZIP(File zipFile, Partial.Listener<File> done, File... files) throws IOException {
         byte[] buf = new byte[StreamReader.BUFFER_SIZE];
         

@@ -15,10 +15,10 @@ public class Keyboard implements KeyListener, AWTEventListener {
     private static JFrame frame;
     private static int globListeners = 0;
     private static Keyboard glob = null;
-    private static ArrayList<KeyListener> keyListeners = new ArrayList<>();
+    private static final ArrayList<KeyListener> keyListeners = new ArrayList<>();
 
     public static boolean isKeyDown(int keyCode) {
-        return keys.get(keyCode) == null ? false : keys.get(keyCode);
+        return keys.get(keyCode) != null && keys.get(keyCode);
     }
 
     public static void startListening(boolean trap) {

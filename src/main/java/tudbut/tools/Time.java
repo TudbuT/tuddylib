@@ -1,9 +1,6 @@
 package tudbut.tools;
 
-import java.util.Date;
-
 public class Time {
-    
     
     public static String ydhmsString(long seconds) {
         String s = "";

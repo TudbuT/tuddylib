@@ -48,7 +48,7 @@ public class TypedArray<T> {
     public T set(int i, T t) throws ArrayIndexOutOfBoundsException {
         synchronized (synchronizer) {
             checkLocked();
-            return ((T[]) ts)[i] = t;
+            return ts[i] = t;
         }
     }
     

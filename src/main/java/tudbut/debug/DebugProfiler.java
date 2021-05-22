@@ -5,6 +5,8 @@ import tudbut.parsing.TudSort;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static java.lang.System.currentTimeMillis;
+
 public class DebugProfiler {
 
     public static final class Section {
@@ -70,12 +72,13 @@ public class DebugProfiler {
     }
     
     private final String name;
-    private long start = new Date().getTime();
+    private final long start = currentTimeMillis();
     private long end;
     private final ArrayList<Section> sections = new ArrayList<>();
     private Section currentSection;
     private boolean locked = false;
     private Results results = null;
+    private boolean dirty = true;
     
     public DebugProfiler(String name, String startingSection) {
         this.name = name;
@@ -84,6 +87,7 @@ public class DebugProfiler {
     
     public synchronized DebugProfiler next(String next) {
         checkLocked();
+        dirty = true;
         currentSection.end();
         synchronized (sections) {
             sections.add(currentSection);
@@ -94,12 +98,13 @@ public class DebugProfiler {
     
     public synchronized DebugProfiler endAll() {
         checkLocked();
+        dirty = true;
         currentSection.end();
         synchronized (sections) {
             sections.add(currentSection);
         }
         currentSection = null;
-        end = new Date().getTime();
+        end = currentTimeMillis();
         
         locked = true;
         return this;
@@ -116,7 +121,7 @@ public class DebugProfiler {
     
     public synchronized Results getTempResults() {
         checkLocked();
-        end = new Date().getTime();
+        end = currentTimeMillis();
         return createResults();
     }
     
@@ -130,27 +135,30 @@ public class DebugProfiler {
     
     public void optimize() {
         synchronized (sections) {
-            ArrayList<Section> realSections = new ArrayList<>();
-            for (int i = 0 ; i < sections.size() ; i++) {
-                Section sec = sections.get(i);
-                sec.results = results;
-                if (realSections.stream().noneMatch(section -> section.name.equals(sec.name))) {
-                    Section section = new Section(sec.name);
-                    section.start = 0;
-                    section.end = sec.getTime();
-                    section.results = results;
-                    realSections.add(sec);
-                }
-                else {
-                    for (int j = 0 ; j < realSections.size() ; j++) {
-                        if (realSections.get(j).name.equals(sections.get(i).name)) {
-                            realSections.get(j).end += sec.getTime();
+            if(dirty) {
+                ArrayList<Section> realSections = new ArrayList<>();
+                for (int i = 0 ; i < sections.size() ; i++) {
+                    Section sec = sections.get(i);
+                    sec.results = results;
+                    if (realSections.stream().noneMatch(section -> section.name.equals(sec.name))) {
+                        Section section = new Section(sec.name);
+                        section.start = 0;
+                        section.end = sec.getTime();
+                        section.results = results;
+                        realSections.add(sec);
+                    }
+                    else {
+                        for (int j = 0 ; j < realSections.size() ; j++) {
+                            if (realSections.get(j).name.equals(sections.get(i).name)) {
+                                realSections.get(j).end += sec.getTime();
+                            }
                         }
                     }
                 }
+                sections.clear();
+                sections.addAll(realSections);
+                dirty = false;
             }
-            sections.clear();
-            sections.addAll(realSections);
         }
     }
     
@@ -172,6 +180,7 @@ public class DebugProfiler {
         sections.clear();
         currentSection = null;
         results = null;
+        dirty = true;
     }
     
     public void finalize() {

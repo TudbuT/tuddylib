@@ -17,7 +17,7 @@ public class Mouse implements MouseListener, MouseWheelListener, AWTEventListene
     private static Mouse glob = null;
 
     public static boolean isKeyDown(int keyCode) {
-        return keys.get(keyCode) == null ? false : keys.get(keyCode);
+        return keys.get(keyCode) != null && keys.get(keyCode);
     }
 
     public static int getMouseWheelPos() {

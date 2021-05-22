@@ -38,9 +38,7 @@ public class HTTPResponseFactory {
         }
         builder.append("\r\n");
         builder.append(body);
-        System.out.println(builder.toString());
-
-
+        
         return new HTTPResponse(builder.toString(), true);
     }
 }

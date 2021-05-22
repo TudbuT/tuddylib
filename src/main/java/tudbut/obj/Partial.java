@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Partial<T> {
     private T current;
-    private ArrayList<Listener<T>> listeners = new ArrayList<>();
+    private final ArrayList<Listener<T>> listeners = new ArrayList<>();
     private boolean completed = false;
 
     public Partial(T original) {

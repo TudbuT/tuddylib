@@ -48,10 +48,10 @@ public class GraphRenderer {
         Graphics graphics = image.getGraphics().create();
         graphics.setColor(new Color(0x000000));
         
-        int lastPixelY = Maths2D.center(Maths2D.camera((int) Math.round(-graph.getAsFunction((int) ( -Maths2D.center(Maths2D.camera(0, offsetX), pxX)) * scale) * scaleY), offsetY), pxY);
+        int lastPixelY = Maths2D.center(Maths2D.camera((int) Math.round(-graph.getAsFunction(-Maths2D.center(Maths2D.camera(0, offsetX), pxX) * scale) * scaleY), offsetY), pxY);
         if(markZero)
             graphics.drawRect(Maths2D.center(Maths2D.camera(0, offsetX), pxX) - 1, Maths2D.center(Maths2D.camera(0, offsetY), pxY) - 1, 2, 2);
-        for (int i = (int) ( -Maths2D.center(Maths2D.camera(0, offsetX), pxX)) ; i < Maths2D.center(Maths2D.camera(0, offsetX), pxX) * 2; i++) {
+        for (int i = -Maths2D.center(Maths2D.camera(0, offsetX), pxX) ; i < Maths2D.center(Maths2D.camera(0, offsetX), pxX) * 2; i++) {
             int y = Maths2D.center(Maths2D.camera((int) Math.round(-graph.getAsFunction(i * scale) * scaleY), offsetY), pxY);
             graphics.drawLine(Maths2D.center(Maths2D.camera(i, offsetX), pxX) - 1, lastPixelY, Maths2D.center(Maths2D.camera(i, offsetX), pxX), y);
             lastPixelY = y;

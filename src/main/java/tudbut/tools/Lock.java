@@ -66,7 +66,7 @@ public class Lock {
      */
     public long timeLeft() {
         updateLocked();
-        return (ts + t) - new Date().getTime();
+        return locked ? 0 : (ts + t) - new Date().getTime();
     }
     
     /**
