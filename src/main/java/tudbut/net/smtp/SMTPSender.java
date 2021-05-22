@@ -12,12 +12,12 @@ public class SMTPSender {
     InputStreamReader in;
     OutputStreamWriter out;
     PrintWriter write;
+    BufferedReader read;
     
     public BufferedReader getReader() {
         return read;
     }
     
-    BufferedReader read;
     
     public SMTPSender(String host, int port, boolean ssl) throws IOException {
         this(socket(host, port, ssl));
