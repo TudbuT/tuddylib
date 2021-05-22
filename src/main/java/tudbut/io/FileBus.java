@@ -24,6 +24,9 @@ public class FileBus extends File {
     final InputStream i;
     final OutputStream o;
     
+    FileLock lock;
+    final Lock localLock = new Lock();
+    
     {
         try {
             file.seek((int) file.length());
@@ -86,9 +89,6 @@ public class FileBus extends File {
     public void waitForInput() throws IOException {
         ir.waitForInput();
     }
-    
-    FileLock lock;
-    final Lock localLock = new Lock();
     
     public void startWrite() throws IOException {
         localLock.waitHere();

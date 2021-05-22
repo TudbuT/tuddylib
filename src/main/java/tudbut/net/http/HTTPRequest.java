@@ -203,24 +203,5 @@ public class HTTPRequest {
         writer.writeChars(toString().toCharArray(), "ISO_8859_1");
         return socket;
     }
-    /**
-     * Sends the request and return the socket from which {@link #send} and {@link #sendKeepAlive} will read
-     * @return The created socket
-     * @throws IOException Inherited
-     */
-    private Socket connectChannel() throws IOException {
-        Socket socket;
-        if (ssl) {
-            SSLSocket sslSocket = (SSLSocket) SSLSocketFactory.getDefault().createSocket(host.split("https://")[1], port);
-            sslSocket.startHandshake();
-            socket = sslSocket;
-        }
-        else
-            socket = new Socket(InetAddress.getByName(host), port);
-        socket.setSoLinger(true, 5000);
-        socket.setReceiveBufferSize(StreamReader.BUFFER_SIZE);
-        StreamWriter writer = new StreamWriter(socket.getOutputStream());
-        writer.writeChars(toString().toCharArray(), "ISO_8859_1");
-        return socket;
-    }
+    
 }

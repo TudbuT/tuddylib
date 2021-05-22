@@ -36,7 +36,7 @@ public class RenderObject3D {
     }
 
     @Deprecated
-    void updateMultiplier() {
+    private void updateMultiplier() {
     
     }
 

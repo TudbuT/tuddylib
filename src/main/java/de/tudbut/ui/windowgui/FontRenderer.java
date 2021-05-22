@@ -8,8 +8,8 @@ import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 
 public class FontRenderer {
-    final Font myFont;
-    final FontRenderContext context;
+    public Font myFont;
+    public FontRenderContext context;
 
     public FontRenderer(int size) {
         myFont = new Font("serif", Font.PLAIN, size);

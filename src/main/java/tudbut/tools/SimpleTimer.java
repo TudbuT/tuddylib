@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class SimpleTimer {
     
-    final Lock lock = new Lock();
+    private final Lock lock = new Lock();
     
-    final int time;
-    int timesRan = 0;
-    long lastTimeTaken = 0;
+    private final int time;
+    private int timesRan = 0;
+    private long lastTimeTaken = 0;
     
-    long last;
+    private long last;
     public SimpleTimer(int delay) {
         time = delay;
     }
