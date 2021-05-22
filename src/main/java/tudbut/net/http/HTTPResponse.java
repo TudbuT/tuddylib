@@ -84,7 +84,7 @@ public class HTTPResponse extends Value<String> {
                  */
                 ByteArrayInputStream b = new ByteArrayInputStream(value.substring(start).getBytes(StandardCharsets.ISO_8859_1));
     
-                for (int chunk = 0, i = -1 ; i != 0 ; chunk++) {
+                for (int i = -1 ; i != 0 ; ) {
                     StringBuilder sbuf = new StringBuilder();
                     int c;
                     while (!sbuf.toString().endsWith("\n") && (c = b.read()) != -1) {
