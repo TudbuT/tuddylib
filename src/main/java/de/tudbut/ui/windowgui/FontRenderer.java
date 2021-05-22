@@ -1,6 +1,5 @@
 package de.tudbut.ui.windowgui;
 
-import de.tudbut.type.Vector2d;
 import tudbut.obj.Vector2i;
 
 import java.awt.*;
@@ -9,8 +8,8 @@ import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 
 public class FontRenderer {
-    Font myFont;
-    FontRenderContext context;
+    final Font myFont;
+    final FontRenderContext context;
 
     public FontRenderer(int size) {
         myFont = new Font("serif", Font.PLAIN, size);

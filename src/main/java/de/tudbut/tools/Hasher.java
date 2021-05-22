@@ -8,6 +8,7 @@ public class Hasher {
     public static final String TYPE_SHA256HEX = "sha256hex";
     public static final String TYPE_SHA512HEX = "sha512hex";
     public static final String TYPE_INT = "int";
+    @SuppressWarnings("CanBeFinal")
     public static String LETTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"§$%&/()=?#_-.:,;µ<>|^°{[]}\\ ";
 
     public static String sha256hex(String toHash) {

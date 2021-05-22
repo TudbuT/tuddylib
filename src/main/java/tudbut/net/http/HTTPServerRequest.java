@@ -125,7 +125,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
             headersList.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1]));
         }
         HTTPHeader[] headers = headersList.toArray(new HTTPHeader[0]);
-        String body = "";
+        StringBuilder body = new StringBuilder();
         try {
             int start = value.indexOf("\n\n") + 2;
             HTTPHeader header = null;
@@ -135,7 +135,7 @@ public class HTTPServerRequest extends Value<String> implements Closable {
             }
             if(header != null) {
                 int end = start + Integer.parseInt(header.value());
-                body = value.substring(start, end);
+                body = new StringBuilder(value.substring(start, end));
             }
             else {
             
@@ -145,22 +145,22 @@ public class HTTPServerRequest extends Value<String> implements Closable {
                 ByteArrayInputStream b = new ByteArrayInputStream(value.substring(start).getBytes(StandardCharsets.ISO_8859_1));
             
                 for (int chunk = 0, i = -1 ; i != 0 ; chunk++) {
-                    String sbuf = "";
+                    StringBuilder sbuf = new StringBuilder();
                     int c;
-                    while (!sbuf.endsWith("\n") && (c = b.read()) != -1) {
-                        sbuf += (char)c;
+                    while (!sbuf.toString().endsWith("\n") && (c = b.read()) != -1) {
+                        sbuf.append((char) c);
                     }
-                    i = Integer.parseInt(sbuf.replaceAll("\r", "").split("\n")[0], 16);
+                    i = Integer.parseInt(sbuf.toString().replaceAll("\r", "").split("\n")[0], 16);
                     byte[] buf = new byte[i];
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     b.read(buf);
                     stream.write(buf);
-                    body += stream.toString();
+                    body.append(stream.toString());
                 }
             }
         } catch (Exception ignored) {
         }
-        String finalBody = body;
+        String finalBody = body.toString();
         return new ParsedHTTPValue() {
             @Override
             public String getHTTPVersion() {

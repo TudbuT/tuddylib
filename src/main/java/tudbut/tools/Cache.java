@@ -10,7 +10,7 @@ import java.util.Set;
  * @param <V>
  */
 public class Cache<K, V> {
-    protected ArrayList<Entry<K, V>> entries = new ArrayList<>();
+    protected final ArrayList<Entry<K, V>> entries = new ArrayList<>();
     
     /**
      * Add a key

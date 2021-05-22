@@ -1,7 +1,6 @@
 package tudbut.rendering;
 
 import de.tudbut.tools.ExtendedMath;
-import de.tudbut.type.Vector2d;
 import de.tudbut.type.Vector3d;
 
 public class Maths3D {

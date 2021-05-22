@@ -5,9 +5,9 @@ import de.tudbut.type.Vector3d;
 
 public class RenderObject3D {
     final double multiplier;
-    Vector3d[] vectors;
-    RenderObjectType type;
-    int color;
+    final Vector3d[] vectors;
+    final RenderObjectType type;
+    final int color;
     boolean isClipped;
 
     public RenderObject3D(Vector3d pos1, Vector3d pos2, Vector3d pos3, boolean fill, double multiplier, int color) {
@@ -35,11 +35,9 @@ public class RenderObject3D {
         this.color = color;
     }
 
+    @Deprecated
     void updateMultiplier() {
-        /*for (Vector3d vec : vectors) {
-            vec.set(vec.getX() * multiplier, vec.getY() * multiplier, vec.getZ());
-        }*/
-
+    
     }
 
     @Override

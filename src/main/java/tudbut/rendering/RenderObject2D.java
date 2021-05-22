@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 
 public class RenderObject2D {
     private final double multiplier;
-    Vector2d[] vectors;
-    RenderObjectType type;
+    final Vector2d[] vectors;
+    final RenderObjectType type;
     int color;
     BufferedImage image;
 

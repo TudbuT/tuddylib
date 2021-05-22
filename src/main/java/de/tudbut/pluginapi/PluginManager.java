@@ -50,7 +50,7 @@ public class PluginManager {
         System.out.println("Loading plugin " + jarPath);
         Plugin.loadClass();
         URL[] urls;
-        JarFile file = null;
+        JarFile file;
         try {
             file = new JarFile(jarPath);
         }

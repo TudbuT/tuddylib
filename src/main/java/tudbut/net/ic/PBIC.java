@@ -41,10 +41,10 @@ public class PBIC {
     public static class Server implements Closeable {
         private final int port;
         protected final ServerSocket server;
-        public ArrayList<Socket> sockets = new ArrayList<>();
-        public ArrayList<Bus> busses = new ArrayList<>();
-        public ArrayList<Connection> connections = new ArrayList<>();
-        public ArrayList<Runnable> onJoin = new ArrayList<>();
+        public final ArrayList<Socket> sockets = new ArrayList<>();
+        public final ArrayList<Bus> busses = new ArrayList<>();
+        public final ArrayList<Connection> connections = new ArrayList<>();
+        public final ArrayList<Runnable> onJoin = new ArrayList<>();
         public Connection lastConnection;
         
         public Server(int port) throws IOException {

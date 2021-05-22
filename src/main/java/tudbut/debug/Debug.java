@@ -7,7 +7,7 @@ public class Debug {
     
     private static final Map<Thread, Map<Object, DebugProfiler>> debugProfilerMap = new HashMap<>();
 
-    public static DebugProfiler getDebugProfiler(Object o, boolean allowFinished) {
+    public static DebugProfiler getDebugProfiler(java.lang.reflect.GenericDeclaration o, boolean allowFinished) {
         if(!debugProfilerMap.containsKey(Thread.currentThread()))
             debugProfilerMap.put(Thread.currentThread(), new HashMap<>());
         

@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class SMTPDataOutput {
     private final SMTPSender parent;
-    PrintWriter write;
+    final PrintWriter write;
     
     private boolean headersOpen = true;
     private boolean dataOpen = false;

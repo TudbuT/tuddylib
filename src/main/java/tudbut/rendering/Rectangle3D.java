@@ -1,7 +1,6 @@
 package tudbut.rendering;
 
 import de.tudbut.type.Vector3d;
-import tudbut.obj.RelativeVector3d;
 
 public class Rectangle3D {
     Vector3d pos;

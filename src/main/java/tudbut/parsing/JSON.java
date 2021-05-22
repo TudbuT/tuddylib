@@ -357,7 +357,7 @@ public class JSON {
                 path.next();
                 i--;
                 if(theTCN.map.keys().isEmpty())
-                    s.append("," + (spaces ? " " : "") + (newlines ? "" : ""));
+                    s.append(",").append(spaces ? " " : "").append(newlines ? "" : "");
                 s.delete(s.length() - ((newlines ? 2 : 1) + (spaces ? 1 : 0)), s.length());
                 s.append(newlines ? "\n" : "").append(indent(newlines, i, indentLength)).append(theTCN.isArray ? "]" : "}").append(",").append(spaces ? " " : "").append(newlines ? "\n" : "");
             }

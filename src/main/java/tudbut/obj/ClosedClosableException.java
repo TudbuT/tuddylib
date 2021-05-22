@@ -1,7 +1,5 @@
 package tudbut.obj;
 
-import java.util.concurrent.ExecutorService;
-
 public class ClosedClosableException extends Exception {
 
     public ClosedClosableException() { }

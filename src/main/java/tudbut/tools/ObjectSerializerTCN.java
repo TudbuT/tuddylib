@@ -2,7 +2,6 @@ package tudbut.tools;
 
 import tudbut.debug.Debug;
 import tudbut.debug.DebugProfiler;
-import tudbut.obj.Save;
 import tudbut.obj.Transient;
 import tudbut.parsing.TCN;
 
@@ -40,7 +39,7 @@ public class ObjectSerializerTCN {
     boolean unable = false;
     boolean isEnum;
     
-    public DebugProfiler debugProfiler = Debug.getDebugProfiler(getClass(), false);
+    public final DebugProfiler debugProfiler = Debug.getDebugProfiler(getClass(), false);
     
     public ObjectSerializerTCN(TCN tcn) {
         map = tcn;

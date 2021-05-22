@@ -1,7 +1,6 @@
 package tudbut.obj;
 
 import de.tudbut.tools.Tools;
-import tudbut.tools.Tools2;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

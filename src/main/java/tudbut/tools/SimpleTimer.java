@@ -1,14 +1,12 @@
 package tudbut.tools;
 
-import tudbut.obj.NotSupportedException;
-
 import java.util.Date;
 
 public class SimpleTimer {
     
-    Lock lock = new Lock();
+    final Lock lock = new Lock();
     
-    int time;
+    final int time;
     int timesRan = 0;
     long lastTimeTaken = 0;
     

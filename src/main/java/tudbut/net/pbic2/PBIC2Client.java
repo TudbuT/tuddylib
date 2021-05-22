@@ -1,15 +1,11 @@
 package tudbut.net.pbic2;
 
-import de.tudbut.io.StreamReader;
-import tudbut.io.LineReader;
 import tudbut.io.TypedInputStream;
 import tudbut.io.TypedOutputStream;
 import tudbut.net.http.*;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class PBIC2Client implements PBIC2 {
     
@@ -31,12 +27,12 @@ public final class PBIC2Client implements PBIC2 {
         request.headers.add(new HTTPHeader("Upgrade", "TudbuT/PBIC2"));
         socket = request.sendNoRead();
         socket.setSoLinger(false, 0);
-        String s = "";
+        StringBuilder s = new StringBuilder();
         int res;
         while ((res = socket.getInputStream().read()) != 0) {
-            s += (char) res;
+            s.append((char) res);
         }
-        if(new HTTPResponse(s).parse().getStatusCodeAsEnum() != HTTPResponseCode.SwitchingProtocols) {
+        if(new HTTPResponse(s.toString()).parse().getStatusCodeAsEnum() != HTTPResponseCode.SwitchingProtocols) {
             throw new IOException("Invalid response.");
         }
         socket.getOutputStream().write(0);

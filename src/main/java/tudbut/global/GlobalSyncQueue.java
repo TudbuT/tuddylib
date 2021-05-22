@@ -106,7 +106,6 @@ public class GlobalSyncQueue {
                 catch (Exception exception) {
                     exception.printStackTrace();
                 }
-                continue;
             }
         }
     }

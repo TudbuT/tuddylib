@@ -1,11 +1,7 @@
 package de.tudbut.io;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 
 
 /**

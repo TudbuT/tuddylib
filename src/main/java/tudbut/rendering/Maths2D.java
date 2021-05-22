@@ -1,8 +1,6 @@
 package tudbut.rendering;
 
-import de.tudbut.type.FInfo;
 import de.tudbut.type.Vector2d;
-import de.tudbut.type.Vector3d;
 import tudbut.tools.NoiseGenerator;
 
 import java.awt.*;

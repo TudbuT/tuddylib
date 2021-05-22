@@ -13,7 +13,7 @@ public class FileRW {
 
     private final AtomicReference<LoggerSink> logger;
     private final StringArray lines;
-    protected File file;
+    protected final File file;
 
     public FileRW(String path) throws IOException {
 

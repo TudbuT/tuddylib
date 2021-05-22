@@ -1,7 +1,5 @@
 package tudbut.tools;
 
-import tudbut.obj.NotSupportedException;
-
 import java.util.Date;
 
 public class Timer {

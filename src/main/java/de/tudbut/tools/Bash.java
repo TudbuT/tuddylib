@@ -34,7 +34,7 @@ public class Bash {
                 p.getOutputStream()));
 
         if (!enableSTDINPUT) {
-            String s = "";
+            String s;
             while ((s = this.stdO.readLine()) != null)
                 this.output.add(s);
             while ((s = this.stdE.readLine()) != null)
@@ -57,7 +57,7 @@ public class Bash {
                 p.getOutputStream()));
 
         if (!enableSTDINPUT) {
-            String s = "";
+            String s;
             while ((s = this.stdO.readLine()) != null)
                 this.output.add(s);
             while ((s = this.stdE.readLine()) != null)
@@ -79,7 +79,7 @@ public class Bash {
                                                OutputStreamWriter(
                 p.getOutputStream()));
 
-        String s = "";
+        String s;
         while ((s = this.stdO.readLine()) != null)
             this.output.add(s);
         while ((s = this.stdE.readLine()) != null)
@@ -100,7 +100,7 @@ public class Bash {
                                                OutputStreamWriter(
                 p.getOutputStream()));
 
-        String s = "";
+        String s;
         while ((s = this.stdO.readLine()) != null)
             this.output.add(s);
         while ((s = this.stdE.readLine()) != null)

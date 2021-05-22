@@ -85,17 +85,7 @@ public class WindowGUI {
         button.set("listenerID", nextActionListenerID + "");
         nextActionListenerID++;
     }
-
-    /*protected void addDesign(Config window, Design design) throws Exception {
-        window.set("design", nextDesignID + "");
-        designs[nextDesignID] = design;
-        nextDesignID++;
-    }
-
-    public void setBackground(Window window, WindowBackgroundColor background) {
-        window.addText(background.toHTML());
-    }*/
-
+    
     protected void render(Config window, Window w) throws Exception {
         logger.info("Preparing render...");
         w.label.removeAll();
@@ -134,10 +124,6 @@ public class WindowGUI {
         w.frame.repaint();
 
         logger.info("Rendered!");
-
-        /*if(!window.get("design").equals("null")) {
-            w.addText(designs[Integer.parseInt(window.get("design"))].toString());
-            w.frame.setBackground(new Color(designs[Integer.parseInt(window.get("design"))].getBg().Icolor));
-        }*/
+        
     }
 }

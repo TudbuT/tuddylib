@@ -1,7 +1,6 @@
 package tudbut.logger;
 
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.sql.Time;
 import java.util.Date;
 

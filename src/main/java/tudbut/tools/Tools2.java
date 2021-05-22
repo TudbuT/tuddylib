@@ -1,8 +1,6 @@
 package tudbut.tools;
 
 import de.tudbut.io.StreamReader;
-import tudbut.global.DebugStateManager;
-import tudbut.obj.Atomic;
 import tudbut.obj.Partial;
 
 import java.awt.*;
@@ -10,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;

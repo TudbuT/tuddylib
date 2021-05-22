@@ -23,7 +23,7 @@ public class TypedList<T> extends TypedArray<T> {
     public synchronized T[] add(T[] t) {
         synchronized (synchronizer) {
             checkLocked();
-            T[] n = new TypedArray<T>(length() + t.length, ts).toArray();
+            T[] n = new TypedArray<>(length() + t.length, ts).toArray();
             for (int i = ts.length, j = 0; j < t.length; i++, j++) {
                 n[i] = t[j];
             }
@@ -49,7 +49,7 @@ public class TypedList<T> extends TypedArray<T> {
     public synchronized T add(T t) {
         synchronized (synchronizer) {
             checkLocked();
-            T[] n = new TypedArray<T>(length() + 1, ts).toArray();
+            T[] n = new TypedArray<>(length() + 1, ts).toArray();
             n[n.length - 1] = t;
             ts = n;
             return t;
@@ -62,7 +62,7 @@ public class TypedList<T> extends TypedArray<T> {
             if (i == ts.length - 1)
                 return add(t);
     
-            T[] n = new TypedArray<T>(length() + 1, ts).toArray();
+            T[] n = new TypedArray<>(length() + 1, ts).toArray();
             int tPos = 0;
             for (int j = 0; j < n.length; j++) {
                 if (j == i) {
@@ -123,7 +123,7 @@ public class TypedList<T> extends TypedArray<T> {
     
     private synchronized void decrementSize() {
         checkLocked();
-        ts = new TypedArray<T>(length() - 1, ts).toArray();
+        ts = new TypedArray<>(length() - 1, ts).toArray();
     }
     
     public T random() {

@@ -3,10 +3,8 @@ package tudbut.obj;
 import tudbut.tools.Retriever;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public class TLMap<K, V> {
     protected Binding<K, V> binding = new Binding<>();

@@ -8,6 +8,15 @@ import java.util.Date;
 import static java.lang.System.currentTimeMillis;
 
 public class DebugProfiler {
+    
+    private final String name;
+    private final long start = currentTimeMillis();
+    private long end;
+    private final ArrayList<Section> sections = new ArrayList<>();
+    private Section currentSection;
+    private boolean locked = false;
+    private Results results = null;
+    private boolean dirty = true;
 
     public static final class Section {
         public final String name;
@@ -70,15 +79,6 @@ public class DebugProfiler {
             return s.toString();
         }
     }
-    
-    private final String name;
-    private final long start = currentTimeMillis();
-    private long end;
-    private final ArrayList<Section> sections = new ArrayList<>();
-    private Section currentSection;
-    private boolean locked = false;
-    private Results results = null;
-    private boolean dirty = true;
     
     public DebugProfiler(String name, String startingSection) {
         this.name = name;

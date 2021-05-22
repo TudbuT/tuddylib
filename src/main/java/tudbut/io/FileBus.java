@@ -20,9 +20,9 @@ public class FileBus extends File {
         }
     }
     
-    RandomAccessFile file = new RandomAccessFile(this, "rw");
-    InputStream i;
-    OutputStream o;
+    final RandomAccessFile file = new RandomAccessFile(this, "rw");
+    final InputStream i;
+    final OutputStream o;
     
     {
         try {
@@ -44,8 +44,8 @@ public class FileBus extends File {
             }
         };
     }
-    TypedInputStream ir = new TypedInputStream(i);
-    TypedOutputStream ow = new TypedOutputStream(o);
+    final TypedInputStream ir = new TypedInputStream(i);
+    final TypedOutputStream ow = new TypedOutputStream(o);
     
     public FileBus(String s) throws FileNotFoundException {
         super(s);
@@ -88,7 +88,7 @@ public class FileBus extends File {
     }
     
     FileLock lock;
-    Lock localLock = new Lock();
+    final Lock localLock = new Lock();
     
     public void startWrite() throws IOException {
         localLock.waitHere();

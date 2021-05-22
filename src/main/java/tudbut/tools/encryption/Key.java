@@ -139,6 +139,7 @@ public class Key implements Cloneable {
         return new ObjectSerializerTCN(TCN.readMap(Tools.stringToMap(decryptString(s)))).convertAll().done();
     }
     
+    @SuppressWarnings("CloneDoesntDeclareCloneNotSupportedException")
     @Override
     protected Key clone() {
         try {

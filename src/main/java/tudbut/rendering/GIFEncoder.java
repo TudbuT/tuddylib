@@ -4,17 +4,15 @@ import javax.imageio.*;
 import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class GIFEncoder {
     
-    protected ImageWriter writer;
-    protected ImageWriteParam params;
-    protected IIOMetadata metadata;
+    protected final ImageWriter writer;
+    protected final ImageWriteParam params;
+    protected final IIOMetadata metadata;
     protected ImageOutputStream stream;
     
     public GIFEncoder(ImageOutputStream out, int imageType, int delay, boolean loop) throws IOException {

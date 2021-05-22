@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Projection2D {
-    AtomicInteger x;
-    AtomicInteger y;
-    RenderOutputType type;
-    ArrayList<RenderObject2D> objects = new ArrayList<>();
-    ArrayList<Object[]> imageObjects = new ArrayList<>();
+    final AtomicInteger x;
+    final AtomicInteger y;
+    final RenderOutputType type;
+    final ArrayList<RenderObject2D> objects = new ArrayList<>();
+    final ArrayList<Object[]> imageObjects = new ArrayList<>();
     int fgColor = 0x000000;
-    int bgColor;
+    final int bgColor;
     double multiplier;
     Vector2d offset = new Vector2d(0,0);
 

@@ -2,10 +2,6 @@ package tudbut.obj;
 
 import tudbut.tools.ArrayGetter;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-
 public class DoubleObject<T> {
     private final T t1;
     private final T t2;

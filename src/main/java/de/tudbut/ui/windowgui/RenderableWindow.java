@@ -8,16 +8,14 @@ import tudbut.obj.Vector2i;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class RenderableWindow {
-    public BufferedImage image;
-    public AtomicInteger xSize = new AtomicInteger(1);
-    public AtomicInteger ySize = new AtomicInteger(1);
+    public final BufferedImage image;
+    public final AtomicInteger xSize = new AtomicInteger(1);
+    public final AtomicInteger ySize = new AtomicInteger(1);
     protected BufferedImage buffer;
     protected BufferedImage bufferTMP;
     private final AtomicInteger fps = new AtomicInteger();

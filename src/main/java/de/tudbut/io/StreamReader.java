@@ -1,7 +1,5 @@
 package de.tudbut.io;
 
-import de.tudbut.type.ByteArrayList;
-import de.tudbut.type.CharArrayList;
 import de.tudbut.type.IntArrayList;
 
 import java.io.*;

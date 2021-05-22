@@ -10,7 +10,7 @@ public class InstanceBoundMap<K, V> {
 
     public synchronized void createBindingIfNonExistent(Object bindingObject) {
         if(!bindings.containsKey(bindingObject))
-            bindings.put(bindingObject, new Binding<K, V>());
+            bindings.put(bindingObject, new Binding<>());
     }
 
     public synchronized void set(Object bindingObject, K key, V value) {

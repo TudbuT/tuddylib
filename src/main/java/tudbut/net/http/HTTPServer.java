@@ -2,13 +2,11 @@ package tudbut.net.http;
 
 import de.tudbut.io.StreamWriter;
 import de.tudbut.type.Stoppable;
-import tudbut.tools.Tools2;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,8 +14,6 @@ import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.Executor;
 
 /**

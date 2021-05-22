@@ -3,7 +3,6 @@ package tudbut.net.http;
 import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.timer.AsyncTask;
-import de.tudbut.type.Nothing;
 import tudbut.obj.DoubleTypedObject;
 import tudbut.obj.Partial;
 
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;

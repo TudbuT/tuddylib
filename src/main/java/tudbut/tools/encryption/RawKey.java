@@ -1,13 +1,7 @@
 package tudbut.tools.encryption;
 
-import de.tudbut.tools.Hasher;
-import de.tudbut.tools.Tools;
-import tudbut.parsing.TCN;
-import tudbut.tools.ObjectSerializerTCN;
-
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 /**
  * Key to encrypt objects and strings

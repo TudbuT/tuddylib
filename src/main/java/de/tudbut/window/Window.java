@@ -15,8 +15,8 @@ public class Window {
     private String text;
     private final boolean isMain;
     private int exitValue = 0;
-    private String name = null;
-    private String title = null;
+    private String name;
+    private String title;
     private boolean isClosed = true;
     private final boolean messages = true;
 

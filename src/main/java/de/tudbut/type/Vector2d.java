@@ -2,7 +2,6 @@ package de.tudbut.type;
 
 import de.tudbut.tools.Tools;
 import tudbut.obj.Mappable;
-import tudbut.obj.Vector2i;
 
 import java.util.Map;
 

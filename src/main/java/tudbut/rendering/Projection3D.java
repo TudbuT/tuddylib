@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Projection3D {
-    public Vector3d offset = new Vector3d(0, 0, 0);
-    AtomicInteger x;
-    AtomicInteger y;
-    RenderOutputType type;
-    ArrayList<RenderObject3D> objects = new ArrayList<>();
+    public final Vector3d offset = new Vector3d(0, 0, 0);
+    final AtomicInteger x;
+    final AtomicInteger y;
+    final RenderOutputType type;
+    final ArrayList<RenderObject3D> objects = new ArrayList<>();
     int fgColor = 0x000000;
-    int bgColor;
-    double var0 = 20;
+    final int bgColor;
+    final double var0 = 20;
     int zClip = -1;
     double fovMod = 1;
 
@@ -150,21 +150,7 @@ public class Projection3D {
     }
 
     void render(Graphics g) {
-        /*objects.sort((renderObject0, renderObject1) -> {
-            double i = 0;
-
-            for (Vector3d vector : renderObject0.vectors) {
-                i = Math.max(vector.getZ(), i);
-            }
-            double i1 = 0;
-
-            for (Vector3d vector : renderObject1.vectors) {
-                i1 = Math.max(vector.getZ(), i1);
-            }
-
-            return (int) (i1 - i);
-        });*/
-
+    
         RenderObject3D[] objects = this.objects.toArray(new RenderObject3D[0]);
 
         try {

@@ -2,7 +2,7 @@ package de.tudbut.tools;
 
 public class StringTools {
     public static String replaceRaw(String s, String repl, String with) {
-        String r = "";
+        StringBuilder r = new StringBuilder();
 
         for (int i = 0; i < s.length(); i++) {
             int rml = 0;
@@ -13,7 +13,7 @@ public class StringTools {
                         rml++;
                         if (rml == repl.length()) {
                             i += rl;
-                            r += with;
+                            r.append(with);
                             cnt = true;
                         }
                     }
@@ -23,10 +23,10 @@ public class StringTools {
             }
             if (cnt)
                 continue;
-            r += s.toCharArray()[i];
+            r.append(s.toCharArray()[i]);
         }
 
 
-        return r;
+        return r.toString();
     }
 }
