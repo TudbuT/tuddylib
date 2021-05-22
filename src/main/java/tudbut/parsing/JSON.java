@@ -73,6 +73,8 @@ public class JSON {
                         // Make \n work
                         if (c == 'n')
                             theString.append('\n');
+                        if (c == 'r')
+                            theString.append('\r');
                         if(c == 'u') {
                             String e = "";
                             e += c = a[++pos];
@@ -326,7 +328,7 @@ public class JSON {
                     path.add(key);
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
-                        String val = o.toString().replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\"");
+                        String val = o.toString().replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\r", "\\\\r").replaceAll("\"", "\\\"");
                         if(tcnStack.peek().isArray) {
                             s.append(indent(newlines, i, indentLength)).append("\"").append(val).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
                         }

@@ -3,3 +3,4 @@
 /build/libs/
 /build/tmp/
 *.png
+deployToGitlab
