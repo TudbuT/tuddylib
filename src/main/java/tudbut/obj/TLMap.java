@@ -4,6 +4,7 @@ import tudbut.tools.Retriever;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class TLMap<K, V> {
@@ -49,8 +50,15 @@ public class TLMap<K, V> {
         map.binding = binding.flip();
         return map;
     }
-
-
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TLMap<?, ?> tlMap = (TLMap<?, ?>) o;
+        return tlMap.binding.entries.equals(binding.entries);
+    }
+    
     protected static class Binding<K, V> {
         protected ArrayList<Entry<K, V>> entries = new ArrayList<>();
 
@@ -120,6 +128,15 @@ public class TLMap<K, V> {
             protected Entry(K key, V val) {
                 this.key = key;
                 this.val = val;
+            }
+    
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Entry<?, ?> entry = (Entry<?, ?>) o;
+                if (!Objects.equals(key, entry.key)) return false;
+                return Objects.equals(val, entry.val);
             }
         }
     }

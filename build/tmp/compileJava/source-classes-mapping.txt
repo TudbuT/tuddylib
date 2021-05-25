@@ -149,8 +149,6 @@ tudbut/rendering/GIFEncoder.java
  tudbut.rendering.GIFEncoder
 tudbut/obj/ClosedClosableException.java
  tudbut.obj.ClosedClosableException
-tudbut/parsing/DatabaseTCNConverter.java
- tudbut.parsing.DatabaseTCNConverter
 tudbut/obj/AtomicUtils.java
  tudbut.obj.AtomicUtils
 tudbut/net/pbic2/PBIC2AEventHandler.java
@@ -508,6 +506,8 @@ tudbut/logger/Logger.java
  tudbut.logger.Logger$9
 de/tudbut/tools/bintools/encoding/Seed.java
  de.tudbut.tools.bintools.encoding.Seed
+tudbut/parsing/AddressedTCN.java
+ tudbut.parsing.AddressedTCN
 tudbut/obj/Vector2i.java
  tudbut.obj.Vector2i
 tudbut/tools/BetterClassLoader.java
