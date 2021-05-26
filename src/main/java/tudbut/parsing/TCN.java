@@ -238,10 +238,10 @@ public class TCN {
                         tcnStack.add((TCN) o);
                         String indent = StringTools.multiply("    ", i);
                         if(tcn.isArray) {
-                            s.append("\n").append(indent).append(";").append(" {\n");
+                            s.append("\n").append(indent).append(";").append(((TCN) o).isArray ? " [\n" : " {\n");
                         }
                         else
-                            s.append("\n").append(indent).append(k).append(" {\n");
+                            s.append("\n").append(indent).append(k).append(((TCN) o).isArray ? " [\n" : " {\n");
                         i++;
                         b = true;
                         break;

@@ -30,6 +30,13 @@ public class AddressedTCN {
                     tcn.set(key, objects.get(String.valueOf(i)));
                 }
             }
+            if(v instanceof TCNArray) {
+                TCNArray tcn = (TCNArray) v;
+                for (int l = 0 ; l < tcn.size() ; l++) {
+                    int i = tcn.getInteger(l);
+                    tcn.set(l, objects.get(String.valueOf(i)));
+                }
+            }
         }
     }
     
@@ -40,12 +47,18 @@ public class AddressedTCN {
         theTCN.set("main", tcn);
         recursiveScan(allObjects, db, theTCN);
         db.set("main", 0);
+        for (String key : db.map.keys()) {
+            TCN.deepConvert(key, db.get(key), db);
+        }
         return db;
     }
     
     private static void recursiveScan(ArrayList<Object> objects, TCN main, TCN tcn) {
         for (String key : tcn.map.keys()) {
-            add(objects, main, key, tcn.get(key));
+            if(tcn.get(key) instanceof TCNArray)
+                add(objects, main, key, ((TCNArray) tcn.get(key)).toTCN());
+            else
+                add(objects, main, key, tcn.get(key));
         }
     }
     
