@@ -39,13 +39,13 @@ public class TCN {
      * @param o Object, can be a native type, string, or another TCN (or TCNArray)
      */
     public void set(String key, Object o) {
-        TLMap<String, Object> map = this.map;
+        /*TLMap<String, Object> map = this.map;
         ArrayList<String> path = new ArrayList<>(Arrays.asList(key.split("#")));
     
         while (path.size() > 1) {
             map = ((TCN) map.get(path.remove(0))).map;
         }
-        
+         */
         map.set(key, o);
     }
     
