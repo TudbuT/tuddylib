@@ -362,7 +362,6 @@ public class ImageUtils {
      * with the ones the human sees
      * @param image0
      * @param image1
-     * @return
      */
     public static float getSimilarityV2(BufferedImage image0, BufferedImage image1) {
         float f = 0;

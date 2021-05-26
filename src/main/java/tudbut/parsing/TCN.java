@@ -202,7 +202,6 @@ public class TCN {
         StringBuilder s = new StringBuilder();
         int i = 0;
         
-        HashMap<Stack<String>, String> fullMap = new LinkedHashMap<>();
         ArrayList<Stack<String>> paths = new ArrayList<>();
         Stack<TCN> tcnStack = new Stack<>();
         Stack<String> path = new Stack<>();

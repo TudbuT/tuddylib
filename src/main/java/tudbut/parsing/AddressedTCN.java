@@ -54,7 +54,7 @@ public class AddressedTCN {
             if(!objects.contains(o)) {
                 int i = objects.size();
                 objects.add(o);
-                TCN tcn = new TCN();
+                TCN tcn = ((TCN) o).isArray ? new TCNArray().toTCN() : new TCN();
                 recursiveScan(objects, main, (TCN) o);
                 for (String theKey : ((TCN) o).map.keys()) {
                     tcn.set(theKey, add(objects, main, theKey, ((TCN) o).get(theKey)));

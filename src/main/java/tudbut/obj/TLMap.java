@@ -2,13 +2,47 @@ package tudbut.obj;
 
 import tudbut.tools.Retriever;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class TLMap<K, V> {
     protected Binding<K, V> binding = new Binding<>();
+    
+    public static TLMap<String, String> stringToMap(String mapStringParsable) {
+        TLMap<String, String> map = new TLMap<>();
+        
+        String[] splitTiles = mapStringParsable.split(";");
+        for (int i = 0; i < splitTiles.length; i++) {
+            String tile = splitTiles[i];
+            String[] splitTile = tile.split(":");
+            if (tile.contains(":")) {
+                if (splitTile.length == 2)
+                    map.set(
+                            splitTile[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"),
+                            splitTile[1].equals("%N") ? null : splitTile[1].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%")
+                    );
+                else
+                    map.set(splitTile[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"), "");
+            }
+        }
+        
+        return map;
+    }
+    
+    public static String mapToString(TLMap<String, String> map) {
+        StringBuilder r = new StringBuilder();
+        
+        for (String key : map.keys().toArray(new String[0])) {
+            
+            r
+                    .append(key.replaceAll("%", "%P").replaceAll(";", "%B").replaceAll(":", "%I"))
+                    .append(":")
+                    .append(map.get(key) == null ? "%N" : map.get(key).replaceAll("%", "%P").replaceAll(";", "%B").replaceAll(":", "%I"))
+                    .append(";")
+            ;
+        }
+        
+        return r.toString();
+    }
 
     public void set(K key, V value) {
         binding.set(key, value);
