@@ -17,25 +17,11 @@ public class RayCast {
     public boolean hits(Rectangle3D rectangle, int maxSteps) {
         Vector3d pos = origin.clone();
         for (int i = 0; i < maxSteps; i++) {
-            if(intersects(
-                    rectangle,
-                    new Rectangle3D(
-                            origin,
-                            pos.clone().negate().add(origin).negate()
-                    )
-            )) {
+            if(intersects(rectangle, new Rectangle3D(origin, pos.clone().negate().add(origin).negate())))
                 return true;
-            }
             pos.add(step);
         }
-        return
-                intersects(
-                        rectangle,
-                        new Rectangle3D(
-                                origin,
-                                pos.clone().negate().add(origin).negate()
-                        )
-                );
+        return intersects(rectangle, new Rectangle3D(origin, pos.clone().negate().add(origin).negate()));
     }
     
     private boolean intersects(Rectangle3D rectangle, Rectangle3D castRectangle) {
@@ -48,6 +34,6 @@ public class RayCast {
                 !relation[2] &&
                 !relation[3] &&
                 !relation[4] &&
-                !relation[5]  ;
+                !relation[5] ;
     }
 }

@@ -109,9 +109,9 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>public class <span class="typeNameLabel">TCN</span>
 extends java.lang.Object</pre>
-<div class="block">T udbuT<br/>
- C onfig<br/>
- N otation<br/></div>
+<div class="block">T udbuT<br>
+ C onfig<br>
+ N otation<br></div>
 </li>
 </ul>
 </div>
@@ -159,6 +159,10 @@ extends java.lang.Object</pre>
 <div class="block">The map</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/parsing/TCN.html#type">type</a></span></code>&nbsp;</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -177,6 +181,9 @@ extends java.lang.Object</pre>
 <td class="colOne"><code><span class="memberNameLink"><a href="../../tudbut/parsing/TCN.html#TCN--">TCN</a></span>()</code>
 <div class="block">Creates a new, empty TCN</div>
 </td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../tudbut/parsing/TCN.html#TCN-java.lang.String-">TCN</a></span>(java.lang.String&nbsp;type)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -198,7 +205,7 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/parsing/TCN.html#deepConvert-java.lang.String-java.lang.Object-tudbut.parsing.TCN-">deepConvert</a></span>(java.lang.String&nbsp;key,
            java.lang.Object&nbsp;o,
            <a href="../../tudbut/parsing/TCN.html" title="class in tudbut.parsing">TCN</a>&nbsp;top)</code>
-<div class="block">Converts stray arrays to TCNArray objects, recursive.<br/></div>
+<div class="block">Converts stray arrays to TCNArray objects, recursive.<br></div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -316,10 +323,19 @@ extends java.lang.Object</pre>
 <a name="isArray">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>isArray</h4>
 <pre>public final&nbsp;boolean isArray</pre>
+</li>
+</ul>
+<a name="type">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>type</h4>
+<pre>public&nbsp;java.lang.String type</pre>
 </li>
 </ul>
 </li>
@@ -333,11 +349,20 @@ extends java.lang.Object</pre>
 <a name="TCN--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>TCN</h4>
 <pre>public&nbsp;TCN()</pre>
 <div class="block">Creates a new, empty TCN</div>
+</li>
+</ul>
+<a name="TCN-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>TCN</h4>
+<pre>public&nbsp;TCN(java.lang.String&nbsp;type)</pre>
 </li>
 </ul>
 </li>
@@ -529,7 +554,7 @@ extends java.lang.Object</pre>
 <pre>public static&nbsp;void&nbsp;deepConvert(java.lang.String&nbsp;key,
                                java.lang.Object&nbsp;o,
                                <a href="../../tudbut/parsing/TCN.html" title="class in tudbut.parsing">TCN</a>&nbsp;top)</pre>
-<div class="block">Converts stray arrays to TCNArray objects, recursive.<br/>
+<div class="block">Converts stray arrays to TCNArray objects, recursive.<br>
  <pre>Example:<code>
      for (String key : tcn.map.keys()) {
          deepConvert(key, tcn.get(key), tcn);

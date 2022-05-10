@@ -1,8 +1,10 @@
 package de.tudbut.io;
 
 import de.tudbut.type.IntArrayList;
+import tudbut.obj.CarrierException;
 
 import java.io.*;
+import java.net.SocketException;
 
 
 /**
@@ -85,8 +87,12 @@ public class StreamReader {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         byte[] currentBytes = new byte[BUFFER_SIZE];
         int len;
-        while ((len = inputStream.read(currentBytes)) > 0) {
-            bytes.write(currentBytes, 0, len);
+        try {
+            while ((len = inputStream.read(currentBytes)) > 0) {
+                bytes.write(currentBytes, 0, len);
+            }
+        } catch (IOException e) {
+            throw new CarrierException(e, bytes.toByteArray());
         }
         return bytes.toByteArray();
     }

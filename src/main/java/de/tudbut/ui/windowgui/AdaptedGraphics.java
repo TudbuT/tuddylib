@@ -14,7 +14,6 @@ public class AdaptedGraphics {
     }
 
     public void setColor(int rgb) {
-
         if(rgb >= 0 && rgb <= 0xffffff)
             this.graphics.setColor(new Color(rgb, false));
         else

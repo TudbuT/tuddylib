@@ -79,6 +79,10 @@ public class TLMap<K, V> {
         return binding.values();
     }
     
+    public ArrayList<Entry<K, V>> entries() {
+        return binding.entries();
+    }
+    
     public TLMap<V, K> flip() {
         TLMap<V, K> map = new TLMap<>();
         map.binding = binding.flip();
@@ -139,6 +143,12 @@ public class TLMap<K, V> {
             return vals;
         }
     
+        protected ArrayList<Entry<K, V>> entries() {
+            ArrayList<Entry<K, V>> vals = new ArrayList<>();
+            vals.addAll(entries);
+            return vals;
+        }
+    
         protected Binding<V, K> flip() {
             Binding<V, K> binding = new Binding<>();
             for (int i = 0 ; i < entries.size() ; i++) {
@@ -151,27 +161,39 @@ public class TLMap<K, V> {
         public int size() {
             return entries.size();
         }
+    }
     
-        protected static class Entry<K, V> {
-            protected K key;
-            protected V val;
-    
-            protected Entry() {
-            }
-            
-            protected Entry(K key, V val) {
-                this.key = key;
-                this.val = val;
-            }
-    
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (o == null || getClass() != o.getClass()) return false;
-                Entry<?, ?> entry = (Entry<?, ?>) o;
-                if (!Objects.equals(key, entry.key)) return false;
-                return Objects.equals(val, entry.val);
-            }
+    public static class Entry<K, V> {
+        public K key;
+        public V val;
+        
+        protected Entry() {
         }
+        
+        protected Entry(K key, V val) {
+            this.key = key;
+            this.val = val;
+        }
+        
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Entry<?, ?> entry = (Entry<?, ?>) o;
+            if (!Objects.equals(key, entry.key)) return false;
+            return Objects.equals(val, entry.val);
+        }
+    }
+    
+    @Override
+    public TLMap<K, V> clone() {
+        TLMap<K, V> n = new TLMap<>();
+        Object[] keys = keys().toArray();
+        Object[] vals = values().toArray();
+        for (int i = 0, arrayLength = keys.length ; i < arrayLength ; i++) {
+            Object key = keys[i];
+            n.set((K)key, (V)vals[i]);
+        }
+        return n;
     }
 }

@@ -66,11 +66,8 @@ public class WindowGUI {
 
     protected void delButton(Config button, Config window) throws Exception {
         int nextButtonY = Integer.parseInt(window.get("nextButtonY"));
-
         nextButtonY -= Integer.parseInt(button.get("sizeY")) + 2;
-
         button.set("invisible", "1");
-
         window.set("nextButtonY", nextButtonY + "");
     }
 

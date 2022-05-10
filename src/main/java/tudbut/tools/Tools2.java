@@ -15,9 +15,23 @@ import java.util.zip.ZipOutputStream;
 
 public class Tools2 {
     
+    /**
+     * Java 9+ is unreliable when using java.awt.Toolkit#getScreenSize()
+     * @return The screen size, with all monitors.
+     */
+    public static Rectangle fullScreenSize() {
+        GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+        Rectangle r = new Rectangle(0, 0, 0, 0);
+        for (GraphicsDevice screenDevice : screenDevices) {
+            Rectangle bounds = screenDevice.getDefaultConfiguration().getBounds();
+            r.width = Math.max(bounds.x + bounds.width, r.width);
+            r.height = Math.max(bounds.y + bounds.height, r.height);
+        }
+        return r;
+    }
+    
     public synchronized static BufferedImage screenshot() throws AWTException {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        return new Robot().createScreenCapture(new Rectangle(screenSize));
+        return new Robot().createScreenCapture(fullScreenSize());
     }
     
     public static String getStringStackTrace(Throwable throwable) {

@@ -17,8 +17,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":10,"i3":10,"i4":10,"i5":9,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
-var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":41,"i1":41,"i2":42,"i3":42,"i4":42,"i5":41,"i6":42,"i7":42,"i8":42,"i9":42,"i10":42};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -106,8 +106,10 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <hr>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <br>
-<pre>public class <span class="typeNameLabel">Packet</span>
+<pre>@Deprecated
+public class <span class="typeNameLabel">Packet</span>
 extends java.lang.Object</pre>
 </li>
 </ul>
@@ -127,10 +129,14 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#Packet--">Packet</a></span>()</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#Packet--">Packet</a></span>()</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#Packet-de.tudbut.net.nethandler.PacketData-">Packet</a></span>(<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;data)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#Packet-de.tudbut.net.nethandler.PacketData-">Packet</a></span>(<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;data)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -142,56 +148,78 @@ extends java.lang.Object</pre>
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#fromString-java.lang.String-">fromString</a></span>(java.lang.String&nbsp;packet)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#fromString-java.lang.String-">fromString</a></span>(java.lang.String&nbsp;packet)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#fromString-java.lang.String-de.tudbut.net.ws.Connection-">fromString</a></span>(java.lang.String&nbsp;packet,
-          <a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)</code>&nbsp;</td>
+          <a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#getData--">getData</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#getData--">getData</a></span>()</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#getDataValue-de.tudbut.net.nethandler.PacketDataID-">getDataValue</a></span>(<a href="../../../../de/tudbut/net/nethandler/PacketDataID.html" title="enum in de.tudbut.net.nethandler">PacketDataID</a>&nbsp;id)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#getDataValue-de.tudbut.net.nethandler.PacketDataID-">getDataValue</a></span>(<a href="../../../../de/tudbut/net/nethandler/PacketDataID.html" title="enum in de.tudbut.net.nethandler">PacketDataID</a>&nbsp;id)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#getID--">getID</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#getID--">getID</a></span>()</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#receivePieces-de.tudbut.net.ws.Connection-">receivePieces</a></span>(<a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#receivePieces-de.tudbut.net.ws.Connection-">receivePieces</a></span>(<a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#send-de.tudbut.net.ws.Connection-">send</a></span>(<a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;connection)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#send-de.tudbut.net.ws.Connection-">send</a></span>(<a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;connection)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#sendAsPieces-int-de.tudbut.net.ws.Connection-">sendAsPieces</a></span>(int&nbsp;bytesPerPiece,
-            <a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)</code>&nbsp;</td>
+            <a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#setData-de.tudbut.net.nethandler.PacketData-">setData</a></span>(<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;d)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#setData-de.tudbut.net.nethandler.PacketData-">setData</a></span>(<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;d)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#setID-int-">setID</a></span>(int&nbsp;i)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#setID-int-">setID</a></span>(int&nbsp;i)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#toString--">toString</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/tudbut/net/nethandler/Packet.html#toString--">toString</a></span>()</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
+&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -222,6 +250,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>Packet</h4>
 <pre>public&nbsp;Packet(<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;data)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 <a name="Packet--">
@@ -231,6 +260,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>Packet</h4>
 <pre>public&nbsp;Packet()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 </li>
@@ -248,6 +278,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>fromString</h4>
 <pre>public static&nbsp;<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;fromString(java.lang.String&nbsp;packet)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 <a name="fromString-java.lang.String-de.tudbut.net.ws.Connection-">
@@ -259,6 +290,7 @@ extends java.lang.Object</pre>
 <pre>public static&nbsp;<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;fromString(java.lang.String&nbsp;packet,
                                     <a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)
                              throws java.io.IOException</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code></dd>
@@ -273,6 +305,7 @@ extends java.lang.Object</pre>
 <h4>receivePieces</h4>
 <pre>public static&nbsp;<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;receivePieces(<a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)
                                 throws java.io.IOException</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code></dd>
@@ -287,6 +320,7 @@ extends java.lang.Object</pre>
 <h4>send</h4>
 <pre>public&nbsp;void&nbsp;send(<a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;connection)
           throws java.io.IOException</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code></dd>
@@ -300,6 +334,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getID</h4>
 <pre>public&nbsp;int&nbsp;getID()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 <a name="setID-int-">
@@ -309,6 +344,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setID</h4>
 <pre>public&nbsp;void&nbsp;setID(int&nbsp;i)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 <a name="getDataValue-de.tudbut.net.nethandler.PacketDataID-">
@@ -318,6 +354,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getDataValue</h4>
 <pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;getDataValue(<a href="../../../../de/tudbut/net/nethandler/PacketDataID.html" title="enum in de.tudbut.net.nethandler">PacketDataID</a>&nbsp;id)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 <a name="getData--">
@@ -327,6 +364,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getData</h4>
 <pre>public&nbsp;<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;getData()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 <a name="setData-de.tudbut.net.nethandler.PacketData-">
@@ -336,6 +374,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setData</h4>
 <pre>public&nbsp;void&nbsp;setData(<a href="../../../../de/tudbut/net/nethandler/PacketData.html" title="interface in de.tudbut.net.nethandler">PacketData</a>&nbsp;d)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </li>
 </ul>
 <a name="toString--">
@@ -345,6 +384,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>toString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -360,6 +400,7 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;void&nbsp;sendAsPieces(int&nbsp;bytesPerPiece,
                          <a href="../../../../de/tudbut/net/ws/Connection.html" title="class in de.tudbut.net.ws">Connection</a>&nbsp;c)
                   throws java.io.IOException</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code></dd>

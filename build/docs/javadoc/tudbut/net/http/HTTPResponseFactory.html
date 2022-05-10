@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9};
+var methods = {"i0":9,"i1":9,"i2":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -156,6 +156,15 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPResponseFactory.html#create-tudbut.net.http.HTTPResponseCode-java.lang.String-tudbut.net.http.HTTPHeader-tudbut.net.http.HTTPHeader...-">create</a></span>(<a href="../../../tudbut/net/http/HTTPResponseCode.html" title="enum in tudbut.net.http">HTTPResponseCode</a>&nbsp;responseCode,
+      java.lang.String&nbsp;body,
+      <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>&nbsp;contentType,
+      <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>...&nbsp;headers)</code>
+<div class="block">Creates a HTTPResponse</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPResponseFactory.html#create-tudbut.net.http.HTTPResponseCode-java.lang.String-java.lang.String-tudbut.net.http.HTTPHeader...-">create</a></span>(<a href="../../../tudbut/net/http/HTTPResponseCode.html" title="enum in tudbut.net.http">HTTPResponseCode</a>&nbsp;responseCode,
       java.lang.String&nbsp;body,
       java.lang.String&nbsp;contentType,
@@ -227,12 +236,34 @@ extends java.lang.Object</pre>
 <a name="create-tudbut.net.http.HTTPResponseCode-java.lang.String-java.lang.String-tudbut.net.http.HTTPHeader...-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
 <pre>public static&nbsp;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&nbsp;create(<a href="../../../tudbut/net/http/HTTPResponseCode.html" title="enum in tudbut.net.http">HTTPResponseCode</a>&nbsp;responseCode,
                                   java.lang.String&nbsp;body,
                                   java.lang.String&nbsp;contentType,
+                                  <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>...&nbsp;headers)</pre>
+<div class="block">Creates a HTTPResponse</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>responseCode</code> - <a href="../../../tudbut/net/http/HTTPResponseCode.html" title="enum in tudbut.net.http"><code>HTTPResponseCode</code></a></dd>
+<dd><code>body</code> - The body of the request</dd>
+<dd><code>contentType</code> - <a href="../../../tudbut/net/http/HTTPContentType.html" title="enum in tudbut.net.http"><code>HTTPContentType</code></a></dd>
+<dd><code>headers</code> - <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http"><code>HTTPHeader</code></a> Headers for the response</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The constructed <a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http"><code>HTTPResponse</code></a></dd>
+</dl>
+</li>
+</ul>
+<a name="create-tudbut.net.http.HTTPResponseCode-java.lang.String-tudbut.net.http.HTTPHeader-tudbut.net.http.HTTPHeader...-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>create</h4>
+<pre>public static&nbsp;<a href="../../../tudbut/net/http/HTTPResponse.html" title="class in tudbut.net.http">HTTPResponse</a>&nbsp;create(<a href="../../../tudbut/net/http/HTTPResponseCode.html" title="enum in tudbut.net.http">HTTPResponseCode</a>&nbsp;responseCode,
+                                  java.lang.String&nbsp;body,
+                                  <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>&nbsp;contentType,
                                   <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>...&nbsp;headers)</pre>
 <div class="block">Creates a HTTPResponse</div>
 <dl>

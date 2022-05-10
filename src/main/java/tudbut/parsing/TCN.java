@@ -10,9 +10,9 @@ import tudbut.tools.StringTools;
 import java.util.*;
 
 /**
- * T udbuT<br/>
- * C onfig<br/>
- * N otation<br/>
+ * T udbuT<br>
+ * C onfig<br>
+ * N otation<br>
  */
 public class TCN {
     
@@ -21,18 +21,32 @@ public class TCN {
      */
     public TLMap<String, Object> map = new TLMap<>();
     public final boolean isArray;
+    public String type;
     
     /**
      * Creates a new, empty TCN
      */
     public TCN() {
         isArray = false;
+        this.type = "TCN";
     }
     
     TCN(boolean array) {
         isArray = array;
+        this.type = "TCN";
     }
-    
+
+    public TCN(String type) {
+        isArray = false;
+        this.type = type;
+    }
+
+    TCN(String type, boolean array) {
+        isArray = array;
+        this.type = type;
+    }
+
+
     /**
      * Sets something in the map
      * @param key Key
@@ -199,101 +213,103 @@ public class TCN {
      * @return The converted string
      */
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        int i = 0;
-        
-        ArrayList<Stack<String>> paths = new ArrayList<>();
-        Stack<TCN> tcnStack = new Stack<>();
-        Stack<String> path = new Stack<>();
-        tcnStack.add(this);
-        path.add("");
-        while (tcnStack.size() > 0) {
-            boolean b = false;
-            for(String key : tcnStack.peek().map.keys()) {
-                Object o = tcnStack.peek().map.get(key);
-                
-                if(o == null)
-                    continue;
-    
-                String k = key.replaceAll("%", "%P").replaceAll(":", "%C").replaceAll("\n", "%N");
-                if (k.startsWith(" ")) {
-                    if (!k.equals(" ")) {
-                        k = "%S" + k.substring(1);
+        if(type.equalsIgnoreCase("TCN")) {
+            StringBuilder s = new StringBuilder();
+            int i = 0;
+
+            ArrayList<Stack<String>> paths = new ArrayList<>();
+            Stack<TCN> tcnStack = new Stack<>();
+            Stack<String> path = new Stack<>();
+            tcnStack.add(this);
+            path.add("");
+            while (tcnStack.size() > 0) {
+                boolean b = false;
+                for (String key : tcnStack.peek().map.keys()) {
+                    Object o = tcnStack.peek().map.get(key);
+
+                    if (o == null)
+                        continue;
+
+                    String k = key.replaceAll("%", "%P").replaceAll(":", "%C").replaceAll("\n", "%N");
+                    if (k.startsWith(" ")) {
+                        if (!k.equals(" ")) {
+                            k = "%S" + k.substring(1);
+                        } else
+                            k = "%S";
                     }
-                    else
-                        k = "%S";
-                }
-                if (k.startsWith("#")) {
-                    if (!k.equals("#")) {
-                        k = "%H" + k.substring(1);
+                    if (k.startsWith("#")) {
+                        if (!k.equals("#")) {
+                            k = "%H" + k.substring(1);
+                        } else
+                            k = "%H";
                     }
-                    else
-                        k = "%H";
-                }
-                if(o.getClass() == TCN.class) {
-                    path.add(key);
-                    if(!paths.contains(path)) {
-                        paths.add(path.clone());
-                        TCN tcn = tcnStack.peek();
-                        tcnStack.add((TCN) o);
-                        String indent = StringTools.multiply("    ", i);
-                        if(tcn.isArray) {
-                            s.append("\n").append(indent).append(";").append(((TCN) o).isArray ? " [\n" : " {\n");
+                    if (o.getClass() == TCN.class) {
+                        path.add(key);
+                        if (!paths.contains(path)) {
+                            paths.add(path.clone());
+                            TCN tcn = tcnStack.peek();
+                            tcnStack.add((TCN) o);
+                            String indent = StringTools.multiply("    ", i);
+                            if (tcn.isArray) {
+                                s.append("\n").append(indent).append(";").append(((TCN) o).isArray ? " [\n" : " {\n");
+                            } else
+                                s.append("\n").append(indent).append(k).append(((TCN) o).isArray ? " [\n" : " {\n");
+                            i++;
+                            b = true;
+                            break;
+                        } else
+                            path.next();
+                    } else if (o.getClass() == TCNArray.class) {
+                        path.add(key);
+                        if (!paths.contains(path)) {
+                            paths.add(path.clone());
+                            TCN tcn = tcnStack.peek();
+                            tcnStack.add(((TCNArray) o).toTCN());
+                            String indent = StringTools.multiply("    ", i);
+                            if (tcn.isArray) {
+                                s.append("\n").append(indent).append(";").append(" [\n");
+                            } else
+                                s.append("\n").append(indent).append(k).append(" [\n");
+                            i++;
+                            b = true;
+                            break;
+                        } else
+                            path.next();
+                    } else {
+                        path.add(key);
+                        if (!paths.contains(path)) {
+                            paths.add(path.clone());
+                            String indent = StringTools.multiply("    ", i);
+                            String val = o.toString().replaceAll("%", "%P").replaceAll("\n", "%N");
+                            if (tcnStack.peek().isArray) {
+                                s.append(indent).append("; ").append(val).append("\n");
+                            } else
+                                s.append(indent).append(k).append(": ").append(val).append("\n");
+                            b = true;
                         }
-                        else
-                            s.append("\n").append(indent).append(k).append(((TCN) o).isArray ? " [\n" : " {\n");
-                        i++;
-                        b = true;
-                        break;
-                    } else
                         path.next();
-                } else if(o.getClass() == TCNArray.class) {
-                    path.add(key);
-                    if(!paths.contains(path)) {
-                        paths.add(path.clone());
-                        TCN tcn = tcnStack.peek();
-                        tcnStack.add(((TCNArray) o).toTCN());
-                        String indent = StringTools.multiply("    ", i);
-                        if(tcn.isArray) {
-                            s.append("\n").append(indent).append(";").append(" [\n");
-                        }
-                        else
-                            s.append("\n").append(indent).append(k).append(" [\n");
-                        i++;
-                        b = true;
-                        break;
-                    } else
-                        path.next();
-                } else {
-                    path.add(key);
-                    if (!paths.contains(path)) {
-                        paths.add(path.clone());
-                        String indent = StringTools.multiply("    ", i);
-                        String val = o.toString().replaceAll("%", "%P").replaceAll("\n", "%N");
-                        if(tcnStack.peek().isArray) {
-                            s.append(indent).append("; ").append(val).append("\n");
-                        }
-                        else
-                            s.append(indent).append(k).append(": ").append(val).append("\n");
-                        b = true;
                     }
+                }
+                if (!b) {
+                    TCN tcn = tcnStack.next();
                     path.next();
+                    i--;
+                    String indent = StringTools.multiply("    ", i);
+                    s.append(indent).append(tcn.isArray ? "]\n\n" : "}\n\n");
                 }
             }
-            if(!b) {
-                TCN tcn = tcnStack.next();
-                path.next();
-                i--;
-                String indent = StringTools.multiply("    ", i);
-                s.append(indent).append(tcn.isArray ? "]\n\n" : "}\n\n");
+            try {
+                s.setLength(s.length() - "\n#\n\n".length());
+                s.trimToSize();
+            } catch (Exception ignored) {
             }
+
+            return s.toString();
         }
-        try {
-            s.setLength(s.length() - "\n#\n\n".length());
-            s.trimToSize();
-        } catch (Exception ignored) { }
-    
-        return s.toString();
+        else if(type.equalsIgnoreCase("JSON")) {
+            return JSON.write(this);
+        }
+        return "";
     }
     
     /**
@@ -318,7 +334,7 @@ public class TCN {
     }
     
     /**
-     * Converts stray arrays to TCNArray objects, recursive.<br/>
+     * Converts stray arrays to TCNArray objects, recursive.<br>
      * <pre>Example:{@code
      *     for (String key : tcn.map.keys()) {
      *         deepConvert(key, tcn.get(key), tcn);

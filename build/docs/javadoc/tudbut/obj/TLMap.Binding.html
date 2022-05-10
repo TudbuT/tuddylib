@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../tudbut/obj/TLMap.html" title="class in tudbut.obj"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../tudbut/obj/TLMap.Binding.Entry.html" title="class in tudbut.obj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../tudbut/obj/TLMap.Entry.html" title="class in tudbut.obj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../index.html?tudbut/obj/TLMap.Binding.html" target="_top">Frames</a></li>
@@ -72,7 +72,7 @@ var activeTableTab = "activeTableTab";
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -119,25 +119,6 @@ extends java.lang.Object</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- ======== NESTED CLASS SUMMARY ======== -->
-<ul class="blockList">
-<li class="blockList"><a name="nested.class.summary">
-<!--   -->
-</a>
-<h3>Nested Class Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
-<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Class and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected static class&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.Entry.html" title="class in tudbut.obj">TLMap.Binding.Entry</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.Entry.html" title="type parameter in TLMap.Binding.Entry">K</a>,<a href="../../tudbut/obj/TLMap.Binding.Entry.html" title="type parameter in TLMap.Binding.Entry">V</a>&gt;</span></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- =========== FIELD SUMMARY =========== -->
 <ul class="blockList">
 <li class="blockList"><a name="field.summary">
@@ -151,7 +132,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected java.util.ArrayList&lt;<a href="../../tudbut/obj/TLMap.Binding.Entry.html" title="class in tudbut.obj">TLMap.Binding.Entry</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>,<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;&gt;</code></td>
+<td class="colFirst"><code>protected java.util.ArrayList&lt;<a href="../../tudbut/obj/TLMap.Entry.html" title="class in tudbut.obj">TLMap.Entry</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>,<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#entries">entries</a></span></code>&nbsp;</td>
 </tr>
 </table>
@@ -189,27 +170,31 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>protected java.util.ArrayList&lt;<a href="../../tudbut/obj/TLMap.Entry.html" title="class in tudbut.obj">TLMap.Entry</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>,<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#entries--">entries</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected <a href="../../tudbut/obj/TLMap.Binding.html" title="class in tudbut.obj">TLMap.Binding</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>,<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#flip--">flip</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>protected <a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#get-K-">get</a></span>(<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>&nbsp;key)</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>protected java.util.Set&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#keys--">keys</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#set-K-V-">set</a></span>(<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>&nbsp;key,
    <a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&nbsp;value)</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#size--">size</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>protected java.util.Set&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/obj/TLMap.Binding.html#values--">values</a></span>()</code>&nbsp;</td>
 </tr>
@@ -241,7 +226,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>entries</h4>
-<pre>protected&nbsp;java.util.ArrayList&lt;<a href="../../tudbut/obj/TLMap.Binding.Entry.html" title="class in tudbut.obj">TLMap.Binding.Entry</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>,<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;&gt; entries</pre>
+<pre>protected&nbsp;java.util.ArrayList&lt;<a href="../../tudbut/obj/TLMap.Entry.html" title="class in tudbut.obj">TLMap.Entry</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>,<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;&gt; entries</pre>
 </li>
 </ul>
 </li>
@@ -310,6 +295,15 @@ extends java.lang.Object</pre>
 <pre>protected&nbsp;java.util.Set&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;&nbsp;values()</pre>
 </li>
 </ul>
+<a name="entries--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>entries</h4>
+<pre>protected&nbsp;java.util.ArrayList&lt;<a href="../../tudbut/obj/TLMap.Entry.html" title="class in tudbut.obj">TLMap.Entry</a>&lt;<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">K</a>,<a href="../../tudbut/obj/TLMap.Binding.html" title="type parameter in TLMap.Binding">V</a>&gt;&gt;&nbsp;entries()</pre>
+</li>
+</ul>
 <a name="flip--">
 <!--   -->
 </a>
@@ -356,7 +350,7 @@ extends java.lang.Object</pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../tudbut/obj/TLMap.html" title="class in tudbut.obj"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../tudbut/obj/TLMap.Binding.Entry.html" title="class in tudbut.obj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../tudbut/obj/TLMap.Entry.html" title="class in tudbut.obj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../index.html?tudbut/obj/TLMap.Binding.html" target="_top">Frames</a></li>
@@ -380,7 +374,7 @@ extends java.lang.Object</pre>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>

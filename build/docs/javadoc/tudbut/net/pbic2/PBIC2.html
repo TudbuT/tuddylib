@@ -17,8 +17,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
+var methods = {"i0":6,"i1":6,"i2":18,"i3":6,"i4":18,"i5":6,"i6":6,"i7":6};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li>Prev&nbsp;Class</li>
-<li><a href="../../../tudbut/net/pbic2/PBIC2AEventHandler.html" title="class in tudbut.net.pbic2"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../tudbut/net/pbic2/PBIC2ADisconnect.html" title="class in tudbut.net.pbic2"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?tudbut/net/pbic2/PBIC2.html" target="_top">Frames</a></li>
@@ -117,7 +117,7 @@ var activeTableTab = "activeTableTab";
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t5" class="tableTab"><span><a href="javascript:show(16);">Default Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -131,18 +131,26 @@ var activeTableTab = "activeTableTab";
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/pbic2/PBIC2.html#getOutput--">getOutput</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>default java.net.Socket</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/pbic2/PBIC2.html#getRealSocket--">getRealSocket</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.net.Socket</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/pbic2/PBIC2.html#getSocket--">getSocket</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>default boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/pbic2/PBIC2.html#isSSL--">isSSL</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/pbic2/PBIC2.html#readMessage--">readMessage</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/pbic2/PBIC2.html#writeMessage-java.lang.String-">writeMessage</a></span>(java.lang.String&nbsp;s)</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../tudbut/net/pbic2/PBIC2.html#writeMessageWithResponse-java.lang.String-">writeMessageWithResponse</a></span>(java.lang.String&nbsp;s)</code>&nbsp;</td>
 </tr>
@@ -224,10 +232,28 @@ var activeTableTab = "activeTableTab";
 <a name="getOutput--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getOutput</h4>
 <pre><a href="../../../tudbut/io/TypedOutputStream.html" title="class in tudbut.io">TypedOutputStream</a>&nbsp;getOutput()</pre>
+</li>
+</ul>
+<a name="isSSL--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSSL</h4>
+<pre>default&nbsp;boolean&nbsp;isSSL()</pre>
+</li>
+</ul>
+<a name="getRealSocket--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getRealSocket</h4>
+<pre>default&nbsp;java.net.Socket&nbsp;getRealSocket()</pre>
 </li>
 </ul>
 </li>
@@ -258,7 +284,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li>Prev&nbsp;Class</li>
-<li><a href="../../../tudbut/net/pbic2/PBIC2AEventHandler.html" title="class in tudbut.net.pbic2"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../tudbut/net/pbic2/PBIC2ADisconnect.html" title="class in tudbut.net.pbic2"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?tudbut/net/pbic2/PBIC2.html" target="_top">Frames</a></li>

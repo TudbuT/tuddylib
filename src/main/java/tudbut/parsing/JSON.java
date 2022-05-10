@@ -6,7 +6,7 @@ import tudbut.tools.StringTools;
 import java.util.ArrayList;
 
 /**
- * Interconverting JSON & TCN
+ * Interconverting JSON and TCN
  */
 public class JSON {
     
@@ -24,7 +24,7 @@ public class JSON {
             throw new JSONFormatException("Expected: { or [ at 0 (String is '" + string + "')");
         }
         boolean array = string.startsWith("[");
-        TCN tcn = new TCN(array);
+        TCN tcn = new TCN("JSON", array);
         boolean escape = false;
         int pos = 1;
         char[] a = string.toCharArray();
@@ -70,18 +70,65 @@ public class JSON {
                     if (!escape)
                         theString.append(c);
                     else {
-                        // Make \n work
-                        if (c == 'n')
-                            theString.append('\n');
-                        if (c == 'r')
-                            theString.append('\r');
-                        if(c == 'u') {
-                            String e = "";
-                            e += c = a[++pos];
-                            e += c = a[++pos];
-                            e += c = a[++pos];
-                            e += c = a[++pos];
-                            theString.append((char) Integer.parseInt(e, 16));
+                        a:
+                        {
+                            // Make escapes work
+                            if (c == 'n')
+                                theString.append('\n');
+                            if (c == 'r')
+                                theString.append('\r');
+                            if (c == 'u') {
+                                String e = "";
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                theString.append((char) Integer.parseInt(e, 16));
+                                break a;
+                            }
+                            if (c == '0') {
+                                String e = "";
+                                e += c = a[pos];
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                theString.append((char) Integer.parseInt(e, 8));
+                                break a;
+                            }
+                            if (c == '1') {
+                                String e = "";
+                                e += c = a[pos];
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                theString.append((char) Integer.parseInt(e, 8));
+                                break a;
+                            }
+                            if (c == '2') {
+                                String e = "";
+                                e += c = a[pos];
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                theString.append((char) Integer.parseInt(e, 8));
+                                break a;
+                            }
+                            if (c == '3') {
+                                String e = "";
+                                e += c = a[pos];
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                theString.append((char) Integer.parseInt(e, 8));
+                                break a;
+                            }
+                            if (c == 'x') {
+                                String e = "";
+                                e += c = a[++pos];
+                                e += c = a[++pos];
+                                theString.append((char) Integer.parseInt(e, 16));
+                                break a;
+                            }
+                            if (c == '"') {
+                                theString.append("\"");
+                                break a;
+                            }
                         }
                     }
                 }
@@ -177,6 +224,7 @@ public class JSON {
                     }
                     inObjectKV = false;
                     inStringKV = false;
+                    theString = new StringBuilder();
                     if (kv)
                         kv = false;
                     else
@@ -293,7 +341,7 @@ public class JSON {
                 if(o == null)
                     continue;
             
-                String k = key.replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\"");
+                String k = key.replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\\\"");
                 if(o.getClass() == TCN.class) {
                     path.add(key);
                     if(!paths.contains(path)) {
@@ -328,7 +376,7 @@ public class JSON {
                     path.add(key);
                     if(!paths.contains(path)) {
                         paths.add(path.clone());
-                        String val = o.toString().replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\r", "\\\\r").replaceAll("\"", "\\\"");
+                        String val = o.toString().replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\r", "\\\\r").replaceAll("\"", "\\\\\"");
                         if(tcnStack.peek().isArray) {
                             s.append(indent(newlines, i, indentLength)).append("\"").append(val).append("\",").append(spaces ? " " : "").append(newlines ? "\n" : "");
                         }

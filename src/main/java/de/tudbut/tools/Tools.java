@@ -177,6 +177,16 @@ public class Tools {
         return ints;
     }
 
+    public static String wildcardToRegex(String s) {
+        String r = "";
+        char[] charArray = s.toCharArray();
+        for (int i = 0, charArrayLength = charArray.length; i < charArrayLength; i++) {
+            char c = charArray[i];
+            r += ("[" + c + "]").replaceAll("\\^", "\\^");
+        }
+        return "^" + r.replaceAll("\\[\\\\]", "[\\\\}").replaceAll("\\[\\*]", "(.|\n)*").replaceAll("\\[\\?]", "[.\n]") + "$";
+    }
+
     public static class TFS {
 
         public static String createTFS(String sep) {

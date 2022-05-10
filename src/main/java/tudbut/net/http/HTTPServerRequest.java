@@ -6,9 +6,11 @@ import tudbut.obj.ClosedClosableException;
 import tudbut.obj.NotSupportedException;
 import tudbut.tools.Value;
 
+import javax.net.ssl.SSLSocket;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -41,12 +43,26 @@ public class HTTPServerRequest extends Value<String> implements Closable {
     
     /**
      * Close the streams
-     * @throws IOException
      */
     @Override
     public void close() throws IOException {
         Closable.super.close();
-        socket.close();
+        socket.shutdownOutput();
+        if(socket instanceof SSLSocket) {
+            socket.setSoLinger(true, 100);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ignored) {
+            }
+            try {
+                SSLSocket.class.getMethod("close").invoke(socket);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                System.err.println("!!! ERROR: OBFUSCATED OR INVALID JRE");
+                socket.close();
+            }
+        }
+        else
+            socket.close();
     }
     
     /**
@@ -125,20 +141,19 @@ public class HTTPServerRequest extends Value<String> implements Closable {
             headersList.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1]));
         }
         HTTPHeader[] headers = headersList.toArray(new HTTPHeader[0]);
-        StringBuilder body = new StringBuilder();
+        String body = "";
         try {
             int start = value.indexOf("\n\n") + 2;
             HTTPHeader header = null;
             for (int i = 0; i < headers.length; i++) {
-                if(headers[i].key().equals("Content-Length"))
+                if(headers[i].key().equalsIgnoreCase("Content-Length"))
                     header = headers[i];
             }
             if(header != null) {
-                int end = start + Integer.parseInt(header.value());
-                body = new StringBuilder(value.substring(start, end));
+                int end = value.length();
+                body = value.substring(start, end);
             }
             else {
-            
                 /*
                  * INCREDIBLY hacky way to make chunk transfer work, will make better later
                  */
@@ -155,12 +170,12 @@ public class HTTPServerRequest extends Value<String> implements Closable {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     b.read(buf);
                     stream.write(buf);
-                    body.append(stream.toString());
+                    body += stream.toString();
                 }
             }
         } catch (Exception ignored) {
         }
-        String finalBody = body.toString();
+        String finalBody = body;
         return new ParsedHTTPValue() {
             @Override
             public String getHTTPVersion() {

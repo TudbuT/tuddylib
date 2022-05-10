@@ -9,7 +9,7 @@ import java.io.InputStream;
 public class TypedInputStream {
     
     protected InputStream stream;
-    protected int last = -1;
+    public int last = -1;
     private final Object waitForInputLock = new Object();
     private final Object readLock = new Object();
     

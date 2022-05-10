@@ -54,14 +54,12 @@ public class HTTPUtils {
             public boolean accept(SocketAddress address) {
                 String ip = ((InetSocketAddress) address).getHostString();
                 DoubleTypedObject<Integer, Lock> user = map.get(ip);
-                if(user == null) {
+                if(user == null)
                     map.set(ip, user = new DoubleTypedObject<>(0, new Lock()));
-                }
                 user.o++;
                 if (user.t.isLocked()) {
-                    if (user.o > rps) {
+                    if (user.o > rps)
                         return false;
-                    }
                 }
                 else {
                     user.t.lock(1000);

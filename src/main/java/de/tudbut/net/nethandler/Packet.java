@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Deprecated
 public class Packet {
     private final AtomicInteger id = new AtomicInteger(-1);
     private final AtomicReference<PacketData> data = new AtomicReference<>();

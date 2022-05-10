@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -132,8 +132,16 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/Cache.Entry.html#i">i</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">K</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/Cache.Entry.html#key">key</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected static int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/Cache.Entry.html#ni">ni</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../../tudbut/tools/Cache.CacheRetriever.html" title="interface in tudbut.tools">Cache.CacheRetriever</a>&lt;<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">K</a>,<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">V</a>&gt;</code></td>
@@ -193,6 +201,10 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>protected <a href="../../tudbut/tools/Cache.Entry.html" title="class in tudbut.tools">Cache.Entry</a>&lt;<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">V</a>,<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">K</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/Cache.Entry.html#flip--">flip</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected <a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../tudbut/tools/Cache.Entry.html#get--">get</a></span>()</code>&nbsp;</td>
 </tr>
@@ -257,10 +269,28 @@ extends java.lang.Object</pre>
 <a name="retriever">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>retriever</h4>
 <pre>protected&nbsp;<a href="../../tudbut/tools/Cache.CacheRetriever.html" title="interface in tudbut.tools">Cache.CacheRetriever</a>&lt;<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">K</a>,<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">V</a>&gt; retriever</pre>
+</li>
+</ul>
+<a name="ni">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ni</h4>
+<pre>protected static&nbsp;int ni</pre>
+</li>
+</ul>
+<a name="i">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>i</h4>
+<pre>protected&nbsp;int i</pre>
 </li>
 </ul>
 </li>
@@ -305,10 +335,19 @@ extends java.lang.Object</pre>
 <a name="get--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
 <pre>protected&nbsp;<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">V</a>&nbsp;get()</pre>
+</li>
+</ul>
+<a name="flip--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>flip</h4>
+<pre>protected&nbsp;<a href="../../tudbut/tools/Cache.Entry.html" title="class in tudbut.tools">Cache.Entry</a>&lt;<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">V</a>,<a href="../../tudbut/tools/Cache.Entry.html" title="type parameter in Cache.Entry">K</a>&gt;&nbsp;flip()</pre>
 </li>
 </ul>
 </li>

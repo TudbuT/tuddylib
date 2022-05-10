@@ -1,5 +1,6 @@
 package tudbut.net.pbic2;
 
+import tudbut.io.AdaptiveSocketInputStream;
 import tudbut.io.TypedInputStream;
 import tudbut.io.TypedOutputStream;
 import tudbut.net.http.*;
@@ -31,15 +32,27 @@ public final class PBIC2Client implements PBIC2 {
         int res;
         while ((res = socket.getInputStream().read()) != 0) {
             s.append((char) res);
-        }
-        if(new HTTPResponse(s.toString()).parse().getStatusCodeAsEnum() != HTTPResponseCode.SwitchingProtocols) {
-            throw new IOException("Invalid response.");
+            if(res == 0x0a) {
+                try {
+                    if (new HTTPResponse(s.toString()).parse().getStatusCodeAsEnum() != HTTPResponseCode.SwitchingProtocols) {
+                        throw new IOException("Invalid response.");
+                    }
+                }
+                catch (Exception ignored) { }
+            }
         }
         socket.getOutputStream().write(0);
+        InputStream adapter = socket.getInputStream();
+
         in = new TypedInputStream(new InputStream() {
             @Override
             public int read() throws IOException {
-                return passthroughIn.pass(socket.getInputStream().read());
+                return passthroughIn.pass(adapter.read());
+            }
+
+            @Override
+            public int available() throws IOException {
+                return adapter.available();
             }
         });
         out = new TypedOutputStream(new OutputStream() {

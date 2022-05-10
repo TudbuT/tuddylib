@@ -3,12 +3,12 @@ package tudbut.net.http;
 import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.timer.AsyncTask;
+import tudbut.global.DebugStateManager;
 import tudbut.obj.DoubleTypedObject;
 import tudbut.obj.Partial;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,7 +55,6 @@ public class HTTPRequest {
     public HTTPRequest(HTTPRequestType requestTypeIn, String hostIn, int portIn, String pathIn, HTTPContentType type, String contentIn, HTTPHeader... headersIn) {
         this(requestTypeIn, hostIn, portIn, pathIn, type.asHeaderString, contentIn, headersIn);
     }
-    
     /**
      * Constructs a HTTPRequest without sending it
      * @param requestTypeIn The type of the request, see {@link HTTPRequestType}.
@@ -67,6 +66,20 @@ public class HTTPRequest {
      * @param headersIn HTTPHeaders to use, can be empty
      */
     public HTTPRequest(HTTPRequestType requestTypeIn, String hostIn, int portIn, String pathIn, String type, String contentIn, HTTPHeader... headersIn) {
+        this(requestTypeIn, hostIn, portIn, pathIn, new HTTPHeader("Content-Type", type), contentIn, headersIn);
+    }
+    
+    /**
+     * Constructs a HTTPRequest without sending it
+     * @param requestTypeIn The type of the request, see {@link HTTPRequestType}.
+     * @param hostIn Host, add "https://" in front to attempt a HTTPS connection, otherwise, dont specify protocol
+     * @param portIn Port, 80 is standard for HTTP, 443 is standard for HTTPS
+     * @param pathIn Path to request, use "/" for main path
+     * @param type The type of the body
+     * @param contentIn The body
+     * @param headersIn HTTPHeaders to use, can be empty
+     */
+    public HTTPRequest(HTTPRequestType requestTypeIn, String hostIn, int portIn, String pathIn, HTTPHeader type, String contentIn, HTTPHeader... headersIn) {
         ssl = hostIn.startsWith("https://");
         
         requestType = requestTypeIn;
@@ -75,7 +88,7 @@ public class HTTPRequest {
         port = portIn;
         headers.add(new HTTPHeader("Host", ssl ? host.split("https://")[1] : host));
         if(!contentIn.equals("")) {
-            headers.add(new HTTPHeader("Content-Type", type));
+            headers.add(new HTTPHeader("Content-Type", type.value(), type.parameter()));
             headers.add(new HTTPHeader("Content-Length", String.valueOf(contentIn.getBytes(StandardCharsets.ISO_8859_1).length)));
         }
         if(Arrays.stream(headersIn).noneMatch(httpHeader -> httpHeader.toString().startsWith("Connection: ")))
@@ -88,16 +101,16 @@ public class HTTPRequest {
      * @return The string to send to the server
      */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        String s = "";
 
-        builder.append(requestType.name()).append(" ").append(path).append(" HTTP/1.1\r\n");
+        s += requestType.name() + " " + path + " HTTP/1.1\r\n";
         for (HTTPHeader header : headers) {
-            builder.append(header.toString()).append("\r\n");
+            s += header.toString() + "\r\n";
         }
-        builder.append("\r\n");
-        builder.append(content);
+        s += "\r\n";
+        s += content;
         
-        return builder.toString();
+        return s;
     }
     
     /**
@@ -107,7 +120,7 @@ public class HTTPRequest {
      */
     public HTTPResponse send() throws IOException {
         Socket socket = connect();
-        return new HTTPResponse(new String(new StreamReader(new BufferedInputStream(socket.getInputStream())).readAllAsBytes(), StandardCharsets.ISO_8859_1));
+        return new HTTPResponse(new String(new StreamReader(socket.getInputStream()).readAllAsBytes(), StandardCharsets.ISO_8859_1));
     }
     
     /**
@@ -191,14 +204,18 @@ public class HTTPRequest {
     private Socket connect() throws IOException {
         Socket socket;
         if (ssl) {
-            SSLSocket sslSocket = (SSLSocket) SSLSocketFactory.getDefault().createSocket(host.split("https://")[1], port);
+            socket = new Socket(host.substring("https://".length()), port);
+            SSLSocket sslSocket = (SSLSocket) ((SSLSocketFactory) SSLSocketFactory.getDefault()).createSocket(socket, host.substring("https://".length()), port, true);
             sslSocket.startHandshake();
+            if(DebugStateManager.isDebugEnabled()) {
+                DebugStateManager.getDebugLogger().debug("HTTPRequest using SSL/TLS version " + sslSocket.getSession().getProtocol());
+            }
             socket = sslSocket;
         }
         else
             socket = new Socket(InetAddress.getByName(host), port);
-        socket.setSoLinger(true, 5000);
-        socket.setReceiveBufferSize(StreamReader.BUFFER_SIZE);
+        socket.setSoTimeout(10000);
+        socket.setSoLinger(true, 1000);
         StreamWriter writer = new StreamWriter(socket.getOutputStream());
         writer.writeChars(toString().toCharArray(), "ISO_8859_1");
         return socket;

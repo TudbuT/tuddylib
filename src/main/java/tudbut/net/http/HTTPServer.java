@@ -1,5 +1,7 @@
 package tudbut.net.http;
 
+import de.tudbut.io.RawLineReader;
+import de.tudbut.io.StreamReader;
 import de.tudbut.io.StreamWriter;
 import de.tudbut.type.Stoppable;
 
@@ -15,6 +17,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
+
+// TODO: this has a broken thing, please dont use for HTTPS until later.
 
 /**
  * A HTTP server
@@ -33,7 +37,7 @@ public class HTTPServer implements Stoppable {
      */
     public HTTPServer(int portIn) throws IOException {
         port = portIn;
-        serverError = HTTPResponseFactory.create(HTTPResponseCode.InternalServerError, "501 InternalServerError", HTTPContentType.TXT);
+        serverError = HTTPResponseFactory.create(HTTPResponseCode.InternalServerError, "500 InternalServerError", HTTPContentType.TXT);
         serverSocket = new ServerSocket(port);
         executor = Runnable::run;
     }
@@ -87,6 +91,7 @@ public class HTTPServer implements Stoppable {
             while (!isStopped()) {
                 try {
                     socket = serverSocket.accept();
+                    socket.setSoTimeout(10000);
                     Socket finalSocket = socket;
                     boolean b = true;
                     for (int i = 0 ; i < handlers.size() ; i++) {
@@ -101,16 +106,16 @@ public class HTTPServer implements Stoppable {
             
                                 String s;
                                 ArrayList<HTTPHeader> headers = new ArrayList<>();
-                                StringBuilder fullRequest = new StringBuilder();
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(finalSocket.getInputStream(), StandardCharsets.ISO_8859_1));
+                                String fullRequest = "";
+                                RawLineReader reader = new RawLineReader(finalSocket.getInputStream());
                                 int line = 0;
                                 while ((s = reader.readLine()) != null) {
-                                    fullRequest.append(s).append("\n");
+                                    fullRequest += s + "\r\n";
                                     if (s.equals("")) {
                                         break;
                                     }
                                     if (line != 0) {
-                                        headers.add(new HTTPHeader(s.split(": ")[0], s.split(": ")[1]));
+                                        headers.add(new HTTPHeader(s));
                                     }
                                     line++;
                                 }
@@ -122,10 +127,10 @@ public class HTTPServer implements Stoppable {
                                 }
                                 if(contentLength != 0) {
                                     for (int i = 0 ; i < contentLength ; i++) {
-                                        fullRequest.append((char) reader.read());
+                                        fullRequest += (char) reader.read();
                                     }
                                 }
-                                HTTPServerRequest request = new HTTPServerRequest(fullRequest.toString(), finalSocket);
+                                HTTPServerRequest request = new HTTPServerRequest(fullRequest, finalSocket);
                                 serverRequest = request;
                                 for (HTTPHandler handler : handlers) {
                                     handler.handle(request);

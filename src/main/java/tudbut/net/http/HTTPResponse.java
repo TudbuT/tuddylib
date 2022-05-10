@@ -62,7 +62,7 @@ public class HTTPResponse extends Value<String> {
         for (String line : s.split("\n")) {
             if (line.equals(""))
                 break;
-            headersList.add(new HTTPHeader(line.split(": ")[0], line.split(": ")[1]));
+            headersList.add(new HTTPHeader(line));
         }
         HTTPHeader[] headers = headersList.toArray(new HTTPHeader[0]);
         StringBuilder body = new StringBuilder();
@@ -70,11 +70,11 @@ public class HTTPResponse extends Value<String> {
             int start = value.indexOf("\n\n") + 2;
             HTTPHeader header = null;
             for (int i = 0; i < headers.length; i++) {
-                if(headers[i].key().equals("Content-Length"))
+                if(headers[i].key().equalsIgnoreCase("Content-Length"))
                     header = headers[i];
             }
             if(header != null) {
-                int end = start + Integer.parseInt(header.value());
+                int end = value.length();
                 body = new StringBuilder(value.substring(start, end));
             }
             else {

@@ -23,9 +23,7 @@ public class StreamWriter {
 
     public void writeChars(char[] c) throws IOException {
         byte[] bytes = new String(c).getBytes();
-        for (int i = 0; i < bytes.length; i++) {
-            writeByte(bytes[i]);
-        }
+        stream.write(bytes);
         stream.flush();
     }
     
@@ -50,9 +48,7 @@ public class StreamWriter {
     }
 
     public void writeBytes(byte[] bytes) throws IOException {
-        for (byte theByte : bytes) {
-            stream.write(Byte.toUnsignedInt(theByte));
-        }
+        stream.write(bytes);
         stream.flush();
     }
 

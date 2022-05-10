@@ -21,6 +21,7 @@ public class TypedOutputStream {
     
     public byte writeByte(byte b) throws IOException {
         stream.write(Byte.toUnsignedInt(b));
+        stream.flush();
         return b;
     }
     
@@ -33,6 +34,7 @@ public class TypedOutputStream {
             stream.write(s >> 8 * 0 & 0xff);
             stream.write(s >> 8 * 1 & 0xff);
         }
+        stream.flush();
         return s;
     }
     
@@ -45,6 +47,7 @@ public class TypedOutputStream {
             stream.write(c >> 8 * 0 & 0xff);
             stream.write(c >> 8 * 1 & 0xff);
         }
+        stream.flush();
         return c;
     }
     
@@ -61,6 +64,7 @@ public class TypedOutputStream {
             stream.write(i >> 8 * 2 & 0xff);
             stream.write(i >> 8 * 3 & 0xff);
         }
+        stream.flush();
         return i;
     }
     
@@ -90,6 +94,7 @@ public class TypedOutputStream {
             stream.write((int) (l >> 8 * 6 & 0xff));
             stream.write((int) (l >> 8 * 7 & 0xff));
         }
+        stream.flush();
         return l;
     }
     
@@ -100,6 +105,7 @@ public class TypedOutputStream {
     
     public boolean writeBoolean(boolean b) throws IOException {
         stream.write(b ? 1 : 0);
+        stream.flush();
         return b;
     }
     
@@ -109,6 +115,7 @@ public class TypedOutputStream {
             i += (booleans[j] ? 1 : 0) << 8 >> ++j;
         }
         stream.write(i);
+        stream.flush();
         return booleans;
     }
     

@@ -10,6 +10,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,15 +21,15 @@ public class ObjectSerializerTCN {
     private static final Map<Thread, ArrayList<Object>> doneObjects = new HashMap<>();
     
     private static final Class<?>[] nativeTypes = new Class[] {
-            boolean.class,
-            byte.class,
-            short.class,
-            char.class,
-            int.class,
-            float.class,
-            long.class,
-            double.class,
-            void.class,
+            boolean.class, Boolean.class,
+            byte.class, Byte.class,
+            short.class, Short.class,
+            char.class, Character.class,
+            int.class, Integer.class,
+            float.class, Float.class,
+            long.class, Long.class,
+            double.class, Double.class,
+            void.class, Void.class,
             String.class
     };
     
@@ -117,9 +118,11 @@ public class ObjectSerializerTCN {
     
     private boolean checkShouldNotConvert(Object o) {
         ArrayList<Object> converted = doneObjects.get(Thread.currentThread());
-        
+    
+        if(o == null)
+            return true;
         for (int i = 0; i < converted.size(); i++) {
-            if(converted.get(i) == o)
+            if(converted.get(i) == o && Arrays.stream(nativeTypes).noneMatch(o.getClass()::equals))
                 return true;
         }
         converted.add(o);
@@ -235,11 +238,21 @@ public class ObjectSerializerTCN {
                     field.setAccessible(true);
                 
                 if (type) {
-                    String s = "";
+                    Object s = "";
                     for (int j = 0; j < TypeConverter.values().length; j++) {
                         TypeConverter converter = TypeConverter.values()[j];
-                        if (converter.impl.doesApply(field.getType())) {
-                            s = converter.impl.string(field.get(toBuild));
+                        Object o = field.get(toBuild);
+                        if(o == null) {
+                            TCN tcn = new TCN();
+                            tcn.set("$type", "null");
+                            tcn.set("$isArray", "false");
+                            tcn.set("$isEnum", "false");
+                            s = tcn;
+                        }
+                        else {
+                            if (converter.impl.doesApply(field.getType())) {
+                                s = converter.impl.string(field.get(toBuild));
+                            }
                         }
                     }
                     map.set(field.getName(), s);
@@ -247,10 +260,17 @@ public class ObjectSerializerTCN {
                 else {
                     if (map.map.get(field.getName()) != null) {
                         Object o = null;
-                        for (int j = 0; j < TypeConverter.values().length; j++) {
-                            TypeConverter converter = TypeConverter.values()[j];
-                            if (converter.impl.doesApply(field.getType())) {
-                                o = converter.impl.object(map.getString(field.getName()));
+                        if (map.getSub(field.getName()) == null) {
+                            for (int j = 0 ; j < TypeConverter.values().length ; j++) {
+                                TypeConverter converter = TypeConverter.values()[j];
+                                if (converter.impl.doesApply(field.getType())) {
+                                    o = converter.impl.object(map.getString(field.getName()));
+                                }
+                            }
+                        }
+                        else {
+                            if (!map.getSub(field.getName()).getString("$type").equals("null")) {
+                                System.err.println("TCN object parser found wrong type. skipping...");
                             }
                         }
                         String m = Modifier.toString(field.getModifiers());

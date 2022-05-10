@@ -7,6 +7,8 @@ import de.tudbut.type.StringArray;
 import tudbut.global.DebugStateManager;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FileRW {
@@ -44,6 +46,18 @@ public class FileRW {
         FileOutputStream fileWriter = new FileOutputStream(this.file);
         new StreamWriter(fileWriter).writeChars(content.toCharArray());
         fileWriter.close();
+        logger.get().info("Done.");
+    }
+    
+    public void safeSetContent(String content) throws IOException {
+        logger.get().info("Writing file safely...");
+        this.lines.clear();
+        this.lines.set(content.split("\n"));
+        File file = new File(this.file.getAbsolutePath() + ".tmp");
+        FileOutputStream fileWriter = new FileOutputStream(file);
+        new StreamWriter(fileWriter).writeChars(content.toCharArray());
+        fileWriter.close();
+        Files.move(file.toPath(), this.file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         logger.get().info("Done.");
     }
 

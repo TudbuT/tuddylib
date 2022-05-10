@@ -1,8 +1,8 @@
 package tudbut.tools;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import tudbut.parsing.TudSort;
+
+import java.util.*;
 
 /**
  * Cache (Map with passively expiring values)
@@ -10,7 +10,12 @@ import java.util.Set;
  * @param <V>
  */
 public class Cache<K, V> {
-    protected final ArrayList<Entry<K, V>> entries = new ArrayList<>();
+    protected final ArrayList<Entry<K, V>>[] entries = (ArrayList<Entry<K,V>>[]) new ArrayList[50];
+    {
+        for (int i = 0 ; i < entries.length ; i++) {
+            entries[i] = new ArrayList<>();
+        }
+    }
     
     /**
      * Add a key
@@ -30,6 +35,7 @@ public class Cache<K, V> {
      */
     public void add(K key, V val, long ttl, CacheRetriever<K, V> retriever) {
         boolean exists = false;
+        ArrayList<Entry<K, V>> entries = this.entries[Math.abs(key.hashCode() % this.entries.length)];
         for (int i = 0; i < entries.size(); i++) {
             Entry<K, V> entry = entries.get(i);
             if (key == entry.key || entry.key.equals(key)) {
@@ -42,8 +48,8 @@ public class Cache<K, V> {
                 entry.timer.lock((int) (entry.ttl = ttl));
             }
         }
-        if(!exists && key != null) {
-            this.entries.add(new Entry<>(key, val, ttl, retriever));
+        if(!exists) {
+            entries.add(new Entry<>(key, val, ttl, retriever));
         }
     }
     
@@ -53,13 +59,13 @@ public class Cache<K, V> {
      * @return The value
      */
     public V get(K key) {
-        ArrayList<Entry<K, V>> entries = (ArrayList<Entry<K, V>>) this.entries.clone();
+        ArrayList<Entry<K, V>> entries = this.entries[Math.abs(key.hashCode() % this.entries.length)];
         V v = null;
         for (int i = 0 ; i < entries.size() ; i++) {
             Entry<K, V> entry = entries.get(i);
             v = entry.get();
             if(v == null)
-                this.entries.remove(entry);
+                entries.remove(entry);
             else if (key == entry.key || entry.key.equals(key))
                 break;
             else
@@ -73,11 +79,13 @@ public class Cache<K, V> {
      * @return All keys
      */
     public Set<K> keys() {
-        HashSet<K> keys = new HashSet<>();
-        for (int i = 0; i < entries.size(); i++) {
-            keys.add(entries.get(i).key);
+        ArrayList<K> keys = new ArrayList<>();
+        for (int i = 0 ; i < entries.length ; i++) {
+            for (int j = 0 ; j < entries[i].size() ; j++) {
+                keys.add(entries[i].get(j).key);
+            }
         }
-        return keys;
+        return new LinkedHashSet<K>(keys);
     }
     
     /**
@@ -85,11 +93,26 @@ public class Cache<K, V> {
      * @return All values
      */
     public Set<V> values() {
-        HashSet<V> vals = new HashSet<>();
-        for (int i = 0; i < entries.size(); i++) {
-            vals.add(entries.get(i).get());
+        LinkedHashSet<V> vals = new LinkedHashSet<>();
+        for (int i = 0 ; i < entries.length ; i++) {
+            for (int j = 0 ; j < entries[i].size() ; j++) {
+                vals.add(entries[i].get(j).val);
+            }
         }
         return vals;
+    }
+    
+    public LinkedHashMap<K, V> linkedHashMap() {
+        ArrayList<Entry<K, V>> allEntries = new ArrayList<>();
+        for (int i = 0 ; i < entries.length ; i++) {
+            allEntries.addAll(entries[i]);
+        }
+        Entry<K, V>[] entries = TudSort.sort(allEntries.toArray(new Entry[0]), entry -> entry.i);
+        LinkedHashMap<K, V> map = new LinkedHashMap<>();
+        for (int i = 0 ; i < entries.length ; i++) {
+            map.put(entries[i].key, entries[i].val);
+        }
+        return map;
     }
     
     /**
@@ -98,9 +121,15 @@ public class Cache<K, V> {
      */
     public Cache<V, K> flip() {
         Cache<V, K> cache = new Cache<>();
-        for (int i = 0 ; i < entries.size() ; i++) {
-            Entry<K, V> entry = entries.get(i);
-            cache.entries.add(new Entry<>(entry.val, entry.key, 0, new CacheRetriever<V, K>() { }));
+        ArrayList<Entry<V, K>> allEntries = new ArrayList<>();
+        for (int i = 0 ; i < entries.length ; i++) {
+            for (int j = 0 ; j < entries[i].size() ; j++) {
+                allEntries.add(entries[i].get(j).flip());
+            }
+        }
+        Entry<V, K>[] entries = TudSort.sort(allEntries.toArray(new Entry[0]), entry -> entry.i);
+        for (int i = 0 ; i < entries.length ; i++) {
+            cache.add(entries[i].key, entries[i].val, entries[i].ttl, entries[i].retriever);
         }
         return cache;
     }
@@ -111,6 +140,8 @@ public class Cache<K, V> {
         protected Lock timer;
         protected long ttl;
         protected CacheRetriever<K, V> retriever;
+        protected static int ni = 0;
+        protected int i = ni++;
         
         protected Entry() {
         }
@@ -131,6 +162,10 @@ public class Cache<K, V> {
             this.ttl = ttl;
             this.timer.lock((int) ttl);
             this.retriever = retriever;
+        }
+        
+        protected Entry<V, K> flip() {
+            return new Entry<>(val, key, 0, new CacheRetriever<V, K>() { });
         }
     }
     

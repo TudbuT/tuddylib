@@ -171,6 +171,17 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPRequest.html#HTTPRequest-tudbut.net.http.HTTPRequestType-java.lang.String-int-java.lang.String-tudbut.net.http.HTTPHeader-java.lang.String-tudbut.net.http.HTTPHeader...-">HTTPRequest</a></span>(<a href="../../../tudbut/net/http/HTTPRequestType.html" title="enum in tudbut.net.http">HTTPRequestType</a>&nbsp;requestTypeIn,
+           java.lang.String&nbsp;hostIn,
+           int&nbsp;portIn,
+           java.lang.String&nbsp;pathIn,
+           <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>&nbsp;type,
+           java.lang.String&nbsp;contentIn,
+           <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>...&nbsp;headersIn)</code>
+<div class="block">Constructs a HTTPRequest without sending it</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../tudbut/net/http/HTTPRequest.html#HTTPRequest-tudbut.net.http.HTTPRequestType-java.lang.String-int-java.lang.String-java.lang.String-java.lang.String-tudbut.net.http.HTTPHeader...-">HTTPRequest</a></span>(<a href="../../../tudbut/net/http/HTTPRequestType.html" title="enum in tudbut.net.http">HTTPRequestType</a>&nbsp;requestTypeIn,
            java.lang.String&nbsp;hostIn,
            int&nbsp;portIn,
@@ -329,7 +340,7 @@ extends java.lang.Object</pre>
 <a name="HTTPRequest-tudbut.net.http.HTTPRequestType-java.lang.String-int-java.lang.String-java.lang.String-java.lang.String-tudbut.net.http.HTTPHeader...-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>HTTPRequest</h4>
 <pre>public&nbsp;HTTPRequest(<a href="../../../tudbut/net/http/HTTPRequestType.html" title="enum in tudbut.net.http">HTTPRequestType</a>&nbsp;requestTypeIn,
@@ -337,6 +348,32 @@ extends java.lang.Object</pre>
                    int&nbsp;portIn,
                    java.lang.String&nbsp;pathIn,
                    java.lang.String&nbsp;type,
+                   java.lang.String&nbsp;contentIn,
+                   <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>...&nbsp;headersIn)</pre>
+<div class="block">Constructs a HTTPRequest without sending it</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>requestTypeIn</code> - The type of the request, see <a href="../../../tudbut/net/http/HTTPRequestType.html" title="enum in tudbut.net.http"><code>HTTPRequestType</code></a>.</dd>
+<dd><code>hostIn</code> - Host, add "https://" in front to attempt a HTTPS connection, otherwise, dont specify protocol</dd>
+<dd><code>portIn</code> - Port, 80 is standard for HTTP, 443 is standard for HTTPS</dd>
+<dd><code>pathIn</code> - Path to request, use "/" for main path</dd>
+<dd><code>type</code> - The type of the body</dd>
+<dd><code>contentIn</code> - The body</dd>
+<dd><code>headersIn</code> - HTTPHeaders to use, can be empty</dd>
+</dl>
+</li>
+</ul>
+<a name="HTTPRequest-tudbut.net.http.HTTPRequestType-java.lang.String-int-java.lang.String-tudbut.net.http.HTTPHeader-java.lang.String-tudbut.net.http.HTTPHeader...-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>HTTPRequest</h4>
+<pre>public&nbsp;HTTPRequest(<a href="../../../tudbut/net/http/HTTPRequestType.html" title="enum in tudbut.net.http">HTTPRequestType</a>&nbsp;requestTypeIn,
+                   java.lang.String&nbsp;hostIn,
+                   int&nbsp;portIn,
+                   java.lang.String&nbsp;pathIn,
+                   <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>&nbsp;type,
                    java.lang.String&nbsp;contentIn,
                    <a href="../../../tudbut/net/http/HTTPHeader.html" title="class in tudbut.net.http">HTTPHeader</a>...&nbsp;headersIn)</pre>
 <div class="block">Constructs a HTTPRequest without sending it</div>
