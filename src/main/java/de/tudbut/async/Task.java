@@ -45,6 +45,8 @@ public class Task<T> {
     }
     
     public Task<T> err(Callback<Throwable> reject) {
+        if(parent != null)
+            parent.reject.add(reject);
         this.reject.add(reject);
         return this;
     }
