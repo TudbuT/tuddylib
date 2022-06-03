@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -157,22 +157,26 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Task.html#await--">await</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>&lt;R&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;R&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Task.html#compose-de.tudbut.async.ComposeCallback-">compose</a></span>(<a href="../../../de/tudbut/async/ComposeCallback.html" title="interface in de.tudbut.async">ComposeCallback</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>,R&gt;&nbsp;callback)</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Task.html#done--">done</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Task.html#err-de.tudbut.async.Callback-">err</a></span>(<a href="../../../de/tudbut/async/Callback.html" title="interface in de.tudbut.async">Callback</a>&lt;java.lang.Throwable&gt;&nbsp;reject)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Task.html#ok--">ok</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Task.html#ok-de.tudbut.async.TaskQueue-">ok</a></span>(<a href="../../../de/tudbut/async/TaskQueue.html" title="class in de.tudbut.async">TaskQueue</a>&nbsp;queue)</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Task.html#then-de.tudbut.async.Callback-">then</a></span>(<a href="../../../de/tudbut/async/Callback.html" title="interface in de.tudbut.async">Callback</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>&gt;&nbsp;resolve)</code>&nbsp;</td>
 </tr>
@@ -232,6 +236,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>then</h4>
 <pre>public&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>&gt;&nbsp;then(<a href="../../../de/tudbut/async/Callback.html" title="interface in de.tudbut.async">Callback</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>&gt;&nbsp;resolve)</pre>
+</li>
+</ul>
+<a name="compose-de.tudbut.async.ComposeCallback-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>compose</h4>
+<pre>public&nbsp;&lt;R&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;R&gt;&nbsp;compose(<a href="../../../de/tudbut/async/ComposeCallback.html" title="interface in de.tudbut.async">ComposeCallback</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="type parameter in Task">T</a>,R&gt;&nbsp;callback)</pre>
 </li>
 </ul>
 <a name="err-de.tudbut.async.Callback-">

@@ -14,6 +14,7 @@ public class Task<T> {
     private T result = null;
     private Throwable rejection = null;
     boolean isAwaiting = false;
+    Task<?> parent = null;
     
     public Task(TaskCallable<T> callable) {
         this.callable = callable;
@@ -26,6 +27,20 @@ public class Task<T> {
     
     public Task<T> then(Callback<T> resolve) {
         this.resolve.add(resolve);
+        return this;
+    }
+    
+    public <R> Task<R> compose(ComposeCallback<T, R> callback) {
+        return new Task<R>((res, rej) -> {
+            res.call(callback.call(result));
+        }).appendTo(this).err(reject);
+    }
+    
+    private Task<T> appendTo(Task<?> task) {
+        this.parent = task;
+        task.then(done -> {
+            task.queue.register(this);
+        });
         return this;
     }
     
@@ -57,7 +72,7 @@ public class Task<T> {
         catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if(rejection != null)
+        if(rejection != null && !reject.done())
             throw new Reject(rejection);
         return result;
     }
@@ -79,10 +94,18 @@ public class Task<T> {
     }
     
     public Task<T> ok() {
+        if(parent != null) {
+            parent.ok();
+            return this;
+        }
         Async.context.get().register(this);
         return this;
     }
     public Task<T> ok(TaskQueue queue) {
+        if(parent != null) {
+            parent.ok(queue);
+            return this;
+        }
         queue.register(this);
         return this;
     }

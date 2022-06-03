@@ -60,6 +60,8 @@ de/tudbut/tools/Mouse.java
  de.tudbut.tools.Mouse
 tudbut/obj/RelativeVector2d.java
  tudbut.obj.RelativeVector2d
+de/tudbut/async/ComposeCallback.java
+ de.tudbut.async.ComposeCallback
 tudbut/net/http/HTTPRequest.java
  tudbut.net.http.HTTPRequest
 tudbut/io/LineReader.java

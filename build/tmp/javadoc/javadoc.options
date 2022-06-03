@@ -9,6 +9,7 @@
 '/home/tudbut/IdeaProjects/tuddylib/src/main/java/de/tudbut/async/Async.java'
 '/home/tudbut/IdeaProjects/tuddylib/src/main/java/de/tudbut/async/TaskQueue.java'
 '/home/tudbut/IdeaProjects/tuddylib/src/main/java/de/tudbut/async/Task.java'
+'/home/tudbut/IdeaProjects/tuddylib/src/main/java/de/tudbut/async/ComposeCallback.java'
 '/home/tudbut/IdeaProjects/tuddylib/src/main/java/de/tudbut/async/Reject.java'
 '/home/tudbut/IdeaProjects/tuddylib/src/main/java/de/tudbut/async/TaskCallable.java'
 '/home/tudbut/IdeaProjects/tuddylib/src/main/java/de/tudbut/async/CallbackList.java'
