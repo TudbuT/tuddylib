@@ -32,7 +32,7 @@ public class Task<T> {
     
     public <R> Task<R> compose(ComposeCallback<T, R> callback) {
         return new Task<R>((res, rej) -> {
-            res.call(callback.call(result));
+            callback.call(result, res, rej);
         }).appendTo(this).err(reject);
     }
     

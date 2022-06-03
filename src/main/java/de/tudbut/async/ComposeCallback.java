@@ -7,5 +7,5 @@ package de.tudbut.async;
 
 public interface ComposeCallback<T, R> {
 
-    R call(T t);
+    void call(T t, Callback<R> resolve, Callback<Throwable> reject);
 }

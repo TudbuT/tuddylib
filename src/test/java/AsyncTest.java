@@ -87,7 +87,7 @@ public class AsyncTest {
         new Task<Integer>(((resolve, reject) -> {
             resolve.call(500);
         }))
-                .compose(String::valueOf)
+                .compose((i, res, rej) -> res.call(String.valueOf(i)))
                 .then(System.err::println)
                 .ok();
         
