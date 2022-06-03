@@ -6,6 +6,7 @@ package de.tudbut.async;
  */
 
 public class Task<T> {
+    TaskQueue queue;
     final TaskCallable<T> callable;
     final CallbackList<T> resolve = new CallbackList<>();
     final CallbackList<Throwable> reject = new CallbackList<>();
@@ -37,7 +38,20 @@ public class Task<T> {
         try {
             if(!done) {
                 isAwaiting = true;
-                wait();
+                // If it is in the queue already
+                if(Thread.currentThread() == queue) {
+                    while(!done) {
+                        // Work while awaiting
+                        queue.processNextHere();
+                    }
+                }
+                else {
+                    synchronized (this) {
+                        if(!done) {
+                            wait();
+                        }
+                    }
+                }
             }
         }
         catch (InterruptedException e) {
@@ -52,8 +66,8 @@ public class Task<T> {
         if(this.rejection == null) {
             this.rejection = rejection;
             if (!done) {
-                done = true;
                 synchronized (this) {
+                    done = true;
                     notifyAll();
                 }
             }

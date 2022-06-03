@@ -14,11 +14,13 @@ public class Queue<T> {
     
     public synchronized T pushTop(T t) {
         ts.add(t);
+        notifyAll();
         return t;
     }
     
     public synchronized T pushBottom(T t) {
         ts.add(0, t);
+        notifyAll();
         return t;
     }
     
@@ -33,12 +35,14 @@ public class Queue<T> {
     public synchronized T popBottom() {
         T t = ts.get(0);
         ts.remove(0);
+        notifyAll();
         return t;
     }
     
     public synchronized T popTop() {
         T t = ts.get(ts.size() - 1);
         ts.remove(ts.size() - 1);
+        notifyAll();
         return t;
     }
     

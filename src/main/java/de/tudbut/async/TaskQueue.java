@@ -44,14 +44,23 @@ public class TaskQueue extends Thread {
     public void finish() {
         if(stop)
             throw new IllegalStateException("Already stopped!");
-        stop = true;
         synchronized (this) {
             this.notifyAll();
         }
-        process(queue);
+        while (queue.hasNext()) {
+            synchronized (queue) {
+                try {
+                    queue.wait();
+                }
+                catch (InterruptedException ignored) {
+                }
+            }
+        }
+        stop = true;
     }
     
     public <T> Task<T> register(Task<T> task) {
+        task.queue = this;
         queue.add(task);
         synchronized (this) {
             this.notifyAll();
