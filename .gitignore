@@ -2,5 +2,8 @@
 /build/generated/
 /build/libs/
 /build/tmp/
+/build/reports
+/.gradle
+/build/test-results
 *.png
 deployToGitlab
