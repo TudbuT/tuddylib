@@ -169,9 +169,6 @@ public class TaskQueue extends Thread {
             finally {
                 task.setDone(null);
             }
-            if (!task.resolve.done() && !task.reject.done()) {
-                task.resolve.call(null);
-            }
         } finally {
             running = false;
         }
