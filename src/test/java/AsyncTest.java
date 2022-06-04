@@ -90,9 +90,15 @@ public class AsyncTest {
                 .compose((i, res, rej) -> res.call(String.valueOf(i)))
                 .then(System.err::println)
                 .ok();
+        new Task<Integer>(((resolve, reject) -> {
+            resolve.call(500);
+        }))
+                .ok()
+                .compose((i, res, rej) -> res.call(String.valueOf(i)))
+                .then(System.err::println);
         
         TaskQueue.main.finish();
-        Thread.sleep(5);
+        Thread.sleep(55);
         System.err.println("\n>>> Output should be 5 exceptions and 5 'works!' and 1 '500'!!!");
         System.exit(0);
     }

@@ -27,6 +27,9 @@ public class Task<T> {
     
     public Task<T> then(Callback<T> resolve) {
         this.resolve.add(resolve);
+        if(this.resolve.done()) {
+            resolve.call(result);
+        }
         return this;
     }
     
@@ -99,7 +102,9 @@ public class Task<T> {
         return ok(Async.context.get());
     }
     public Task<T> ok(TaskQueue queue) {
-        if(parent != null && parent.queue == null) {
+        if(this.queue != null)
+            return this;
+        if (parent != null) {
             parent.ok(queue);
             return this;
         }
