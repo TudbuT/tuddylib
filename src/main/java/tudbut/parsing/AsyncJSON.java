@@ -24,7 +24,7 @@ public class AsyncJSON {
                 string = string.substring(1);
             }
             if (!string.startsWith("{") && !string.startsWith("[")) {
-                grej.call(new JSONFormatException("Expected: { or [ at 0 (String is '" + string + "')"));
+                grej.call(new JSON.JSONFormatException("Expected: { or [ at 0 (String is '" + string + "')"));
             }
             boolean array = string.startsWith("[");
             TCN tcn = new TCN("AJSON", array);
@@ -212,7 +212,7 @@ public class AsyncJSON {
                             if (!kv[0])
                                 kv[0] = true;
                             else
-                                rej.call(new JSONFormatException("Unexpected: '" + c[0] + "' at " + pos[0] + " - Should be ','"));
+                                rej.call(new JSON.JSONFormatException("Unexpected: '" + c[0] + "' at " + pos[0] + " - Should be ','"));
                         }
                         if (!inString[0] && c[0] == ',') {
                             if (array)
@@ -230,7 +230,7 @@ public class AsyncJSON {
                             if (kv[0])
                                 kv[0] = false;
                             else
-                                rej.call(new JSONFormatException("Unexpected: '" + c[0] + "' at " + pos[0] + " - Should be ':'"));
+                                rej.call(new JSON.JSONFormatException("Unexpected: '" + c[0] + "' at " + pos[0] + " - Should be ':'"));
                     
                         }
                 
@@ -257,7 +257,7 @@ public class AsyncJSON {
                 gres.call(tcn);
             }
             catch (Throwable e) {
-                grej.call(new JSONFormatException("At " + pos[0] + " in " + string + " (Debug: " + inString[0] + " " + kv[0] + " " + theString[0] + " " + key[0] + " " + array + ")", e));
+                grej.call(new JSON.JSONFormatException("At " + pos[0] + " in " + string + " (Debug: " + inString[0] + " " + kv[0] + " " + theString[0] + " " + key[0] + " " + array + ")", e));
             }
         });
     }
@@ -425,12 +425,4 @@ public class AsyncJSON {
         });
     }
     
-    public static class JSONFormatException extends Exception {
-        public JSONFormatException(String s, Throwable e) {
-            super(s, e);
-        }
-        public JSONFormatException(String s) {
-            super(s);
-        }
-    }
 }

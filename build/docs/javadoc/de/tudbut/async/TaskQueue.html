@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -215,19 +215,10 @@ extends java.lang.Thread</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/TaskQueue.html#processNextHere--">processNextHere</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/TaskQueue.html#register-de.tudbut.async.Task-">register</a></span>(<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;&nbsp;task)</code>&nbsp;</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/TaskQueue.html#register-de.tudbut.async.TaskCallable-java.lang.Class-">register</a></span>(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;T&gt;&nbsp;task,
-        java.lang.Class&lt;T&gt;&nbsp;clazz)</code>&nbsp;</td>
-</tr>
-<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/TaskQueue.html#run--">run</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../tudbut/tools/Queue.html" title="class in tudbut.tools">Queue</a>&lt;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;?&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/TaskQueue.html#stopProcessing--">stopProcessing</a></span>()</code>&nbsp;</td>
 </tr>
@@ -324,32 +315,6 @@ extends java.lang.Thread</pre>
 <li class="blockList">
 <h4>finish</h4>
 <pre>public&nbsp;void&nbsp;finish()</pre>
-</li>
-</ul>
-<a name="register-de.tudbut.async.Task-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>register</h4>
-<pre>public&nbsp;&lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;&nbsp;register(<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;&nbsp;task)</pre>
-</li>
-</ul>
-<a name="register-de.tudbut.async.TaskCallable-java.lang.Class-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>register</h4>
-<pre>public&nbsp;&lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;&nbsp;register(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;T&gt;&nbsp;task,
-                            java.lang.Class&lt;T&gt;&nbsp;clazz)</pre>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - The task to make</dd>
-<dd><code>clazz</code> - The clazz of the return value. This is only used to determine T.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The task that was created</dd>
-</dl>
 </li>
 </ul>
 <a name="run--">
