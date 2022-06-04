@@ -254,11 +254,11 @@ public class AsyncJSON {
                 for (String theKey : tcn.map.keys()) {
                     TCN.deepConvert(theKey, tcn.get(theKey), tcn);
                 }
-                gres.call(tcn);
             }
             catch (Throwable e) {
                 grej.call(new JSON.JSONFormatException("At " + pos[0] + " in " + string + " (Debug: " + inString[0] + " " + kv[0] + " " + theString[0] + " " + key[0] + " " + array + ")", e));
             }
+            gres.call(tcn);
         });
     }
     
