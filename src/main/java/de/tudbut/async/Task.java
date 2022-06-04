@@ -96,15 +96,10 @@ public class Task<T> {
     }
     
     public Task<T> ok() {
-        if(parent != null) {
-            parent.ok();
-            return this;
-        }
-        Async.context.get().register(this);
-        return this;
+        return ok(Async.context.get());
     }
     public Task<T> ok(TaskQueue queue) {
-        if(parent != null) {
+        if(parent != null && parent.queue == null) {
             parent.ok(queue);
             return this;
         }
