@@ -2,6 +2,8 @@ import de.tudbut.async.Reject;
 import de.tudbut.async.Resolve;
 import de.tudbut.async.Task;
 import de.tudbut.async.TaskQueue;
+import tudbut.parsing.AsyncJSON;
+
 import static de.tudbut.async.Async.*;
 
 /**
@@ -96,10 +98,12 @@ public class AsyncTest {
                 .ok()
                 .compose((i, res, rej) -> res.call(String.valueOf(i)))
                 .then(System.err::println);
-        
+        System.out.println(AsyncJSON.read("{\"test\":{\"a\":\"b\",\"c\":[\"d\"]}}").ok().await().toString());
+        System.out.println(AsyncJSON.write(AsyncJSON.read("{\"test\":{\"a\":\"b\",\"c\":[\"d\"]}}").ok().await()).ok().await());
+    
         TaskQueue.main.finish();
         Thread.sleep(55);
-        System.err.println("\n>>> Output should be 5 exceptions and 5 'works!' and 1 '500'!!!");
+        System.err.println("\n>>> Output should be 5 exceptions and 5 'works!' and 1 '500' and 2 json objects!!!");
         System.exit(0);
     }
 }

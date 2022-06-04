@@ -432,6 +432,9 @@ de/tudbut/tools/Keyboard.java
  de.tudbut.tools.Keyboard
 tudbut/obj/PrintThrowRunnable.java
  tudbut.obj.PrintThrowRunnable
+tudbut/parsing/AsyncJSON.java
+ tudbut.parsing.AsyncJSON
+ tudbut.parsing.AsyncJSON$JSONFormatException
 de/tudbut/ui/windowgui/RenderableWindow.java
  de.tudbut.ui.windowgui.RenderableWindow
  de.tudbut.ui.windowgui.RenderableWindow$1

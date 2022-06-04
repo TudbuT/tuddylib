@@ -127,7 +127,6 @@ public class JSON {
                             }
                             if (c == '"') {
                                 theString.append("\"");
-                                break a;
                             }
                         }
                     }
@@ -141,7 +140,6 @@ public class JSON {
                 // SubObjects
                 if (!inString && c == '{') {
                     inObjectKV = true;
-                    inString = false;
                     escape = false;
                     theString = new StringBuilder("{");
                     int layer = 1;
@@ -172,7 +170,6 @@ public class JSON {
                 // Arrays
                 if (!inString && c == '[') {
                     inObjectKV = true;
-                    inString = false;
                     escape = false;
                     theString = new StringBuilder("[");
                     int layer = 1;
@@ -405,8 +402,9 @@ public class JSON {
                 TCN theTCN = tcnStack.next();
                 path.next();
                 i--;
-                if(theTCN.map.keys().isEmpty())
-                    s.append(",").append(spaces ? " " : "").append(newlines ? "" : "");
+                if(theTCN.map.keys().isEmpty()) {
+                    s.append(",").append(spaces ? " " : "");
+                }
                 s.delete(s.length() - ((newlines ? 2 : 1) + (spaces ? 1 : 0)), s.length());
                 s.append(newlines ? "\n" : "").append(indent(newlines, i, indentLength)).append(theTCN.isArray ? "]" : "}").append(",").append(spaces ? " " : "").append(newlines ? "\n" : "");
             }

@@ -36,7 +36,7 @@ public class Task<T> {
     public <R> Task<R> compose(ComposeCallback<T, R> callback) {
         return new Task<R>((res, rej) -> {
             callback.call(result, res, rej);
-        }).appendTo(this).err(reject);
+        }).appendTo(this);
     }
     
     private Task<T> appendTo(Task<?> task) {
@@ -49,7 +49,7 @@ public class Task<T> {
     
     public Task<T> err(Callback<Throwable> reject) {
         if(parent != null)
-            parent.reject.add(reject);
+            parent.err(reject);
         this.reject.add(reject);
         return this;
     }
@@ -104,6 +104,7 @@ public class Task<T> {
     public Task<T> ok(TaskQueue queue) {
         if(this.queue != null)
             return this;
+        this.queue = queue;
         if (parent != null) {
             parent.ok(queue);
             return this;

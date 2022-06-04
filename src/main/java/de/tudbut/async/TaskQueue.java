@@ -15,6 +15,8 @@ public class TaskQueue extends Thread {
     private final Queue<Task<?>> queue = new Queue<>();
     public final CallbackList<Throwable> rejectionHandlers = new CallbackList<>();
     private boolean waiting = false;
+    private boolean running = false;
+    private boolean queueEmpty = true;
     
     public TaskQueue() {
         this.start();
@@ -47,7 +49,7 @@ public class TaskQueue extends Thread {
         synchronized (this) {
             this.notifyAll();
         }
-        while (queue.hasNext()) {
+        while (queue.hasNext() || running || !queueEmpty) {
             synchronized (queue) {
                 try {
                     queue.wait();
@@ -59,7 +61,7 @@ public class TaskQueue extends Thread {
         stop = true;
     }
     
-    public <T> Task<T> register(Task<T> task) {
+    <T> Task<T> register(Task<T> task) {
         task.queue = this;
         queue.add(task);
         synchronized (this) {
@@ -74,7 +76,7 @@ public class TaskQueue extends Thread {
      * @param clazz The clazz of the return value. This is only used to determine T.
      * @return The task that was created
      */
-    public <T> Task<T> register(TaskCallable<T> task, Class<T> clazz) {
+    <T> Task<T> register(TaskCallable<T> task, Class<T> clazz) {
         return register(new Task<>(task));
     }
     
@@ -105,6 +107,7 @@ public class TaskQueue extends Thread {
     
     public void process(Queue<Task<?>> queue) {
         while(queue.hasNext()) {
+            queueEmpty = false;
             try {
                 processNextHere();
             }
@@ -117,46 +120,60 @@ public class TaskQueue extends Thread {
                 rejectionHandlers.call(e);
             }
         }
+        queueEmpty = true;
+        synchronized (queue) {
+            queue.notifyAll();
+        }
     }
     
     public <T> void processNextHere() {
         if(!queue.hasNext())
             return;
         
+        running = true;
         Task<T> task = (Task<T>) queue.next();
         
         // Execute the task. If it rejects using reject(), throw a reject to be handled by the exception block.
         // If it resolves using throwResolve, redirect that to task.resolve.
         // If it throws something, redirect that to task.reject if possible, otherwise throw a Reject of it to be handled.
         try {
-            task.callable.execute(task.resolve, (t) -> {
-                throw new Reject(t);
-            });
-        } catch (Resolve resolve) {
-            if (!task.resolve.done())
-                task.resolve.call(resolve.getReal());
-        } catch (Reject reject) {
-            if (!task.reject.done()) {
-                if(task.reject.exists() || task.isAwaiting) {
-                    task.reject.call(reject.getReal());
-                    task.setDone(reject.getReal());
+            try {
+                task.callable.execute(task.resolve, (t) -> {
+                    throw new Reject(t);
+                });
+            }
+            catch (Resolve resolve) {
+                if (!task.resolve.done())
+                    task.resolve.call(resolve.getReal());
+            }
+            catch (Reject reject) {
+                if (!task.reject.done()) {
+                    if (task.reject.exists() || task.isAwaiting) {
+                        task.reject.call(reject.getReal());
+                        task.setDone(reject.getReal());
+                    }
+                    else {
+                        throw reject;
+                    }
+                }
+            }
+            catch (Throwable throwable) {
+                if (task.reject.exists() || task.isAwaiting) {
+                    task.reject.call(throwable);
+                    task.setDone(throwable);
                 }
                 else {
-                    throw reject;
+                    throw new Reject(throwable);
                 }
             }
-        } catch (Throwable throwable) {
-            if (task.reject.exists() || task.isAwaiting) {
-                task.reject.call(throwable);
-                task.setDone(throwable);
-            } else {
-                throw new Reject(throwable);
+            finally {
+                task.setDone(null);
+            }
+            if (!task.resolve.done() && !task.reject.done()) {
+                task.resolve.call(null);
             }
         } finally {
-            task.setDone(null);
-        }
-        if(!task.resolve.done() && !task.reject.done()) {
-            task.resolve.call(null);
+            running = false;
         }
     }
     

@@ -309,6 +309,9 @@ public class TCN {
         else if(type.equalsIgnoreCase("JSON")) {
             return JSON.write(this);
         }
+        else if(type.equalsIgnoreCase("AJSON")) {
+            return AsyncJSON.write(this).ok().await();
+        }
         return "";
     }
     
