@@ -33,7 +33,7 @@ public class HTTPRequest {
     /**
      * Constructs a HTTPRequest without sending it
      * @param requestType The type of the request, see {@link HTTPRequestType}.
-     * @param host Host, add "https://" in front to attempt a HTTPS connection, otherwise, dont specify protocol
+     * @param host Host, add "https://" in front to attempt an HTTPS connection, otherwise, dont specify protocol
      * @param port Port, 80 is standard for HTTP, 443 is standard for HTTPS
      * @param path Path to request, use "/" for main path
      * @param headers HTTPHeaders to use, can be empty
