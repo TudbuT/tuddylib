@@ -77,7 +77,7 @@ public class Task<T> {
         catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if(rejection != null && !reject.done())
+        if(rejection != null && !reject.exists())
             throw new Reject(rejection);
         return result;
     }
