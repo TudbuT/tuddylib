@@ -12,7 +12,31 @@ public class Async {
     public static <T> T await(Task<T> task) {
         return task.await();
     }
+    
     public static void context(TaskQueue queue) {
         context.set(queue);
+    }
+
+    public static Task<Void> loop(TaskCallable<Boolean> condition, TaskCallable<Void> body) {
+        return new Task<>((res, rej) -> {
+            while(new Task<>(condition).err(rej).ok().await()) {
+                new Task<>(body).err(rej).ok().await();
+                ((TaskQueue)Thread.currentThread()).processNextHere();
+            }
+            res.call(null);
+        });
+    }
+
+    public static boolean unblockQueue() {
+        if(Thread.currentThread() instanceof TaskQueue) {
+            TaskQueue q = (TaskQueue)Thread.currentThread();
+            if(q.queue.hasNext()) {
+                while(q.queue.hasNext()) {
+                    q.processNextHere();
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

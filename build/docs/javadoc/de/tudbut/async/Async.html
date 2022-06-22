@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -157,6 +157,15 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Async.html#context-de.tudbut.async.TaskQueue-">context</a></span>(<a href="../../../de/tudbut/async/TaskQueue.html" title="class in de.tudbut.async">TaskQueue</a>&nbsp;queue)</code>&nbsp;</td>
 </tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;java.lang.Void&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Async.html#loop-de.tudbut.async.TaskCallable-de.tudbut.async.TaskCallable-">loop</a></span>(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;java.lang.Boolean&gt;&nbsp;condition,
+    <a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;java.lang.Void&gt;&nbsp;body)</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Async.html#unblockQueue--">unblockQueue</a></span>()</code>&nbsp;</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -208,10 +217,29 @@ extends java.lang.Object</pre>
 <a name="context-de.tudbut.async.TaskQueue-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>context</h4>
 <pre>public static&nbsp;void&nbsp;context(<a href="../../../de/tudbut/async/TaskQueue.html" title="class in de.tudbut.async">TaskQueue</a>&nbsp;queue)</pre>
+</li>
+</ul>
+<a name="loop-de.tudbut.async.TaskCallable-de.tudbut.async.TaskCallable-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>loop</h4>
+<pre>public static&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;java.lang.Void&gt;&nbsp;loop(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;java.lang.Boolean&gt;&nbsp;condition,
+                                        <a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;java.lang.Void&gt;&nbsp;body)</pre>
+</li>
+</ul>
+<a name="unblockQueue--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>unblockQueue</h4>
+<pre>public static&nbsp;boolean&nbsp;unblockQueue()</pre>
 </li>
 </ul>
 </li>

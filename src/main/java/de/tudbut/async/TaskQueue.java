@@ -12,7 +12,7 @@ public class TaskQueue extends Thread {
     public static final TaskQueue main = new TaskQueue();
     
     private boolean stop = false;
-    private final Queue<Task<?>> queue = new Queue<>();
+    final Queue<Task<?>> queue = new Queue<>();
     public final CallbackList<Throwable> rejectionHandlers = new CallbackList<>();
     private boolean waiting = false;
     private boolean running = false;
