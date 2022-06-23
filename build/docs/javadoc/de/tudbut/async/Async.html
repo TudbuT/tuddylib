@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -163,6 +163,16 @@ extends java.lang.Object</pre>
     <a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;java.lang.Void&gt;&nbsp;body)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Async.html#s-de.tudbut.async.TaskCallable-">s</a></span>(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;T&gt;&nbsp;callable)</code>
+<div class="block">This can be problematic if errors might happen in the callable.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Async.html#t-de.tudbut.async.TaskCallable-">t</a></span>(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;T&gt;&nbsp;callable)</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../de/tudbut/async/Async.html#unblockQueue--">unblockQueue</a></span>()</code>&nbsp;</td>
 </tr>
@@ -221,6 +231,25 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>context</h4>
 <pre>public static&nbsp;void&nbsp;context(<a href="../../../de/tudbut/async/TaskQueue.html" title="class in de.tudbut.async">TaskQueue</a>&nbsp;queue)</pre>
+</li>
+</ul>
+<a name="t-de.tudbut.async.TaskCallable-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>t</h4>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;&nbsp;t(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;T&gt;&nbsp;callable)</pre>
+</li>
+</ul>
+<a name="s-de.tudbut.async.TaskCallable-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>s</h4>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../de/tudbut/async/Task.html" title="class in de.tudbut.async">Task</a>&lt;T&gt;&nbsp;s(<a href="../../../de/tudbut/async/TaskCallable.html" title="interface in de.tudbut.async">TaskCallable</a>&lt;T&gt;&nbsp;callable)</pre>
+<div class="block">This can be problematic if errors might happen in the callable. use t() instead.</div>
 </li>
 </ul>
 <a name="loop-de.tudbut.async.TaskCallable-de.tudbut.async.TaskCallable-">

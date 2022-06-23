@@ -101,11 +101,11 @@ public class TaskQueue extends Thread {
             if(stop)
                 return;
     
-            process(queue);
+            process();
         }
     }
     
-    public void process(Queue<Task<?>> queue) {
+    public void process() {
         while(queue.hasNext()) {
             queueEmpty = false;
             try {
