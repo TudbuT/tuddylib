@@ -25,6 +25,7 @@ public class AsyncJSON {
             }
             if (!string.startsWith("{") && !string.startsWith("[")) {
                 grej.call(new JSON.JSONFormatException("Expected: { or [ at 0 (String is '" + string + "')"));
+                return;
             }
             boolean array = string.startsWith("[");
             TCN tcn = new TCN("AJSON", array);
@@ -211,8 +212,10 @@ public class AsyncJSON {
                             theString[0] = new StringBuilder();
                             if (!kv[0])
                                 kv[0] = true;
-                            else
+                            else {
                                 rej.call(new JSON.JSONFormatException("Unexpected: '" + c[0] + "' at " + pos[0] + " - Should be ','"));
+                                return;
+                            }
                         }
                         if (!inString[0] && c[0] == ',') {
                             if (array)
@@ -229,8 +232,10 @@ public class AsyncJSON {
                             theString[0] = new StringBuilder();
                             if (kv[0])
                                 kv[0] = false;
-                            else
+                            else {
                                 rej.call(new JSON.JSONFormatException("Unexpected: '" + c[0] + "' at " + pos[0] + " - Should be ':'"));
+                                return;
+                            }
                     
                         }
                 
@@ -343,8 +348,10 @@ public class AsyncJSON {
                     new Task<Void>((res, rej) -> {
                         Object o = tcnStack.peek().map.get(key);
     
-                        if (o == null)
+                        if (o == null) {
+                            res.call(null);
                             return;
+                        }
     
                         String k = key.replaceAll("\\\\", "\\\\\\\\").replaceAll("\n", "\\\\n").replaceAll("\"", "\\\\\"");
                         if (o.getClass() == TCN.class) {
@@ -409,6 +416,7 @@ public class AsyncJSON {
                             }
                             path.next();
                         }
+                        res.call(null);
                     }).ok().await();
                 }
                 if (!b[0]) {

@@ -190,8 +190,8 @@ tudbut/math/Function.java
 tudbut/net/http/HTTPServer.java
  tudbut.net.http.HTTPServer
  tudbut.net.http.HTTPServer$HTTPHandler
-de/tudbut/async/Reject.java
- de.tudbut.async.Reject
+de/tudbut/async/Resolve.java
+ de.tudbut.async.Resolve
 tudbut/rendering/Maths2D.java
  tudbut.rendering.Maths2D
 tudbut/net/websocket/WebSocketServer.java
@@ -238,8 +238,8 @@ de/tudbut/timer/Ticks.java
  de.tudbut.timer.Ticks
 tudbut/tools/Tools2.java
  tudbut.tools.Tools2
-de/tudbut/async/Async.java
- de.tudbut.async.Async
+tudbut/tools/TrayApp.java
+ tudbut.tools.TrayApp
 de/tudbut/tools/Application.java
  de.tudbut.tools.Application
  de.tudbut.tools.Application$1
@@ -563,16 +563,16 @@ tudbut/rendering/tph/TPH301.java
  tudbut.rendering.tph.TPH301
 tudbut/tools/MapTools.java
  tudbut.tools.MapTools
-tudbut/tools/TrayApp.java
- tudbut.tools.TrayApp
-de/tudbut/async/Resolve.java
- de.tudbut.async.Resolve
-de/tudbut/async/TaskCallable.java
- de.tudbut.async.TaskCallable
 de/tudbut/async/TaskQueue.java
  de.tudbut.async.TaskQueue
+de/tudbut/async/Reject.java
+ de.tudbut.async.Reject
+de/tudbut/async/TaskCallable.java
+ de.tudbut.async.TaskCallable
 de/tudbut/async/Task.java
  de.tudbut.async.Task
+de/tudbut/async/Async.java
+ de.tudbut.async.Async
 tudbut/parsing/AsyncJSON.java
  tudbut.parsing.AsyncJSON
 tudbut/parsing/TCN.java

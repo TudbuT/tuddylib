@@ -142,7 +142,9 @@ public class TaskQueue extends Thread {
                     if (!task.resolve.done())
                         task.resolve.call(t);
                     task.setDone(null);
-                }, (t) -> reject(task, t));
+                }, (t) -> {
+                    throw new Reject(t);
+                });
             }
             catch (Resolve resolve) {
                 if (!task.resolve.done())
