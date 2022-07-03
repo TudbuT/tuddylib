@@ -5,7 +5,7 @@ package de.tudbut.async;
  * @since 03 Jun 2022
  */
 
-public class Resolve extends Throwable {
+public class Resolve extends RuntimeException {
     final Object real;
     
     public Resolve(Throwable throwable) {

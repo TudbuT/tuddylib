@@ -138,13 +138,16 @@ public class TaskQueue extends Thread {
         // If it throws something, redirect that to task.reject if possible, otherwise throw a Reject of it to be handled.
         try {
             try {
-                task.callable.execute(task.resolve, (t) -> {
+                task.callable.execute((t) -> {
+                    throw new Resolve(t);
+                }, (t) -> {
                     throw new Reject(t);
                 });
             }
             catch (Resolve resolve) {
                 if (!task.resolve.done())
                     task.resolve.call(resolve.getReal());
+                task.setDone(null);
             }
             catch (Reject reject) {
                 if (!task.reject.done()) {
@@ -165,9 +168,6 @@ public class TaskQueue extends Thread {
                 else {
                     throw new Reject(throwable);
                 }
-            }
-            finally {
-                task.setDone(null);
             }
         } finally {
             running = false;
