@@ -566,15 +566,15 @@ tudbut/tools/MapTools.java
  tudbut.tools.MapTools
 tudbut/tools/TrayApp.java
  tudbut.tools.TrayApp
-de/tudbut/async/TaskQueue.java
- de.tudbut.async.TaskQueue
+de/tudbut/async/Resolve.java
+ de.tudbut.async.Resolve
 de/tudbut/async/TaskCallable.java
  de.tudbut.async.TaskCallable
+de/tudbut/async/TaskQueue.java
+ de.tudbut.async.TaskQueue
 de/tudbut/async/Task.java
  de.tudbut.async.Task
 de/tudbut/async/Async.java
  de.tudbut.async.Async
-de/tudbut/async/Resolve.java
- de.tudbut.async.Resolve
 tudbut/parsing/AsyncJSON.java
  tudbut.parsing.AsyncJSON
