@@ -238,9 +238,8 @@ de/tudbut/timer/Ticks.java
  de.tudbut.timer.Ticks
 tudbut/tools/Tools2.java
  tudbut.tools.Tools2
-tudbut/parsing/TCN.java
- tudbut.parsing.TCN
- tudbut.parsing.TCN$TCNException
+de/tudbut/async/Async.java
+ de.tudbut.async.Async
 de/tudbut/tools/Application.java
  de.tudbut.tools.Application
  de.tudbut.tools.Application$1
@@ -574,7 +573,8 @@ de/tudbut/async/TaskQueue.java
  de.tudbut.async.TaskQueue
 de/tudbut/async/Task.java
  de.tudbut.async.Task
-de/tudbut/async/Async.java
- de.tudbut.async.Async
 tudbut/parsing/AsyncJSON.java
  tudbut.parsing.AsyncJSON
+tudbut/parsing/TCN.java
+ tudbut.parsing.TCN
+ tudbut.parsing.TCN$TCNException

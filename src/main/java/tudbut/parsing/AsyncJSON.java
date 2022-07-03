@@ -239,6 +239,7 @@ public class AsyncJSON {
                         }
                 
                         c[0] = a[++pos[0]];
+                        res.call(null);
                     }).err(grej).ok().await();
                 }
                 if (kv[0]) {
