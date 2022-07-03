@@ -139,10 +139,10 @@ public class TaskQueue extends Thread {
         try {
             try {
                 task.callable.execute((t) -> {
-                    throw new Resolve(t);
-                }, (t) -> {
-                    throw new Reject(t);
-                });
+                    if (!task.resolve.done())
+                        task.resolve.call(t);
+                    task.setDone(null);
+                }, (t) -> reject(task, t));
             }
             catch (Resolve resolve) {
                 if (!task.resolve.done())
@@ -150,28 +150,26 @@ public class TaskQueue extends Thread {
                 task.setDone(null);
             }
             catch (Reject reject) {
-                if (!task.reject.done()) {
-                    if (task.reject.exists() || task.isAwaiting) {
-                        task.reject.call(reject.getReal());
-                        task.setDone(reject.getReal());
-                    }
-                    else {
-                        throw reject;
-                    }
-                }
+                reject(task, reject.getReal());
             }
             catch (Throwable throwable) {
-                if (task.reject.exists() || task.isAwaiting) {
-                    task.reject.call(throwable);
-                    task.setDone(throwable);
-                }
-                else {
-                    throw new Reject(throwable);
-                }
+                reject(task, throwable);
             }
         } finally {
             running = false;
         }
     }
+
+	private <T> void reject(Task<T> task, Throwable real) {
+		if (!task.reject.done()) {
+		    if (task.reject.exists() || task.isAwaiting) {
+		        task.reject.call(real);
+		        task.setDone(real);
+		    }
+		    else {
+		        throw new Reject(real);
+		    }
+		}
+	}
     
 }
