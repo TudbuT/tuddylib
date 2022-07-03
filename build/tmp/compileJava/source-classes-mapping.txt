@@ -112,8 +112,8 @@ de/tudbut/tools/bintools/encoding/Seed.java
  de.tudbut.tools.bintools.encoding.Seed
 tudbut/parsing/StringMapParser.java
  tudbut.parsing.StringMapParser
-tudbut/net/http/ParsedHTTPValue.java
- tudbut.net.http.ParsedHTTPValue
+tudbut/parsing/AsyncJSON.java
+ tudbut.parsing.AsyncJSON
 de/tudbut/tools/FileRW.java
  de.tudbut.tools.FileRW
 de/tudbut/net/ws/Client.java
@@ -259,9 +259,8 @@ de/tudbut/timer/AsyncCatcher.java
  de.tudbut.timer.AsyncCatcher
 tudbut/rendering/Maths3D.java
  tudbut.rendering.Maths3D
-tudbut/net/http/HTTPUtils.java
- tudbut.net.http.HTTPUtils
- tudbut.net.http.HTTPUtils$1
+de/tudbut/async/Async.java
+ de.tudbut.async.Async
 de/tudbut/tools/Config.java
  de.tudbut.tools.Config
 de/tudbut/type/Nothing.java
@@ -535,9 +534,9 @@ tudbut/obj/Mappable.java
  tudbut.obj.Mappable
 tudbut/tools/BufferManager.java
  tudbut.tools.BufferManager
-tudbut/net/http/HTTPServerRequest.java
- tudbut.net.http.HTTPServerRequest
- tudbut.net.http.HTTPServerRequest$1
+tudbut/parsing/TCN.java
+ tudbut.parsing.TCN
+ tudbut.parsing.TCN$TCNException
 tudbut/math/ComplexNumber.java
  tudbut.math.ComplexNumber
 tudbut/parsing/ArgumentParser.java
@@ -571,10 +570,11 @@ de/tudbut/async/TaskCallable.java
  de.tudbut.async.TaskCallable
 de/tudbut/async/Task.java
  de.tudbut.async.Task
-de/tudbut/async/Async.java
- de.tudbut.async.Async
-tudbut/parsing/AsyncJSON.java
- tudbut.parsing.AsyncJSON
-tudbut/parsing/TCN.java
- tudbut.parsing.TCN
- tudbut.parsing.TCN$TCNException
+tudbut/net/http/HTTPServerRequest.java
+ tudbut.net.http.HTTPServerRequest
+ tudbut.net.http.HTTPServerRequest$1
+tudbut/net/http/ParsedHTTPValue.java
+ tudbut.net.http.ParsedHTTPValue
+tudbut/net/http/HTTPUtils.java
+ tudbut.net.http.HTTPUtils
+ tudbut.net.http.HTTPUtils$1
