@@ -85,11 +85,11 @@ public class Task<T> {
     void setDone(Throwable rejection) {
         if(this.rejection == null) {
             this.rejection = rejection;
-            if (!done) {
-                synchronized (this) {
-                    done = true;
-                    notifyAll();
-                }
+        }
+        if (!done) {
+            synchronized (this) {
+                done = true;
+                notifyAll();
             }
         }
     }

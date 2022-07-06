@@ -80,6 +80,7 @@
 '/root/gitshit/tuddylib/src/main/java/de/tudbut/async/Callback.java'
 '/root/gitshit/tuddylib/src/main/java/de/tudbut/async/ComposeCallback.java'
 '/root/gitshit/tuddylib/src/main/java/de/tudbut/async/TaskQueue.java'
+'/root/gitshit/tuddylib/src/main/java/de/tudbut/async/InternalReject.java'
 '/root/gitshit/tuddylib/src/main/java/de/tudbut/async/Reject.java'
 '/root/gitshit/tuddylib/src/main/java/de/tudbut/async/Task.java'
 '/root/gitshit/tuddylib/src/main/java/tudbut/algorithm/AlgorithmAI.java'
