@@ -417,7 +417,7 @@ public class AsyncJSON {
                             path.next();
                         }
                         res.call(null);
-                    }).ok().await();
+                    }).err(grej).ok().await();
                 }
                 if (!b[0]) {
                     TCN theTCN = tcnStack.next();
