@@ -1,5 +1,8 @@
 package de.tudbut.async;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import tudbut.global.DebugStateManager;
 import tudbut.tools.Queue;
 
 /**
@@ -14,21 +17,16 @@ public class TaskQueue extends Thread {
     private boolean stop = false;
     final Queue<Task<?>> queue = new Queue<>();
     public final CallbackList<Throwable> rejectionHandlers = new CallbackList<>();
-    private boolean waiting = false;
+    private AtomicBoolean waiting = new AtomicBoolean();
     private boolean running = false;
     private boolean queueEmpty = true;
     
     public TaskQueue() {
         this.start();
-        synchronized (this) {
-            try {
-                wait();
-            }
-            catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        while (!waiting);
+        while (!waiting.get());
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {}
     }
     
     public Queue<Task<?>> stopProcessing() throws IllegalAccessException {
@@ -82,13 +80,12 @@ public class TaskQueue extends Thread {
     
     @Override
     public void run() {
-        synchronized (this) {
-            notifyAll();
-        }
+        if(DebugStateManager.isDebugEnabled())
+            System.out.println("[TaskQueue] Thread started.");
         while (!stop) {
             try {
                 synchronized (this) {
-                    waiting = true;
+                    waiting.set(true);
                     wait();
                 }
             }
@@ -96,7 +93,7 @@ public class TaskQueue extends Thread {
                 return;
             }
             finally {
-                waiting = false;
+                waiting.set(false);
             }
             if(stop)
                 return;
@@ -177,20 +174,20 @@ public class TaskQueue extends Thread {
         }
     }
 
-	private <T> void reject(Task<T> task, Throwable real) {
-		if (!task.reject.done()) {
+    private <T> void reject(Task<T> task, Throwable real) {
+        if (!task.reject.done()) {
             task.setDone(real);
-		    if (task.reject.exists() || task.isAwaiting) {
+            if (task.reject.exists() || task.isAwaiting) {
                 try {
-		            task.reject.call(real);
+                    task.reject.call(real);
                 } catch(InternalReject r) {
                     reject(r.task, r.real.getReal());
                 }
-		    }
-		    else {
-		        throw new Reject(real);
-		    }
-		}
-	}
+            }
+            else {
+                throw new Reject(real);
+            }
+        }
+    }
     
 }
