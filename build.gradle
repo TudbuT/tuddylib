@@ -70,7 +70,7 @@ publishing {
     }
     repositories {
         maven {
-            url "${CI_API_V4_URL}/groups/<group>/-/packages/maven"
+            url "${System.env("CI_API_V4_URL")}/groups/<group>/-/packages/maven"
             name "GitLab"
             credentials(HttpHeaderCredentials) {
                 name = 'Job-Token'
