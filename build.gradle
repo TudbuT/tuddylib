@@ -4,21 +4,11 @@ import java.util.zip.ZipOutputStream
 
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 repositories {
     mavenCentral()
-    maven {
-        url "${CI_API_V4_URL}/groups/<group>/-/packages/maven"
-        name "GitLab"
-        credentials(HttpHeaderCredentials) {
-            name = 'Job-Token'
-            value = System.getenv("CI_JOB_TOKEN")
-        }
-        authentication {
-            header(HttpHeaderAuthentication)
-        }
-    }
 }
 
 compileJava {
@@ -68,3 +58,24 @@ jar {
 }
 
 jar.dependsOn("javadoc")
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact('TuddyLIB.jar')
+        }
+    }
+    repositories {
+        maven {
+            url "${CI_API_V4_URL}/groups/<group>/-/packages/maven"
+            name "GitLab"
+            credentials(HttpHeaderCredentials) {
+                name = 'Job-Token'
+                value = System.getenv("CI_JOB_TOKEN")
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
+    }
+}
