@@ -5,7 +5,7 @@ package de.tudbut.async;
  * @since 03 Jun 2022
  */
 
-public class Reject extends RuntimeException {
+public class Reject extends Error {
     final Object real;
     
     public Reject(Throwable throwable) {

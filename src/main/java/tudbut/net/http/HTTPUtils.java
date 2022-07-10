@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class HTTPUtils {
     public static String encodeUTF8(String s) {
         try {
-            return URLEncoder.encode(s, String.valueOf(StandardCharsets.UTF_8));
+            return URLEncoder.encode(s, String.valueOf(StandardCharsets.UTF_8)).replace("+", "%20");
         }
         catch (UnsupportedEncodingException e) {
             throw new RuntimeException("Too old OS");
@@ -27,7 +27,7 @@ public class HTTPUtils {
     }
     public static String decodeUTF8(String s) {
         try {
-            return URLDecoder.decode(s, String.valueOf(StandardCharsets.UTF_8));
+            return URLDecoder.decode(s.replace("+", "%20"), String.valueOf(StandardCharsets.UTF_8));
         }
         catch (UnsupportedEncodingException e) {
             throw new RuntimeException("Too old OS");

@@ -1,5 +1,8 @@
 package de.tudbut.async;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import tudbut.global.DebugStateManager;
 import tudbut.tools.Queue;
 
 /**
@@ -14,21 +17,16 @@ public class TaskQueue extends Thread {
     private boolean stop = false;
     final Queue<Task<?>> queue = new Queue<>();
     public final CallbackList<Throwable> rejectionHandlers = new CallbackList<>();
-    private boolean waiting = false;
+    private AtomicBoolean waiting = new AtomicBoolean();
     private boolean running = false;
     private boolean queueEmpty = true;
     
     public TaskQueue() {
         this.start();
-        synchronized (this) {
-            try {
-                wait();
-            }
-            catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        while (!waiting);
+        while (!waiting.get());
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {}
     }
     
     public Queue<Task<?>> stopProcessing() throws IllegalAccessException {
@@ -82,13 +80,12 @@ public class TaskQueue extends Thread {
     
     @Override
     public void run() {
-        synchronized (this) {
-            notifyAll();
-        }
+        if(DebugStateManager.isDebugEnabled())
+            System.out.println("[TaskQueue] Thread started.");
         while (!stop) {
             try {
                 synchronized (this) {
-                    waiting = true;
+                    waiting.set(true);
                     wait();
                 }
             }
@@ -96,7 +93,7 @@ public class TaskQueue extends Thread {
                 return;
             }
             finally {
-                waiting = false;
+                waiting.set(false);
             }
             if(stop)
                 return;
@@ -127,50 +124,69 @@ public class TaskQueue extends Thread {
     }
     
     public <T> void processNextHere() {
-        if(!queue.hasNext())
-            return;
-        
-        running = true;
-        Task<T> task = (Task<T>) queue.next();
-        
-        // Execute the task. If it rejects using reject(), throw a reject to be handled by the exception block.
-        // If it resolves using throwResolve, redirect that to task.resolve.
-        // If it throws something, redirect that to task.reject if possible, otherwise throw a Reject of it to be handled.
         try {
+            if(!queue.hasNext())
+                return;
+            
+            running = true;
+            Task<T> task = (Task<T>) queue.next();
+            
+            // Execute the task. If it rejects using reject(), throw a reject to be handled by the exception block.
+            // If it resolves using throwResolve, redirect that to task.resolve.
+            // If it throws something, redirect that to task.reject if possible, otherwise throw a Reject of it to be handled.
             try {
-                task.callable.execute(task.resolve, (t) -> {
-                    throw new Reject(t);
-                });
-            }
-            catch (Resolve resolve) {
-                if (!task.resolve.done())
-                    task.resolve.call(resolve.getReal());
-            }
-            catch (Reject reject) {
-                if (!task.reject.done()) {
-                    if (task.reject.exists() || task.isAwaiting) {
-                        task.reject.call(reject.getReal());
-                        task.setDone(reject.getReal());
-                    }
-                    else {
-                        throw reject;
-                    }
+                try {
+                    task.callable.execute((t) -> {
+                        if (!task.resolve.done())
+                            task.resolve.call(t);
+                        task.setDone(null);
+                    }, (t) -> {
+                        throw new InternalReject(task, new Reject(t));
+                    });
+                }
+                catch (Resolve resolve) {
+                    if (!task.resolve.done())
+                        task.resolve.call(resolve.getReal());
+                    task.setDone(null);
+                }
+                catch (Reject reject) {
+                    throw new InternalReject(task, reject);
+                }
+                catch (InternalReject r) { throw r; }
+                catch (Throwable throwable) {
+                    throw new InternalReject(task, new Reject(throwable));
                 }
             }
-            catch (Throwable throwable) {
-                if (task.reject.exists() || task.isAwaiting) {
-                    task.reject.call(throwable);
-                    task.setDone(throwable);
-                }
-                else {
-                    throw new Reject(throwable);
+            catch(InternalReject rej) {
+                reject(rej.task, rej.real.getReal());
+            } finally {
+                running = false;
+            }
+        }
+        catch (Reject e) {
+            if(!rejectionHandlers.exists()) {
+                System.err.println("!! Unhandled Task rejection:");
+                e.printStackTrace();
+                e.getCause().printStackTrace();
+                return;
+            }
+            rejectionHandlers.call(e);
+        }
+    }
+
+    private <T> void reject(Task<T> task, Throwable real) {
+        if (!task.reject.done()) {
+            task.setDone(real);
+            if (task.reject.exists() || task.isAwaiting) {
+                try {
+                    task.reject.call(real);
+                } catch(InternalReject r) {
+                    reject(r.task, r.real.getReal());
                 }
             }
-            finally {
-                task.setDone(null);
+            else {
+                throw new Reject(real);
             }
-        } finally {
-            running = false;
         }
     }
     

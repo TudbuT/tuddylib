@@ -2,6 +2,7 @@ package tudbut.logger;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.PrintStream;
 
 public interface LoggerSink {
     String getName();
@@ -11,14 +12,30 @@ public interface LoggerSink {
     default PrintWriter infoAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    info(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
+            }
+        }, true);
+    }
+    default PrintStream infoAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
             
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    info(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
-            }
-            
-            public void flush() {
-                info(s);
             }
         }, true);
     }
@@ -26,14 +43,30 @@ public interface LoggerSink {
     default PrintWriter debugAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
-            
+    
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    debug(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
             }
-            
-            public void flush() {
-                debug(s);
+        }, true);
+    }
+    default PrintStream debugAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    debug(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
             }
         }, true);
     }
@@ -41,14 +74,30 @@ public interface LoggerSink {
     default PrintWriter warnAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
-            
+    
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    warn(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
             }
-            
-            public void flush() {
-                warn(s);
+        }, true);
+    }
+    default PrintStream warnAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    warn(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
             }
         }, true);
     }
@@ -56,14 +105,30 @@ public interface LoggerSink {
     default PrintWriter errorAsWriter() {
         return new PrintWriter(new OutputStream() {
             String s = "";
-            
+    
             @Override
             public void write(int i) {
+                if((char) i == '\n') {
+                    error(s);
+                    s = "";
+                    return;
+                }
                 s += (char) i;
             }
-            
-            public void flush() {
-                warn(s);
+        }, true);
+    }
+    default PrintStream errorAsStream() {
+        return new PrintStream(new OutputStream() {
+            String s = "";
+    
+            @Override
+            public void write(int i) {
+                if((char) i == '\n') {
+                    error(s);
+                    s = "";
+                    return;
+                }
+                s += (char) i;
             }
         }, true);
     }
