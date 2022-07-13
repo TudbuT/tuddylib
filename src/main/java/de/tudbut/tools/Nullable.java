@@ -1,6 +1,7 @@
 package de.tudbut.tools;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.function.Function;
 
 public class Nullable<T> {
@@ -43,6 +44,23 @@ public class Nullable<T> {
 
     public T get() {
         return object;
+    }
+
+    public void except(Runnable runnable) {
+        if(object == null)
+            runnable.run();
+    }
+
+    public <R> Nullable<R> except(Supplier<R> supplier) {
+        if(object == null)
+            return new Nullable<>(supplier.get());
+        return new Nullable<>(null);
+    }
+
+    public Nullable<T> or(Supplier<T> supplier) {
+        if(object == null)
+            return new Nullable<>(supplier.get());
+        return this;
     }
 
 }
