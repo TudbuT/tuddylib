@@ -62,5 +62,9 @@ public class Nullable<T> {
             return new Nullable<>(supplier.get());
         return this;
     }
+    
+    public String toString() {
+        return String.valueOf(object);
+    }
 
 }
