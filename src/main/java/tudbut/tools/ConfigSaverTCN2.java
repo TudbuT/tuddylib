@@ -47,10 +47,6 @@ public class ConfigSaverTCN2 {
             return object; // just write the object without any wrapping lol
         }
 
-        if(objectClass.isEnum()) {
-            return Arrays.asList(objectClass.getEnumConstants()).indexOf(object); // Return the equivalent of .ordinal()
-        }
-
         TCN tcn = new TCN();
         if(objectClass.isArray()) {
             int len = Array.getLength(object);
@@ -65,6 +61,9 @@ public class ConfigSaverTCN2 {
         }
         else {
             tcn.set("$", objectClass.getName());
+            if(objectClass.isEnum()) {
+                tcn.set("*", Arrays.asList(objectClass.getEnumConstants()).indexOf(object)); // Return the equivalent of .ordinal()
+            }
             ArrayList<Field> fields = new ArrayList<>();
 
             // Read fields
@@ -151,6 +150,9 @@ public class ConfigSaverTCN2 {
         else {
             objectClass = Class.forName(tcn.getString("$"));
             Object instance = toReadTo;
+            if(objectClass.isEnum()) {
+                instance = objectClass.getEnumConstants()[tcn.getInteger("*")];
+            }
             if(instance == null) {
                 try {
                     instance = theSafe.allocateInstance(objectClass);
