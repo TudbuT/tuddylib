@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import tudbut.tools.*;
 import de.tudbut.tools.*;
 import tudbut.parsing.*;
@@ -23,7 +24,22 @@ public class CSTCN2 {
         CSTCN2 obj = (CSTCN2)ConfigSaverTCN2.read(JSON.read(new StreamReader(new FileInputStream("test.json")).readAllAsString()), null);
         System.out.println(JSON.writeReadable((TCN)ConfigSaverTCN2.write(obj, true, true)));
 
-        String s = "Hi there, I'm BRUH.";
-        System.out.println(Tools.readf("Hi there, I'm {}.", s));
+        String s;
+
+
+        s = "I would like info on the player Player.360.";
+        System.out.println(Arrays.toString(Tools.readf("I would like info on the player {}.", s))); // yes
+        System.out.println(Arrays.toString(Tools.readf("I would like info on the {} {}.", s)));     // yes
+        System.out.println(Arrays.toString(Tools.readf("I would like {} on the {} {}.", s)));       // yes
+        System.out.println(Arrays.toString(Tools.readf("{} would like {} on the {} {}.", s)));      // yes
+        s = "I would like info on the player Player.360...";
+        System.out.println(Arrays.toString(Tools.readf("I would like info on the player {}...", s))); // yes
+        System.out.println(Arrays.toString(Tools.readf("I would like info on the {} {}...", s)));     // yes
+        System.out.println(Arrays.toString(Tools.readf("I would like {} on the {} {}...", s)));       // yes
+        System.out.println(Arrays.toString(Tools.readf("{} would like {} on the {} {}.", s)));      // yes
+        s = "I would like info on the on the player on the Player.360...";
+        System.out.println(Arrays.toString(Tools.readf("I would like info on the player {}...", s))); // no
+        System.out.println(Arrays.toString(Tools.readf("I would like info on the {} {}...", s)));     // yes
+        System.out.println(Arrays.toString(Tools.readf("I would like {} on the {} {}...", s)));       // yes
     }
 }

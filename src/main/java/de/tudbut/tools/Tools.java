@@ -10,13 +10,52 @@ import tudbut.obj.TypedArray;
 
 public class Tools {
 
-    public static String readf(String format, String s) {
-        // extracts a part of a string denoted by {}
-        String r = s.replaceAll(".*" + format.replace("\\", "\\\\").replaceAll("([\\w\\W])", "[$1]").replace("[{][}]", "(.*)") + ".*", "$1");
-        if(r.equals(s)) {
+    public static String[] readf(String format, String s) {
+        // extracts parts of a string denoted by {}
+        try {
+            if(s.contains("{}{}")) throw new IllegalArgumentException("Ambiguous argument: '{}{}' found in format string");
+            String f = format;
+            int occurences = 0;
+            for(; f.indexOf("{}") != -1; occurences++) {
+                f = f.substring(f.indexOf("{}") + 2);
+            }
+            String[] result = new String[occurences];
+
+            String originalFormat = format;
+            for(int n = 0; n <= occurences; n++) { // This may throw if it doesn't match, but that's the same outcome
+                // shave off blanking space
+                int i = format.indexOf("{}");
+                if(i == -1) i = format.length();
+                if(!format.substring(0, i).equals(s.substring(0, i))) return null; // If the previous part didn't match, we can forget about it.
+                if(n == occurences) {
+                    break;
+                }
+                format = format.substring(i + 2);
+                s = s.substring(i);
+                // populate braces
+                int x = format.indexOf("{}");
+                if(x != -1) {
+                    result[n] = s.substring(0, s.indexOf(format.substring(0, x)));
+                }
+                else {
+                    result[n] = s.substring(0, s.length() - (originalFormat.length() - originalFormat.lastIndexOf("{}") - 2));
+                }
+                s = s.substring(result[n].length());
+            }
+            if(result[occurences - 1] == null) // this happens when a later part doesnt match;
+                return null;
+
+            return result;
+        } catch(Exception e) {
             return null;
         }
-        return r;
+    }
+
+    public static String readf1(String format, String s) {
+        // extracts parts of a string denoted by {}
+        String[] r = readf(format, s);
+        if(r == null) return null;
+        return r[0];
     }
 
     public static BufferedReader getStdInput() {

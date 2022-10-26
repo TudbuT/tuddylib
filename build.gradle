@@ -60,7 +60,7 @@ jar {
     }
 }
 
-jar.dependsOn("javadoc")
+//jar.dependsOn("javadoc")
 
 publishing {
     publications {
