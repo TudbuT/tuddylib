@@ -1,32 +1,36 @@
 package de.tudbut.tools;
 
 import de.tudbut.type.StringArray;
-import tudbut.obj.TypedArray;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.sql.Time;
 import java.util.*;
+import tudbut.obj.TypedArray;
 
 public class Tools {
 
+    public static String readf(String format, String s) {
+        // extracts a part of a string denoted by {}
+        String r = s.replaceAll(".*" + format.replace("\\", "\\\\").replaceAll("([\\w\\W])", "[$1]").replace("[{][}]", "(.*)") + ".*", "$1");
+        if(r.equals(s)) {
+            return null;
+        }
+        return r;
+    }
+
     public static BufferedReader getStdInput() {
-        return new BufferedReader(
-                new InputStreamReader(
-                        System.in
-                )
-        );
+        return new BufferedReader(new InputStreamReader(System.in));
     }
 
     public static String randomOutOfArray(StringArray stringArray) {
         return stringArray.asArray()[(int) Math.floor(Math.random() * stringArray.asArray().length)];
     }
-    
+
     public static <T> T randomOutOfArray(T[] array) {
         return array[(int) Math.floor(Math.random() * array.length)];
     }
-    
+
     public static <T> T randomOutOfArray(TypedArray<T> array) {
         return array.get((int) Math.floor(Math.random() * array.length()));
     }
@@ -55,11 +59,11 @@ public class Tools {
     public static String randomReadableString(int length) {
         String pool = "bcdfghjklmnpqrstvwxyz";
         String readablePool = "aeiou";
-        
-        
+
         StringBuilder r = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            r.append(pool.charAt(ExtendedMath.random(0, pool.length() - 1))).append(readablePool.charAt(ExtendedMath.random(0, readablePool.length() - 1)));
+            r.append(pool.charAt(ExtendedMath.random(0, pool.length() - 1)))
+                    .append(readablePool.charAt(ExtendedMath.random(0, readablePool.length() - 1)));
         }
         return r.substring(0, length);
     }
@@ -89,10 +93,10 @@ public class Tools {
 
         return r;
     }
-    
+
     public static Map<String, String> stringToMap(String mapStringParsable) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        
+
         String[] splitTiles = mapStringParsable.split(";");
         for (int i = 0; i < splitTiles.length; i++) {
             String tile = splitTiles[i];
@@ -100,30 +104,46 @@ public class Tools {
             if (tile.contains(":")) {
                 if (splitTile.length == 2)
                     map.put(
-                            splitTile[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"),
-                            splitTile[1].equals("%N") ? null : splitTile[1].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%")
-                    );
+                            splitTile[0]
+                                    .replaceAll("%I", ":")
+                                    .replaceAll("%B", ";")
+                                    .replaceAll("%P", "%"),
+                            splitTile[1].equals("%N")
+                                    ? null
+                                    : splitTile[1]
+                                            .replaceAll("%I", ":")
+                                            .replaceAll("%B", ";")
+                                            .replaceAll("%P", "%"));
                 else
-                    map.put(splitTile[0].replaceAll("%I", ":").replaceAll("%B", ";").replaceAll("%P", "%"), "");
+                    map.put(
+                            splitTile[0]
+                                    .replaceAll("%I", ":")
+                                    .replaceAll("%B", ";")
+                                    .replaceAll("%P", "%"),
+                            "");
             }
         }
-        
+
         return map;
     }
-    
+
     public static String mapToString(Map<String, String> map) {
         StringBuilder r = new StringBuilder();
-        
+
         for (String key : map.keySet().toArray(new String[0])) {
-            
-            r
-                    .append(key.replaceAll("%", "%P").replaceAll(";", "%B").replaceAll(":", "%I"))
+
+            r.append(key.replaceAll("%", "%P").replaceAll(";", "%B").replaceAll(":", "%I"))
                     .append(":")
-                    .append(map.get(key) == null ? "%N" : map.get(key).replaceAll("%", "%P").replaceAll(";", "%B").replaceAll(":", "%I"))
-                    .append(";")
-            ;
+                    .append(
+                            map.get(key) == null
+                                    ? "%N"
+                                    : map.get(key)
+                                            .replaceAll("%", "%P")
+                                            .replaceAll(";", "%B")
+                                            .replaceAll(":", "%I"))
+                    .append(";");
         }
-        
+
         return r.toString();
     }
 
@@ -166,14 +186,14 @@ public class Tools {
 
         return ints;
     }
-    
+
     public static int[] byteArrayToUnsignedIntArray(byte[] bytes) {
         int[] ints = new int[bytes.length];
-        
+
         for (int i = 0; i < ints.length; i++) {
             ints[i] = Byte.toUnsignedInt(bytes[i]);
         }
-        
+
         return ints;
     }
 
@@ -184,7 +204,10 @@ public class Tools {
             char c = charArray[i];
             r += ("[" + c + "]").replaceAll("\\^", "\\^");
         }
-        return "^" + r.replaceAll("\\[\\\\]", "[\\\\}").replaceAll("\\[\\*]", "(.|\n)*").replaceAll("\\[\\?]", "[.\n]") + "$";
+        return "^"
+                + r.replaceAll("\\[\\\\]", "[\\\\}")
+                        .replaceAll("\\[\\*]", "(.|\n)*")
+                        .replaceAll("\\[\\?]", "[.\n]") + "$";
     }
 
     public static class TFS {
@@ -199,8 +222,7 @@ public class Tools {
             Map<String, String> tfsMap = stringToMap(tfs);
 
             for (String val : tfsMap.get("head").split("\\x{0000}")) {
-                if (val.startsWith(key))
-                    return val.substring(1);
+                if (val.startsWith(key)) return val.substring(1);
             }
             return null;
         }
@@ -220,7 +242,8 @@ public class Tools {
             return stringToMap(file).get("content");
         }
 
-        public static String createFile(String tfs, String path, String content) throws TFSException.TFSFileAlreadyExistsException {
+        public static String createFile(String tfs, String path, String content)
+                throws TFSException.TFSFileAlreadyExistsException {
             if (getFile(tfs, path) == null) {
                 Map<String, String> tfsMap = stringToMap(tfs);
                 Map<String, String> fileMap = new HashMap<>();
@@ -232,12 +255,11 @@ public class Tools {
 
                 tfsMap.put(getPath(tfs, path), mapToString(fileMap));
                 return mapToString(tfsMap);
-            }
-            else
-                throw new TFSException.TFSFileAlreadyExistsException();
+            } else throw new TFSException.TFSFileAlreadyExistsException();
         }
 
-        public static String modFile(String tfs, String path, String newContent) throws TFSException.TFSFileNotFoundException {
+        public static String modFile(String tfs, String path, String newContent)
+                throws TFSException.TFSFileNotFoundException {
             if (getFile(tfs, path) != null) {
                 Map<String, String> tfsMap = stringToMap(tfs);
                 Map<String, String> fileMap = stringToMap(tfsMap.get(getPath(tfs, path)));
@@ -248,9 +270,7 @@ public class Tools {
 
                 tfsMap.put(getPath(tfs, path), mapToString(fileMap));
                 return mapToString(tfsMap);
-            }
-            else
-                throw new TFSException.TFSFileNotFoundException();
+            } else throw new TFSException.TFSFileNotFoundException();
         }
 
         public static String cd(String tfs, String path) throws TFSException.TFSPathNotFromRootException {
@@ -259,29 +279,22 @@ public class Tools {
 
                 StringBuilder newHead = new StringBuilder();
                 for (String val : tfsMap.get("head").split("\\x{0000}")) {
-                    if (val.startsWith("\u0003"))
-                        val = "\u0003" + path;
+                    if (val.startsWith("\u0003")) val = "\u0003" + path;
                     newHead.append(val).append("\u0000");
                 }
                 tfsMap.put("head", newHead.toString());
 
                 return mapToString(tfsMap);
-            }
-            else
-                throw new TFSException.TFSPathNotFromRootException();
+            } else throw new TFSException.TFSPathNotFromRootException();
         }
 
         public static class TFSException extends Exception {
 
-            public static class TFSFileAlreadyExistsException extends TFSException {
-            }
+            public static class TFSFileAlreadyExistsException extends TFSException {}
 
-            public static class TFSFileNotFoundException extends TFSException {
-            }
+            public static class TFSFileNotFoundException extends TFSException {}
 
-            public static class TFSPathNotFromRootException extends TFSException {
-
-            }
+            public static class TFSPathNotFromRootException extends TFSException {}
         }
     }
 
@@ -292,11 +305,21 @@ public class Tools {
             Class<?> c = o.getClass();
             for (Field field : c.getFields()) {
                 if (field.getType() == String.class) {
-                    map.put(field.getName(), "str\u0000" + ((String) field.get(new Object())).replaceAll("\\x{0000}", "\u00010").replaceAll("\\x{0001}", "\u00011"));
+                    map.put(
+                            field.getName(),
+                            "str\u0000"
+                                    + ((String) field.get(new Object()))
+                                            .replaceAll("\\x{0000}", "\u00010")
+                                            .replaceAll("\\x{0001}", "\u00011"));
                 }
 
                 if (field.getType().isInstance(new HashMap<String, String>())) {
-                    map.put(field.getName(), "map\u0000" + mapToString((Map<String, String>) field.get(new Object())).replaceAll("\\x{0000}", "\u00010").replaceAll("\\x{0001}", "\u00011"));
+                    map.put(
+                            field.getName(),
+                            "map\u0000"
+                                    + mapToString((Map<String, String>) field.get(new Object()))
+                                            .replaceAll("\\x{0000}", "\u00010")
+                                            .replaceAll("\\x{0001}", "\u00011"));
                 }
 
                 if (field.getType() == int.class) {
@@ -327,7 +350,10 @@ public class Tools {
             Class<?> c = o.getClass();
             for (String key : map.keySet()) {
                 String type = map.get(key).split("\\x{0000}")[0];
-                String val = map.get(key).split("\\x{0000}")[1].replaceAll("\\x{0001}0", "\u0000").replaceAll("\\x{0001}1", "\u0001");
+                String val = map.get(key)
+                        .split("\\x{0000}")[1]
+                        .replaceAll("\\x{0001}0", "\u0000")
+                        .replaceAll("\\x{0001}1", "\u0001");
 
                 try {
                     Field field = c.getField(key);
@@ -359,23 +385,31 @@ public class Tools {
                     if (type.equals("boo")) {
                         field.set(new Object(), Boolean.parseBoolean(val));
                     }
-                }
-                catch (NoSuchFieldException ignore) {
+                } catch (NoSuchFieldException ignore) {
                 }
             }
         }
-
 
         public static Map<String, String> staticObjectToMap(Class<?> c) throws IllegalAccessException {
             Map<String, String> map = new HashMap<>();
 
             for (Field field : c.getFields()) {
                 if (field.getType() == String.class && field.get(new Object()) != null) {
-                    map.put(field.getName(), "str\u0000" + ((String) field.get(new Object())).replaceAll("\\x{0000}", "\u00010").replaceAll("\\x{0001}", "\u00011"));
+                    map.put(
+                            field.getName(),
+                            "str\u0000"
+                                    + ((String) field.get(new Object()))
+                                            .replaceAll("\\x{0000}", "\u00010")
+                                            .replaceAll("\\x{0001}", "\u00011"));
                 }
 
                 if (field.getType().isInstance(new HashMap<String, String>()) && field.get(new Object()) != null) {
-                    map.put(field.getName(), "map\u0000" + mapToString((Map<String, String>) field.get(new Object())).replaceAll("\\x{0000}", "\u00010").replaceAll("\\x{0001}", "\u00011"));
+                    map.put(
+                            field.getName(),
+                            "map\u0000"
+                                    + mapToString((Map<String, String>) field.get(new Object()))
+                                            .replaceAll("\\x{0000}", "\u00010")
+                                            .replaceAll("\\x{0001}", "\u00011"));
                 }
 
                 if (field.getType() == int.class) {
@@ -405,7 +439,10 @@ public class Tools {
         public static void mapToStaticObject(Class<?> c, Map<String, String> map) throws IllegalAccessException {
             for (String key : map.keySet()) {
                 String type = map.get(key).split("\\x{0000}")[0];
-                String val = map.get(key).split("\\x{0000}")[1].replaceAll("\\x{0001}0", "\u0000").replaceAll("\\x{0001}1", "\u0001");
+                String val = map.get(key)
+                        .split("\\x{0000}")[1]
+                        .replaceAll("\\x{0001}0", "\u0000")
+                        .replaceAll("\\x{0001}1", "\u0001");
 
                 try {
                     Field field = c.getField(key);
@@ -437,8 +474,7 @@ public class Tools {
                     if (type.equals("boo")) {
                         field.set(new Object(), Boolean.parseBoolean(val));
                     }
-                }
-                catch (NoSuchFieldException ignore) {
+                } catch (NoSuchFieldException ignore) {
                 }
             }
         }

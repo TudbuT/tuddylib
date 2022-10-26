@@ -1,4 +1,5 @@
 import tudbut.tools.*;
+import de.tudbut.tools.*;
 import tudbut.parsing.*;
 import de.tudbut.io.*;
 import java.io.FileInputStream;
@@ -21,5 +22,8 @@ public class CSTCN2 {
     public static void main(String[] args) throws Exception {
         CSTCN2 obj = (CSTCN2)ConfigSaverTCN2.read(JSON.read(new StreamReader(new FileInputStream("test.json")).readAllAsString()), null);
         System.out.println(JSON.writeReadable((TCN)ConfigSaverTCN2.write(obj, true, true)));
+
+        String s = "Hi there, I'm BRUH.";
+        System.out.println(Tools.readf("Hi there, I'm {}.", s));
     }
 }

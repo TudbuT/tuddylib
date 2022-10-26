@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import sun.misc.Unsafe;
 import tudbut.obj.Save;
+import tudbut.obj.Transient;
 import tudbut.parsing.TCN;
 import tudbut.parsing.TCNArray;
 
@@ -80,6 +81,8 @@ public class ConfigSaverTCN2 {
                     continue;
                 if(!writeStatic && isStatic)
                     continue;
+                if(field.getDeclaredAnnotation(Transient.class) != null)
+                    continue;
 
                 forceAccessible(field); // lovely java 18 bypass
                 Object o;
@@ -136,6 +139,7 @@ public class ConfigSaverTCN2 {
         }
 
         TCN tcn = (TCN) object;
+        if(tcn.getString("$") == null && toReadTo != null) tcn.set("$", toReadTo.getClass().getName());
         if(tcn.getString("$").equals("null")) 
             return null;
         if(tcn.getString("$").equals("[]")) {
@@ -172,6 +176,8 @@ public class ConfigSaverTCN2 {
             
             for(Field field : fields) {
                 boolean isStatic = (field.getModifiers() & Modifier.STATIC) != 0;
+                if(field.getDeclaredAnnotation(Transient.class) != null)
+                    continue;
                 forceAccessible(field); // lovely java 18 bypass
                 eraseFinality(field); // other lovely java 18 bypass
                 Object o = tcn.get(field.getName());
