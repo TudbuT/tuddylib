@@ -138,6 +138,8 @@ public class ConfigSaverTCN2 {
             return object; // just write the object without any wrapping
         }
 
+        boolean forceAllow = ((Integer)(-1)).equals(toReadTo);
+
         TCN tcn = (TCN) object;
         if(tcn.getString("$") == null && toReadTo != null) tcn.set("$", toReadTo.getClass().getName());
         if(tcn.getString("$").equals("null")) 
@@ -182,7 +184,7 @@ public class ConfigSaverTCN2 {
                 eraseFinality(field); // other lovely java 18 bypass
                 Object o = tcn.get(field.getName());
                 if(o == null) {
-                    if(toReadTo != null || isStatic)
+                    if(toReadTo != null || isStatic || forceAllow)
                         continue;
                     else
                         throw new IllegalArgumentException("TCN is not complete. Try adding a toReadTo parameter.");
