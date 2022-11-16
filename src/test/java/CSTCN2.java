@@ -41,5 +41,7 @@ public class CSTCN2 {
         System.out.println(Arrays.toString(Tools.readf("I would like info on the player {}...", s))); // no
         System.out.println(Arrays.toString(Tools.readf("I would like info on the {} {}...", s)));     // yes
         System.out.println(Arrays.toString(Tools.readf("I would like {} on the {} {}...", s)));       // yes
+        s = "Cancel all tasks!";
+        System.out.println(Tools.readf1("Cancel all tasks!"));
     }
 }

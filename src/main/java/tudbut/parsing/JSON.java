@@ -133,7 +133,7 @@ public class JSON {
                 }
         
                 // Booleans, ints, etc
-                else if (kv && !startString && !inStringKV && c != ',' && (Character.isLetterOrDigit(c) || c == '.')) {
+                else if (kv && !startString && !inStringKV && c != ',' && (Character.isLetterOrDigit(c) || c == '.' || c == '-')) {
                     theString.append(c);
                 }
         

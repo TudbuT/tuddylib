@@ -138,7 +138,7 @@ public class AsyncJSON {
                         }
                 
                         // Booleans, ints, etc
-                        else if (kv[0] && !startString[0] && !inStringKV[0] && c[0] != ',' && (Character.isLetterOrDigit(c[0]) || c[0] == '.')) {
+                        else if (kv[0] && !startString[0] && !inStringKV[0] && c[0] != ',' && (Character.isLetterOrDigit(c[0]) || c[0] == '.' || c[0] == '-')) {
                             theString[0].append(c[0]);
                         }
                 

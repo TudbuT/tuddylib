@@ -13,7 +13,9 @@ public class Tools {
     public static String[] readf(String format, String s) {
         // extracts parts of a string denoted by {}
         try {
-            if(s.contains("{}{}")) throw new IllegalArgumentException("Ambiguous argument: '{}{}' found in format string");
+            if(!format.contains("{}"))
+                return format.equals(s) ? new String[]{} : null;
+            if(format.contains("{}{}")) throw new IllegalArgumentException("Ambiguous argument: '{}{}' found in format string");
             String f = format;
             int occurences = 0;
             for(; f.indexOf("{}") != -1; occurences++) {
@@ -55,6 +57,7 @@ public class Tools {
         // extracts parts of a string denoted by {}
         String[] r = readf(format, s);
         if(r == null) return null;
+        if(r.length == 0) return "";
         return r[0];
     }
 

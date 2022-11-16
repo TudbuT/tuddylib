@@ -44,6 +44,8 @@ public class ConfigSaverTCN2 {
             return tcn;
         }
         Class<?> objectClass = object.getClass();
+        if(objectClass == Class.class)
+            objectClass = (Class<?>) object;
         if(tcnPrimitives.contains(objectClass)) {
             return object; // just write the object without any wrapping lol
         }
@@ -139,6 +141,7 @@ public class ConfigSaverTCN2 {
         }
 
         boolean forceAllow = ((Integer)(-1)).equals(toReadTo);
+        if(forceAllow) toReadTo = null;
 
         TCN tcn = (TCN) object;
         if(tcn.getString("$") == null && toReadTo != null) tcn.set("$", toReadTo.getClass().getName());
