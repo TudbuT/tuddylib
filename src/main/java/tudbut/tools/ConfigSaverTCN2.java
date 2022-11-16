@@ -44,8 +44,10 @@ public class ConfigSaverTCN2 {
             return tcn;
         }
         Class<?> objectClass = object.getClass();
-        if(objectClass == Class.class)
+        if(objectClass == Class.class && writeStatic) {
             objectClass = (Class<?>) object;
+            object = null;
+        }
         if(tcnPrimitives.contains(objectClass)) {
             return object; // just write the object without any wrapping lol
         }
