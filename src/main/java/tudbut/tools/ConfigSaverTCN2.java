@@ -68,6 +68,7 @@ public class ConfigSaverTCN2 {
             tcn.set("$", objectClass.getName());
             if(objectClass.isEnum()) {
                 tcn.set("*", Arrays.asList(objectClass.getEnumConstants()).indexOf(object)); // Return the equivalent of .ordinal()
+                return tcn;
             }
             ArrayList<Field> fields = new ArrayList<>();
 
@@ -165,6 +166,7 @@ public class ConfigSaverTCN2 {
             Object instance = toReadTo;
             if(objectClass.isEnum()) {
                 instance = objectClass.getEnumConstants()[tcn.getInteger("*")];
+                return instance;
             }
             if(instance == null) {
                 try {
