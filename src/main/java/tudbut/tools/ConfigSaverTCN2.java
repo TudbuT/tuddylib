@@ -249,16 +249,9 @@ public class ConfigSaverTCN2 {
             System.exit(1);
         }
     }
-    private static class FakeField extends FakeAccessibleObject {
-        private Class<?> clazz;
-        private int slot;
-        private String name;
-        private Class<?> type;
-        private int modifiers;
-    }
     private static void eraseFinality(Field thing) {
         try {
-            long offset = theSafe.objectFieldOffset(FakeField.class.getDeclaredField("modifiers"));
+            long offset = theSafe.objectFieldOffset(Field.class.getDeclaredField("modifiers"));
             theSafe.putInt(thing, offset, theSafe.getInt(thing, offset) & ~Modifier.FINAL); // EZ
         } catch(Exception e) { // we are doomed
             e.printStackTrace();
