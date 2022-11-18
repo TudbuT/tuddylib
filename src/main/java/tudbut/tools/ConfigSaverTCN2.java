@@ -38,6 +38,10 @@ public class ConfigSaverTCN2 {
     ));
 
     public static Object write(Object object, boolean writeAll, boolean writeStatic) {
+        return write(object, writeAll, writeStatic, true);
+    }
+
+    public static Object write(Object object, boolean writeAll, boolean writeStatic, boolean allowPrimitives) {
         if(object == null) {
             TCN tcn = new TCN();
             tcn.set("$", "null");
@@ -48,7 +52,7 @@ public class ConfigSaverTCN2 {
             objectClass = (Class<?>) object;
             object = null;
         }
-        if(tcnPrimitives.contains(objectClass)) {
+        if(tcnPrimitives.contains(objectClass) && allowPrimitives) {
             return object; // just write the object without any wrapping lol
         }
 
@@ -60,7 +64,7 @@ public class ConfigSaverTCN2 {
             tcn.set("length", len);
             TCNArray tcnArray = new TCNArray();
             for(int i = 0; i < len; i++) {
-                tcnArray.add(write(Array.get(object, i), true, false));
+                tcnArray.add(write(Array.get(object, i), true, false, objectClass.getComponentType() != Object.class));
             }
             tcn.set("items", tcnArray);
         }
@@ -100,7 +104,7 @@ public class ConfigSaverTCN2 {
                     System.err.println("forceAccessible silently failed. Exiting.");
                     throw new Error("ConfigSaverTCN2: forceAccessible failed");
                 }
-                tcn.set(field.getName(), write(o, true, false));
+                tcn.set(field.getName(), write(o, true, false, field.getType() != Object.class));
             }
         }
 
@@ -121,7 +125,7 @@ public class ConfigSaverTCN2 {
                     return (short) Integer.parseInt((String) object);
                 case "char":
                 case "Character":
-                    return (char) Integer.parseInt((String) object);
+                    return ((String) object).charAt(0);
                 case "int":
                 case "Integer":
                     return Integer.parseInt((String) object);
@@ -153,7 +157,36 @@ public class ConfigSaverTCN2 {
         if(tcn.getString("$").equals("null")) 
             return null;
         if(tcn.getString("$").equals("[]")) {
-            objectClass = Class.forName(tcn.getString("*"));
+            try {
+                objectClass = Class.forName(tcn.getString("*"));
+            } catch (ClassNotFoundException e) {
+                switch(tcn.getString("*")) {
+                    case "boolean":
+                        objectClass = boolean.class;
+                        break; 
+                    case "byte":
+                        objectClass = byte.class;
+                        break; 
+                    case "short":
+                        objectClass = short.class;
+                        break; 
+                    case "char":
+                        objectClass = char.class;
+                        break; 
+                    case "int":
+                        objectClass = int.class;
+                        break; 
+                    case "float":
+                        objectClass = float.class;
+                        break; 
+                    case "long":
+                        objectClass = long.class;
+                        break; 
+                    case "double":
+                        objectClass = double.class;
+                        break; 
+                }
+            }
             TCNArray tcnArray = tcn.getArray("items");
             Object jArray = Array.newInstance(objectClass, tcn.getInteger("length"));
             for(int i = 0; i < tcnArray.size(); i++) {
