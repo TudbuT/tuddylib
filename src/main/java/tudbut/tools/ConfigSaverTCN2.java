@@ -60,7 +60,7 @@ public class ConfigSaverTCN2 {
             tcn.set("length", len);
             TCNArray tcnArray = new TCNArray();
             for(int i = 0; i < len; i++) {
-                tcnArray.add(write(Array.get(object, i), true, writeStatic));
+                tcnArray.add(write(Array.get(object, i), true, false));
             }
             tcn.set("items", tcnArray);
         }
@@ -85,6 +85,8 @@ public class ConfigSaverTCN2 {
                     continue;
                 if(!writeStatic && isStatic)
                     continue;
+                if(isStatic && (field.getModifiers() & Modifier.FINAL) != 0)
+                    continue;
                 if(field.getDeclaredAnnotation(Transient.class) != null)
                     continue;
 
@@ -97,7 +99,7 @@ public class ConfigSaverTCN2 {
                     System.err.println("forceAccessible silently failed. Exiting.");
                     throw new Error("ConfigSaverTCN2: forceAccessible failed");
                 }
-                tcn.set(field.getName(), write(o, true, writeStatic));
+                tcn.set(field.getName(), write(o, true, false));
             }
         }
 
