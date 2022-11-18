@@ -187,6 +187,8 @@ public class ConfigSaverTCN2 {
                 boolean isStatic = (field.getModifiers() & Modifier.STATIC) != 0;
                 if(field.getDeclaredAnnotation(Transient.class) != null)
                     continue;
+                if(isStatic && (field.getModifiers() & Modifier.FINAL) != 0)
+                    continue;
                 forceAccessible(field); // lovely java 18 bypass
                 eraseFinality(field); // other lovely java 18 bypass
                 Object o = tcn.get(field.getName());
