@@ -1,4 +1,4 @@
-package de.tudbut.registry;
+package de.tudbut.tools;
 
 import de.tudbut.io.StreamReader;
 import de.tudbut.tools.Tools;
