@@ -61,4 +61,10 @@ public class Registry {
         givenOut.remove(keyName);
     }
 
+    public TCN leak() throws IllegalStateException {
+        if(!givenOut.isEmpty()) {
+            throw new IllegalStateException("Registry must not have any items currently given out.");
+        }
+        return dataStore;
+    }
 }
