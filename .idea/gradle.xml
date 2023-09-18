@@ -4,11 +4,10 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="/home/tudbut/IdeaProjects/tuddylib" />
+            <option value="$PROJECT_DIR$" />
           </set>
         </option>
       </GradleProjectSettings>
