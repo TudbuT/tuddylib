@@ -22,13 +22,14 @@ public class Registry {
             FileInputStream reader = new FileInputStream(fileName);
             String s = new StreamReader(reader).readAllAsString();
             dataStore = TCN.readMap(Tools.stringToMap(s));
+            reader.close();
         } catch (FileNotFoundException e) {
             dataStore = new TCN();
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                FileOutputStream writer = new FileOutputStream("registry.tcnm");
+                FileOutputStream writer = new FileOutputStream(fileName);
                 writer.write(Tools.mapToString(dataStore.toMap()).getBytes(StandardCharsets.UTF_8));
                 writer.close();
             } catch (IOException e) {
