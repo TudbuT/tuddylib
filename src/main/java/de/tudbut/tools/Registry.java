@@ -16,6 +16,7 @@ public class Registry {
 
     private TCN dataStore;
     private final Set<String> givenOut = new HashSet<>();
+    private String fileName;
 
     public Registry(String fileName) throws IOException {
         try {
@@ -26,17 +27,9 @@ public class Registry {
         } catch (FileNotFoundException e) {
             dataStore = new TCN();
         }
+        this.fileName = fileName;
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                FileOutputStream writer = new FileOutputStream(fileName);
-                writer.write(Tools.mapToString(dataStore.toMap()).getBytes(StandardCharsets.UTF_8));
-                writer.close();
-            } catch (IOException e) {
-                System.out.println(Tools.mapToString(dataStore.toMap()));
-                throw new RuntimeException("Unable to save registry! Dumped it to stdout instead.", e);
-            }
-        }, "Registry shutdown hook"));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::save, "Registry shutdown hook"));
     }
 
     public Registry(TCN dataStore) {
@@ -67,5 +60,16 @@ public class Registry {
             throw new IllegalStateException("Registry must not have any items currently given out.");
         }
         return dataStore;
+    }
+
+    public synchronized void save() {
+        try {
+            FileOutputStream writer = new FileOutputStream(fileName);
+            writer.write(Tools.mapToString(dataStore.toMap()).getBytes(StandardCharsets.UTF_8));
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(Tools.mapToString(dataStore.toMap()));
+            throw new RuntimeException("Unable to save registry! Dumped it to stdout instead.", e);
+        }
     }
 }
