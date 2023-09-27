@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.sql.Time;
 import java.util.*;
-import tudbut.obj.TypedArray;
+import de.tudbut.obj.TypedArray;
 
 public class Tools {
 

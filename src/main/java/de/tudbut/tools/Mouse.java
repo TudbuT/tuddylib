@@ -1,6 +1,6 @@
 package de.tudbut.tools;
 
-import tudbut.obj.Vector2i;
+import de.tudbut.obj.Vector2i;
 
 import javax.swing.*;
 import java.awt.*;

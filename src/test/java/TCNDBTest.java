@@ -1,7 +1,5 @@
-import de.tudbut.tools.Tools;
-import tudbut.parsing.AddressedTCN;
-import tudbut.parsing.JSON;
-import tudbut.parsing.TCN;
+import de.tudbut.parsing.JSON;
+import de.tudbut.parsing.TCN;
 
 public class TCNDBTest {
     

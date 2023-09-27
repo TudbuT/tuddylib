@@ -3,7 +3,7 @@ package de.tudbut.net.nethandler;
 import de.tudbut.net.ws.Connection;
 import de.tudbut.tools.Tools;
 import de.tudbut.type.Vector3d;
-import tudbut.global.DebugStateManager;
+import de.tudbut.global.DebugStateManager;
 
 import java.io.IOException;
 import java.util.HashMap;

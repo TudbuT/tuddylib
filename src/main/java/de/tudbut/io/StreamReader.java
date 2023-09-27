@@ -1,10 +1,9 @@
 package de.tudbut.io;
 
 import de.tudbut.type.IntArrayList;
-import tudbut.obj.CarrierException;
+import de.tudbut.obj.CarrierException;
 
 import java.io.*;
-import java.net.SocketException;
 
 
 /**

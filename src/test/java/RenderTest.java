@@ -1,16 +1,12 @@
 import de.tudbut.type.Vector3d;
-import tudbut.rendering.Projection3D;
-import tudbut.rendering.RenderOutputType;
+import de.tudbut.rendering.Projection3D;
+import de.tudbut.rendering.RenderOutputType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static tudbut.rendering.tph.TPH300.*;
-import static tudbut.rendering.tph.TPH301.*;
-import static tudbut.rendering.tph.TPH302.*;
 
 public class RenderTest {
 

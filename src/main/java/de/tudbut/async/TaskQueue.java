@@ -2,8 +2,8 @@ package de.tudbut.async;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import tudbut.global.DebugStateManager;
-import tudbut.tools.Queue;
+import de.tudbut.global.DebugStateManager;
+import de.tudbut.tools.Queue;
 
 /**
  * @author TudbuT

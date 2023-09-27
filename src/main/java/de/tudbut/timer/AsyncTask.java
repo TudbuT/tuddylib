@@ -1,6 +1,6 @@
 package de.tudbut.timer;
 
-import tudbut.tools.Lock;
+import de.tudbut.tools.Lock;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;

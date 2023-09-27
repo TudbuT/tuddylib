@@ -1,6 +1,6 @@
 package de.tudbut.pluginapi;
 
-import tudbut.tools.BetterClassLoader;
+import de.tudbut.tools.BetterClassLoader;
 import de.tudbut.type.FileFormatException;
 
 import java.io.BufferedReader;

@@ -2,7 +2,7 @@ import de.tudbut.async.Reject;
 import de.tudbut.async.Resolve;
 import de.tudbut.async.Task;
 import de.tudbut.async.TaskQueue;
-import tudbut.parsing.AsyncJSON;
+import de.tudbut.parsing.AsyncJSON;
 
 import static de.tudbut.async.Async.*;
 

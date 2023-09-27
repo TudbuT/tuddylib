@@ -1,6 +1,6 @@
 package de.tudbut.tools;
 
-import tudbut.logger.Logger;
+import de.tudbut.logger.Logger;
 import de.tudbut.window.Window;
 
 import javax.swing.*;

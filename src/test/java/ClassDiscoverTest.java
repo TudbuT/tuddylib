@@ -1,6 +1,6 @@
 import de.tudbut.tools.DiscoverClasses;
 import de.tudbut.tools.Registry;
-import tudbut.parsing.TCN;
+import de.tudbut.parsing.TCN;
 
 import java.io.IOException;
 

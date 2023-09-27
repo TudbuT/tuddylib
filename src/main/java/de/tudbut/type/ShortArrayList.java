@@ -1,6 +1,6 @@
 package de.tudbut.type;
 
-import tudbut.tools.ArrayTools;
+import de.tudbut.tools.ArrayTools;
 
 import java.util.ArrayList;
 

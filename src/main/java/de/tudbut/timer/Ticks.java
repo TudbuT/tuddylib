@@ -1,7 +1,7 @@
 package de.tudbut.timer;
 
-import tudbut.logger.Logger;
-import tudbut.global.GlobalSyncQueue;
+import de.tudbut.logger.Logger;
+import de.tudbut.global.GlobalSyncQueue;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;

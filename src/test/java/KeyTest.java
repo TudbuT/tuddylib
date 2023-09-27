@@ -1,4 +1,4 @@
-import tudbut.tools.encryption.SaferRawKey;
+import de.tudbut.tools.encryption.SaferRawKey;
 
 public class KeyTest {
     

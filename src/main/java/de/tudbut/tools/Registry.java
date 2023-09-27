@@ -1,8 +1,7 @@
 package de.tudbut.tools;
 
 import de.tudbut.io.StreamReader;
-import de.tudbut.tools.Tools;
-import tudbut.parsing.TCN;
+import de.tudbut.parsing.TCN;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

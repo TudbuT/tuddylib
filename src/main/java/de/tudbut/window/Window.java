@@ -1,7 +1,7 @@
 package de.tudbut.window;
 
-import tudbut.logger.LoggerSink;
-import tudbut.global.DebugStateManager;
+import de.tudbut.logger.LoggerSink;
+import de.tudbut.global.DebugStateManager;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;

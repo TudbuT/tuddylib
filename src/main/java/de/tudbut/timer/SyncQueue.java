@@ -1,7 +1,7 @@
 package de.tudbut.timer;
 
 import de.tudbut.tools.ThrowingRunnable;
-import tudbut.tools.Queue;
+import de.tudbut.tools.Queue;
 
 import java.util.ArrayList;
 import java.util.Date;

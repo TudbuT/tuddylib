@@ -1,12 +1,12 @@
-import tudbut.net.http.HTTPRequest;
-import tudbut.net.http.HTTPRequestType;
-import tudbut.net.http.HTTPServer;
-import tudbut.net.pbic2.PBIC2AEventHandler;
-import tudbut.net.pbic2.PBIC2AListener;
-import tudbut.net.pbic2.PBIC2Client;
-import tudbut.net.pbic2.PBIC2Server;
-import tudbut.tools.encryption.KeyStream;
-import tudbut.tools.encryption.RawKey;
+import de.tudbut.net.http.HTTPRequest;
+import de.tudbut.net.http.HTTPRequestType;
+import de.tudbut.net.http.HTTPServer;
+import de.tudbut.net.pbic2.PBIC2AEventHandler;
+import de.tudbut.net.pbic2.PBIC2AListener;
+import de.tudbut.net.pbic2.PBIC2Client;
+import de.tudbut.net.pbic2.PBIC2Server;
+import de.tudbut.tools.encryption.KeyStream;
+import de.tudbut.tools.encryption.RawKey;
 
 import java.io.IOException;
 

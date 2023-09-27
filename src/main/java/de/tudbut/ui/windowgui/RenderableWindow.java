@@ -3,7 +3,7 @@ package de.tudbut.ui.windowgui;
 import de.tudbut.tools.Keyboard;
 import de.tudbut.tools.Mouse;
 import de.tudbut.type.*;
-import tudbut.obj.Vector2i;
+import de.tudbut.obj.Vector2i;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
 package de.tudbut.ui.windowgui;
 
-import tudbut.obj.Vector2i;
+import de.tudbut.obj.Vector2i;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;

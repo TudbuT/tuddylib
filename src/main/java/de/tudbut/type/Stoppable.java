@@ -1,7 +1,7 @@
 package de.tudbut.type;
 
-import tudbut.obj.InstanceBoundMap;
-import tudbut.obj.NotSupportedException;
+import de.tudbut.obj.InstanceBoundMap;
+import de.tudbut.obj.NotSupportedException;
 
 public interface Stoppable {
     InstanceBoundMap<String, Boolean> vars = new InstanceBoundMap<>();

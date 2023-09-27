@@ -1,7 +1,10 @@
 import java.util.Arrays;
-import tudbut.tools.*;
+
+import de.tudbut.parsing.JSON;
+import de.tudbut.parsing.TCN;
 import de.tudbut.tools.*;
-import tudbut.parsing.*;
+import de.tudbut.tools.*;
+import de.tudbut.parsing.*;
 import de.tudbut.io.*;
 import java.io.FileInputStream;
 

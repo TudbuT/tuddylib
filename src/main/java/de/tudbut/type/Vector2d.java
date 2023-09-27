@@ -1,7 +1,7 @@
 package de.tudbut.type;
 
 import de.tudbut.tools.Tools;
-import tudbut.obj.Mappable;
+import de.tudbut.obj.Mappable;
 
 import java.util.Map;
 
