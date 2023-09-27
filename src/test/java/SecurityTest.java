@@ -26,7 +26,7 @@ public class SecurityTest {
         }
         System.out.println();
         try {
-            secret.access(x -> System.out.println("Normal access (OK): " + x.getValue()));
+            secret.access(x -> System.out.println("Evil access (NOT OK): " + x.getValue()));
         } catch (Throwable e) {
             e.printStackTrace(System.out);
             System.out.println("THIS IS GOOD!");
