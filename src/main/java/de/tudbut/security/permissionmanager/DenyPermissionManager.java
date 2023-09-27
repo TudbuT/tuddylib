@@ -1,15 +1,16 @@
 package de.tudbut.security.permissionmanager;
 
 import de.tudbut.security.PermissionManager;
+import de.tudbut.security.Strictness;
 
-public class DenyPermissionManager<S> implements PermissionManager<S> {
+public class DenyPermissionManager implements PermissionManager {
     @Override
-    public boolean checkCaller(S strictnessLevel) {
+    public boolean checkCaller(Strictness strictnessLevel) {
         return false;
     }
 
     @Override
-    public <T> boolean checkLambda(S strictnessLevel, T lambda) {
+    public <T> boolean checkLambda(Strictness strictnessLevel, T lambda) {
         return false;
     }
 }

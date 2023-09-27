@@ -252,6 +252,14 @@ public class Tools {
                         .replaceAll("\\[\\?]", "[.\n]") + "$";
     }
 
+    public static <T> T firstNonNull(T... objects) {
+        for (int i = 0; i < objects.length; i++) {
+            if(objects[i] != null)
+                return objects[i];
+        }
+        return null;
+    }
+
     public static class TFS {
 
         public static String createTFS(String sep) {

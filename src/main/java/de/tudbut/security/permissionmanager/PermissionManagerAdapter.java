@@ -1,29 +1,36 @@
 package de.tudbut.security.permissionmanager;
 
 import de.tudbut.security.PermissionManager;
+import de.tudbut.security.Strictness;
 
-public abstract class PermissionManagerAdapter<S> implements PermissionManager<S> {
+public abstract class PermissionManagerAdapter implements PermissionManager {
 
-    protected final PermissionManager<S> parent;
+    protected final PermissionManager parent;
 
-    protected PermissionManagerAdapter(PermissionManager<S> parent) {
+    public PermissionManagerAdapter(PermissionManager parent) {
         if(parent == null)
-            parent = new AllowPermissionManager<>();
+            parent = new AllowPermissionManager();
         this.parent = parent;
     }
 
     @Override
-    public boolean checkCaller(S strictnessLevel) {
+    public boolean checkCaller(Strictness strictnessLevel) {
         return parent.checkCaller(strictnessLevel);
     }
 
     @Override
-    public <T> boolean checkLambda(S strictnessLevel, T lambda) {
+    public <T> boolean checkLambda(Strictness strictnessLevel, T lambda) {
         return parent.checkLambda(strictnessLevel, lambda);
     }
 
     @Override
-    public void crash(S strictnessLevel) {
+    public void crash(Strictness strictnessLevel) {
         parent.crash(strictnessLevel);
+    }
+
+    @Override
+    public void killReflection() {
+        parent.killReflection();
+        PermissionManager.super.killReflection();
     }
 }

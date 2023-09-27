@@ -3,6 +3,7 @@ package de.tudbut.security;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class AccessKiller {
         try {
             Object reflectionData = getReflectionData(clazz);
             Field data = getField(reflectionData.getClass().getDeclaredField("declaredFields"));
-            List<Field> fields = Arrays.asList((Field[]) data.get(reflectionData));
+            List<Field> fields = new ArrayList<>(Arrays.asList((Field[]) data.get(reflectionData)));
             if(!toKill.isEmpty()) {
                 for (int i = 0; i < fields.size(); i++) {
                     if (toKill.contains(fields.get(i).getName()))
@@ -62,7 +63,7 @@ public class AccessKiller {
         try {
             Object reflectionData = getReflectionData(clazz);
             Field data = getField(reflectionData.getClass().getDeclaredField("declaredMethods"));
-            List<Method> methods = Arrays.asList((Method[]) data.get(reflectionData));
+            List<Method> methods = new ArrayList<>(Arrays.asList((Method[]) data.get(reflectionData)));
             if(!toKill.isEmpty()) {
                 for (int i = 0; i < methods.size(); i++) {
                     if (toKill.contains(methods.get(i).getName()))

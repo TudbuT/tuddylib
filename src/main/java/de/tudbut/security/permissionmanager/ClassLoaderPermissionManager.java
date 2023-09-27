@@ -1,6 +1,7 @@
 package de.tudbut.security.permissionmanager;
 
 import de.tudbut.security.PermissionManager;
+import de.tudbut.security.Strictness;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,12 +10,11 @@ import java.util.Set;
 
 /**
  * Only allows classes loaded by a certain class loader, and the classloader itself.
- * @param <S>
  */
-public class ClassLoaderPermissionManager<S> extends PermissionManagerAdapter<S> {
+public class ClassLoaderPermissionManager extends PermissionManagerAdapter {
     private final Set<Class<?>> allow;
 
-    public ClassLoaderPermissionManager(PermissionManager<S> parent, Class<?>... allowFromClassLoaders) {
+    public ClassLoaderPermissionManager(PermissionManager parent, Class<?>... allowFromClassLoaders) {
         super(parent);
         this.allow = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(allowFromClassLoaders)));
     }
@@ -24,7 +24,7 @@ public class ClassLoaderPermissionManager<S> extends PermissionManagerAdapter<S>
     }
 
     @Override
-    public boolean checkCaller(S strictnessLevel) {
+    public boolean checkCaller(Strictness strictnessLevel) {
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
 
         boolean isCalledByAllowed = false;
@@ -44,12 +44,14 @@ public class ClassLoaderPermissionManager<S> extends PermissionManagerAdapter<S>
     }
 
     @Override
-    public <T> boolean checkLambda(S strictnessLevel, T lambda) {
+    public <T> boolean checkLambda(Strictness strictnessLevel, T lambda) {
         // might get more complex soon.
         // is classloader, inner class of it, or loaded by it?
         boolean b = allow.contains(lambda.getClass())
-                || allow.contains(lambda.getClass().getEnclosingClass())
                 || allow.contains(lambda.getClass().getClassLoader().getClass());
+        Class<?> enclosingClass = lambda.getClass().getEnclosingClass();
+        if(enclosingClass != null)
+            b = b || allow.contains(enclosingClass);
         // is lambda in allowed class?
         String name = lambda.getClass().getName().replaceAll("\\$\\$Lambda.*$", "");
         for (Class<?> clazz : allow) {

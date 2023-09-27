@@ -10,15 +10,15 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 // Keeps some data as safe as possible, unable to be accessed even by reflection
-public class DataKeeper<T, S> {
+public class DataKeeper<T> {
     public static boolean forgetAll = false;
 
 
-    private final PermissionManager<S> permissionManager;
+    private final PermissionManager permissionManager;
     private Supplier<T> dataInsertion;
-    private final S strictness;
+    private final Strictness strictness;
     private final Lock lock = new Lock(true);
-    private final Queue<DoubleTypedObject<Consumer<Accessor<T, S>>, Lock>> nextFunctionToRun = new LinkedList<>();
+    private final Queue<DoubleTypedObject<Consumer<Accessor<T>>, Lock>> nextFunctionToRun = new LinkedList<>();
     private final Thread keeper = new Thread(this::keep, "DataKeeper"); { keeper.start(); }
 
     static { initSecurity(); }
@@ -28,42 +28,46 @@ public class DataKeeper<T, S> {
         AccessKiller.killReflectionFor(DataKeeper.class, Accessor.class);
     }
 
-    public DataKeeper(PermissionManager<S> permissionManager, S strictness, T toKeep) {
-        AccessKiller.killReflectionFor(permissionManager.getClass());
+    public DataKeeper(PermissionManager permissionManager, Strictness strictness, T toKeep) {
+        // make sure reflection is killed for it
+        permissionManager.killReflection();
+
         this.permissionManager = permissionManager;
         dataInsertion = () -> toKeep;
         this.strictness = strictness;
         lock.unlock();
     }
 
-    public boolean access(Consumer<Accessor<T, S>> accessor) {
+    public Strictness getStrictness() {
+        return strictness;
+    }
+
+    public void access(Consumer<Accessor<T>> accessor) {
         if(!permissionManager.checkCaller(strictness)) {
-            // false => success (true) = lie, true => failure (false) = truth
-            return !permissionManager.showErrors();
+            if(permissionManager.showErrors())
+                throw new IllegalAccessError("The active PermissionManager does not allow you to access this DataKeeper.");
         }
         Lock waitLock = new Lock(true);
         nextFunctionToRun.add(new DoubleTypedObject<>(accessor, waitLock));
         lock.unlock();
         waitLock.waitHere(500);
-        // success
-        return true;
     }
 
     private void keep() {
         lock.waitHere();
         lock.lock();
-        PermissionManager<S> permissionManager = this.permissionManager;
+        PermissionManager permissionManager = this.permissionManager;
         AtomicReference<T> data = new AtomicReference<>(dataInsertion.get());
-        S strictness = this.strictness;
+        Strictness strictness = this.strictness;
         dataInsertion = null;
         while(!forgetAll) {
             lock.waitHere();
             lock.lock(500);
 
-            DoubleTypedObject<Consumer<Accessor<T, S>>, Lock> itm = nextFunctionToRun.poll();
+            DoubleTypedObject<Consumer<Accessor<T>>, Lock> itm = nextFunctionToRun.poll();
             if(itm == null)
                 continue;
-            Consumer<Accessor<T, S>> toRun = itm.o;
+            Consumer<Accessor<T>> toRun = itm.o;
             Lock lock = itm.t;
             // second layer of protection, crashes this time.
             if(!permissionManager.checkLambda(strictness, toRun))
@@ -75,14 +79,14 @@ public class DataKeeper<T, S> {
     }
 
     // A very last, third layer of protection, not actually that necessary.
-    public static class Accessor<T, S> {
+    public static class Accessor<T> {
         // The accessor will only ever be in local variables, so it does
         // not have to be reflection-safe. But it is anyway due to AccessKiller.
-        private final PermissionManager<S> permissionManager;
+        private final PermissionManager permissionManager;
         private final AtomicReference<T> value;
-        private final S strictness;
+        private final Strictness strictness;
 
-        public Accessor(PermissionManager<S> permissionManager, S strictness, AtomicReference<T> data) {
+        public Accessor(PermissionManager permissionManager, Strictness strictness, AtomicReference<T> data) {
             this.permissionManager = permissionManager;
             this.strictness = strictness;
             value = data;
