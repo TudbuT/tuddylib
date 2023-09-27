@@ -7,7 +7,7 @@ public interface Strictness {
     Object getRawProperty(String name);
 
     default <T> T getProperty(String name) {
-        return (T) getProperty(name);
+        return (T) getRawProperty(name);
     }
     default boolean getBoolProperty(String name) {
         Boolean b = getProperty(name);
