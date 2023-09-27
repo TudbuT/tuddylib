@@ -1,4 +1,4 @@
-package de.tudbut.tools;
+package de.tudbut.security;
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
@@ -76,5 +76,21 @@ public class AccessKiller {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void killReflectionFor(Class<?>... classes) {
+        for (Class<?> clazz : classes) {
+            killMethodAccess(clazz);
+            killFieldAccess(clazz);
+        }
+    }
+
+    /**
+     * Stops any code from making further changes to reflectionData.
+     * This also stops any further AccessKiller calls. <br>
+     * Use with EXTREME caution!!
+     */
+    public static void killClassReflection() {
+        killReflectionFor(Class.class);
     }
 }
