@@ -1,6 +1,7 @@
 package de.tudbut.security;
 
 import java.lang.ref.SoftReference;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -55,8 +56,8 @@ public class AccessKiller {
 
     /**
      * WARNING!!! Can only erase private methods!!
-     * @param clazz Class to kill fields of
-     * @param methodsToKill Field names to kill, or empty to kill all.
+     * @param clazz Class to kill methods of
+     * @param methodsToKill Method names to kill, or empty to kill all.
      */
     public static void killMethodAccess(Class<?> clazz, String... methodsToKill) {
         List<String> toKill = Arrays.asList(methodsToKill);
@@ -79,8 +80,23 @@ public class AccessKiller {
         }
     }
 
+    /**
+     * WARNING!!! Can only erase private constructors!!
+     * @param clazz Class to kill constructors of
+     */
+    public static void killConstructorAccess(Class<?> clazz) {
+        try {
+            Object reflectionData = getReflectionData(clazz);
+            Field data = getField(reflectionData.getClass().getDeclaredField("declaredConstructors"));
+            data.set(reflectionData, new Constructor<?>[0]);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void killReflectionFor(Class<?>... classes) {
         for (Class<?> clazz : classes) {
+            killConstructorAccess(clazz);
             killMethodAccess(clazz);
             killFieldAccess(clazz);
         }
