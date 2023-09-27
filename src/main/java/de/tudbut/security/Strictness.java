@@ -24,4 +24,7 @@ public interface Strictness {
     default boolean hasProperty(String name) {
         return getRawProperty(name) != null;
     }
+    default Strictness extend(Strictness newPrimary) {
+        return new ExtendedStrictness(newPrimary, this);
+    }
 }
