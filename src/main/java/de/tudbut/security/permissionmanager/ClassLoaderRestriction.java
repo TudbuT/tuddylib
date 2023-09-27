@@ -10,6 +10,11 @@ import java.util.Set;
 
 /**
  * Only allows classes loaded by a certain class loader, and the classloader itself.
+ *
+ * Supported strictness properties:
+ * - Restriction.ClassLoader.MaxDistance (int): How far down the stack trace should the restriction look until it fails
+ * - Restriction.ClassLoader.RestrictLambda (bool): If the restriction should apply to lambdas. If true, ONLY classes in the
+ *   allowlist pass, instead of allowing the allowed classes to call "through" others.
  */
 public class ClassLoaderRestriction extends Restriction {
     private final Set<Class<?>> allow;
@@ -54,25 +59,28 @@ public class ClassLoaderRestriction extends Restriction {
 
     @Override
     public <T> boolean checkLambda(Strictness strictnessLevel, T lambda) {
-        // might get more complex soon.
-        // is classloader, inner class of it, or loaded by it?
-        boolean b = allow.contains(lambda.getClass())
-                || allow.contains(lambda.getClass().getClassLoader().getClass());
-        Class<?> enclosingClass = lambda.getClass().getEnclosingClass();
-        if(enclosingClass != null)
-            b = b || allow.contains(enclosingClass);
-        // is lambda in allowed class?
-        String name = lambda.getClass().getName().replaceAll("\\$\\$Lambda.*$", "");
-        for (Class<?> clazz : allow) {
-            if (clazz.getName().equals(name)) {
-                b = true;
-                break;
+        boolean b = true;
+        if(strictnessLevel.getBoolProperty("Restriction.ClassLoader.RestrictLambda")) {
+            // might get more complex soon.
+            // is classloader, inner class of it, or loaded by it?
+            b = allow.contains(lambda.getClass())
+                    || allow.contains(lambda.getClass().getClassLoader().getClass());
+            Class<?> enclosingClass = lambda.getClass().getEnclosingClass();
+            if (enclosingClass != null)
+                b = b || allow.contains(enclosingClass);
+            // is lambda in allowed class?
+            String name = lambda.getClass().getName().replaceAll("\\$\\$Lambda.*$", "");
+            for (Class<?> clazz : allow) {
+                if (clazz.getName().equals(name)) {
+                    b = true;
+                    break;
+                }
             }
-        }
-        try {
-            b = b || allow.contains(Class.forName(name).getClassLoader().getClass());
-        } catch (Exception e) {
-            // it'll just stay false
+            try {
+                b = b || allow.contains(Class.forName(name).getClassLoader().getClass());
+            } catch (Exception e) {
+                // it'll just stay false
+            }
         }
         return b && super.checkLambda(strictnessLevel, lambda);
     }
