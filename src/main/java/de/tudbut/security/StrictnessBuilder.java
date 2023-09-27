@@ -29,6 +29,15 @@ public class StrictnessBuilder {
         return this;
     }
 
+    public StrictnessBuilder tryFromStrictness(Strictness strictness) {
+        if(strictness instanceof StrictnessImpl) {
+            properties.putAll((((StrictnessImpl) strictness).properties));
+            return this;
+        }
+        // error
+        return null;
+    }
+
     public Strictness build() {
         return new StrictnessImpl((HashMap<String, Object>) properties.clone());
     }
