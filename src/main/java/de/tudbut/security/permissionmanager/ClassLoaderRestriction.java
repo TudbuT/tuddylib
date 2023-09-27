@@ -28,7 +28,7 @@ public class ClassLoaderRestriction extends Restriction {
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
 
         if(strictnessLevel.hasProperty("Restriction.ClassLoader.MaxDistance")) {
-            int maxDist = strictnessLevel.getIntProperty("Restriction.CallClass.MaxDistance");
+            int maxDist = strictnessLevel.getIntProperty("Restriction.ClassLoader.MaxDistance");
             if(st.length > maxDist) {
                 StackTraceElement[] elements = new StackTraceElement[maxDist];
                 System.arraycopy(st, 0, elements, 0, maxDist);
@@ -45,7 +45,7 @@ public class ClassLoaderRestriction extends Restriction {
                     isCalledByAllowed = true;
                     break;
                 }
-            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
                 // it'll just stay false
             }
         }
@@ -68,6 +68,11 @@ public class ClassLoaderRestriction extends Restriction {
                 b = true;
                 break;
             }
+        }
+        try {
+            b = b || allow.contains(Class.forName(name).getClassLoader().getClass());
+        } catch (Exception e) {
+            // it'll just stay false
         }
         return b && super.checkLambda(strictnessLevel, lambda);
     }
