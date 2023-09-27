@@ -3,13 +3,13 @@ package de.tudbut.security.permissionmanager;
 import de.tudbut.security.PermissionManager;
 import de.tudbut.security.Strictness;
 
-public abstract class PermissionManagerAdapter implements PermissionManager {
+public abstract class Restriction implements PermissionManager {
 
     protected final PermissionManager parent;
 
-    public PermissionManagerAdapter(PermissionManager parent) {
+    public Restriction(PermissionManager parent) {
         if(parent == null)
-            parent = new AllowPermissionManager();
+            parent = new AllowAllRestriction();
         this.parent = parent;
     }
 

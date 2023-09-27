@@ -2,26 +2,34 @@ package de.tudbut.security.permissionmanager;
 
 import de.tudbut.security.PermissionManager;
 import de.tudbut.security.Strictness;
-import de.tudbut.tools.Tools;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CallClassPermissionManager extends PermissionManagerAdapter {
+public class CallClassRestriction extends Restriction {
 
     private final Set<String> allow;
 
-    public CallClassPermissionManager(PermissionManager parent, Class<?>... allowFromClasses) {
+    public CallClassRestriction(PermissionManager parent, Class<?>... allowFromClasses) {
         super(parent);
         allow = Collections.unmodifiableSet(Arrays.stream(allowFromClasses).map(Class::getName).collect(Collectors.toSet()));
     }
-    public CallClassPermissionManager(Class<?>... allowFromClasses) {
+    public CallClassRestriction(Class<?>... allowFromClasses) {
         this(null, allowFromClasses);
     }
 
     @Override
     public boolean checkCaller(Strictness strictnessLevel) {
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
+
+        if(strictnessLevel.hasProperty("Restriction.CallClass.MaxDistance")) {
+            int maxDist = strictnessLevel.getIntProperty("Restriction.CallClass.MaxDistance");
+            if(st.length > maxDist) {
+                StackTraceElement[] elements = new StackTraceElement[maxDist];
+                System.arraycopy(st, 0, elements, 0, maxDist);
+                st = elements;
+            }
+        }
 
         boolean isCalledByAllowed = false;
         for (StackTraceElement element : st) {

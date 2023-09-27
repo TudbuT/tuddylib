@@ -11,21 +11,30 @@ import java.util.Set;
 /**
  * Only allows classes loaded by a certain class loader, and the classloader itself.
  */
-public class ClassLoaderPermissionManager extends PermissionManagerAdapter {
+public class ClassLoaderRestriction extends Restriction {
     private final Set<Class<?>> allow;
 
-    public ClassLoaderPermissionManager(PermissionManager parent, Class<?>... allowFromClassLoaders) {
+    public ClassLoaderRestriction(PermissionManager parent, Class<?>... allowFromClassLoaders) {
         super(parent);
         this.allow = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(allowFromClassLoaders)));
     }
 
-    public ClassLoaderPermissionManager(Class<?>... allowFromClassLoaders) {
+    public ClassLoaderRestriction(Class<?>... allowFromClassLoaders) {
         this(null, allowFromClassLoaders);
     }
 
     @Override
     public boolean checkCaller(Strictness strictnessLevel) {
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
+
+        if(strictnessLevel.hasProperty("Restriction.ClassLoader.MaxDistance")) {
+            int maxDist = strictnessLevel.getIntProperty("Restriction.CallClass.MaxDistance");
+            if(st.length > maxDist) {
+                StackTraceElement[] elements = new StackTraceElement[maxDist];
+                System.arraycopy(st, 0, elements, 0, maxDist);
+                st = elements;
+            }
+        }
 
         boolean isCalledByAllowed = false;
         for (StackTraceElement element : st) {

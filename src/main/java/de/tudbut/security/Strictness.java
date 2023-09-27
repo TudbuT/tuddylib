@@ -10,12 +10,18 @@ public interface Strictness {
         return (T) getProperty(name);
     }
     default boolean getBoolProperty(String name) {
-        return getProperty(name);
+        Boolean b = getProperty(name);
+        if(b == null)
+            return false;
+        return b;
     }
     default String getStringProperty(String name) {
         return getProperty(name);
     }
     default int getIntProperty(String name) {
         return getProperty(name);
+    }
+    default boolean hasProperty(String name) {
+        return getRawProperty(name) != null;
     }
 }

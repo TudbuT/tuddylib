@@ -1,13 +1,13 @@
 import de.tudbut.security.AccessKiller;
 import de.tudbut.security.DataKeeper;
 import de.tudbut.security.StrictnessBuilder;
-import de.tudbut.security.permissionmanager.CallClassPermissionManager;
+import de.tudbut.security.permissionmanager.CallClassRestriction;
 
 import java.lang.reflect.Field;
 
 public class SecurityTest {
 
-    private static final DataKeeper<String> secret = new DataKeeper<>(new CallClassPermissionManager(AllowedAccessClass.class), StrictnessBuilder.empty(), "hii");
+    private static final DataKeeper<String> secret = new DataKeeper<>(new CallClassRestriction(AllowedAccessClass.class), StrictnessBuilder.empty(), "hii");
 
     public static void main(String[] args) throws InterruptedException {
         Thread.sleep(500);

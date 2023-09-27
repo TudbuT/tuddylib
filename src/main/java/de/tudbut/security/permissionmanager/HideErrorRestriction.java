@@ -2,8 +2,8 @@ package de.tudbut.security.permissionmanager;
 
 import de.tudbut.security.PermissionManager;
 
-public class HideErrorPermissionManager extends PermissionManagerAdapter {
-    public HideErrorPermissionManager(PermissionManager parent) {
+public class HideErrorRestriction extends Restriction {
+    public HideErrorRestriction(PermissionManager parent) {
         super(parent);
     }
 
