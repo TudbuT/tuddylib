@@ -46,6 +46,8 @@ public class DataKeeper<T> {
         if(!permissionManager.checkCaller(strictness)) {
             if(permissionManager.showErrors())
                 throw new IllegalAccessError("The active PermissionManager does not allow you to access this DataKeeper.");
+            else
+                return;
         }
         Lock waitLock = new Lock(true);
         nextFunctionToRun.add(new DoubleTypedObject<>(accessor, waitLock));
