@@ -1,0 +1,37 @@
+Lesser TudbuT License
+
+Copyright (c) 2023 Daniel H.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, and/or distribute copies of the 
+Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+1. The above copyright notice, this permission notice, and these conditions
+   shall be included in all copies or substantial portions of the Software.
+
+2. The Software must not be (re-)sold or sublicensed without significant 
+   modifications. 
+
+3. If this Software is an application, that is a piece of Software which the
+   end-user directly interacts with in order to do some task, or one which
+   is run in a stand-alone fashion in order to provide a service, then the
+   addition or improvement of usable and/or meaningful functionality is a
+   significant modification.
+
+4. If this Software is a library, that is a collection of utilities that is 
+   NOT an application by itself, or is marketed as such, then the addition 
+   of any aspects that make it an application usable by an end-user are 
+   deemed significant modifications. An application may also be an extension
+   of an already-existing application adding functionality which is usable 
+   and meaningful to the end-user.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
