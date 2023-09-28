@@ -13,7 +13,7 @@ public class ReflectUtil {
         return field.getDeclaredAnnotation(clazz) != null;
     }
     
-    public static <T> T getPrivateFieldByTypeIndex(Class<?> clazz, CLSPrintWriter o, Class<? extends T> type, int index) {
+    public static <T> T getPrivateFieldByTypeIndex(Class<?> clazz, Object o, Class<? extends T> type, int index) {
         int idx = 0;
         for (Field field : clazz.getDeclaredFields()) {
             if(field.getType() == type) {
@@ -30,7 +30,7 @@ public class ReflectUtil {
         }
         throw new NullPointerException();
     }
-    public static <T> T setPrivateFieldByTypeIndex(Class<?> clazz, CLSPrintWriter o, Class<? extends T> type, int index, T t) {
+    public static <T> T setPrivateFieldByTypeIndex(Class<?> clazz, Object o, Class<? extends T> type, int index, T t) {
         int idx = 0;
         for (Field field : clazz.getDeclaredFields()) {
             if(field.getType() == type) {
