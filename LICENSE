@@ -1,6 +1,6 @@
 Lesser TudbuT License
 
-Copyright (c) 2023 Daniel H.
+Copyright (c) <year> <name>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,14 +19,18 @@ subject to the following conditions:
    end-user directly interacts with in order to do some task, or one which
    is run in a stand-alone fashion in order to provide a service, then the
    addition or improvement of usable and/or meaningful functionality is a
-   significant modification.
+   significant modification. The user should also quickly be able to tell that
+   they are using the modified Software, upon beginning to use it, on the
+   basis of major improvements.
 
 4. If this Software is a library, that is a collection of utilities that is 
    NOT an application by itself, or is marketed as such, then the addition 
    of any aspects that make it an application usable by an end-user are 
    deemed significant modifications. An application may also be an extension
    of an already-existing application adding functionality which is usable 
-   and meaningful to the end-user.
+   and meaningful to the end-user. The developer should also quickly be able 
+   to tell that they are using the modified Software on the basis of major
+   improvements.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
