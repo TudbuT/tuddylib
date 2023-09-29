@@ -39,7 +39,7 @@ public class DataKeeper<T> {
     }
 
     public Strictness getStrictness() {
-        return strictness;
+        return strictness.clone();
     }
 
     public void access(Consumer<Accessor<T>> accessor) {
