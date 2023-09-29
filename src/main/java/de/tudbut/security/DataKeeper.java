@@ -14,6 +14,7 @@ public class DataKeeper<T> {
     public static boolean forgetAll = false;
 
 
+    public Lock forget = new Lock(true);
     private final PermissionManager permissionManager;
     private Supplier<T> dataInsertion;
     private final Strictness strictness;
@@ -43,6 +44,9 @@ public class DataKeeper<T> {
     }
 
     public void access(Consumer<Accessor<T>> accessor) {
+        if(!forget.isLocked()) {
+            throw new IllegalStateException("This DataKeeper has already forgotten its value.");
+        }
         if(!permissionManager.checkCaller(strictness)) {
             if(permissionManager.showErrors())
                 throw new IllegalAccessError("The active PermissionManager does not allow you to access this DataKeeper.");
@@ -55,6 +59,17 @@ public class DataKeeper<T> {
         waitLock.waitHere(500);
     }
 
+    public void forget() {
+        forget.unlock();
+    }
+
+    public DataKeeper<T> forgetIn(int ms) {
+        if(forget.timeLeft() > ms)
+            return this;
+        forget.lock(ms);
+        return this;
+    }
+
     private void keep() {
         lock.waitHere();
         lock.lock();
@@ -62,7 +77,7 @@ public class DataKeeper<T> {
         AtomicReference<T> data = new AtomicReference<>(dataInsertion.get());
         Strictness strictness = this.strictness.clone();
         dataInsertion = null;
-        while(!forgetAll) {
+        while(!forgetAll && forget.isLocked()) {
             lock.waitHere();
             lock.lock(500);
 
