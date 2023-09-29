@@ -3,6 +3,8 @@ package de.tudbut.security;
 import de.tudbut.parsing.TCN;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StrictnessBuilder {
     static {
@@ -56,6 +58,11 @@ public class StrictnessBuilder {
         @Override
         public Object getRawProperty(String name) {
             return properties.get(name);
+        }
+
+        @Override
+        public Strictness clone() {
+            return new StrictnessImpl((HashMap<String, Object>) properties.clone());
         }
     }
 }

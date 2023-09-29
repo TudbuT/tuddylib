@@ -13,4 +13,9 @@ public class DenyAllRestriction implements PermissionManager {
     public <T> boolean checkLambda(Strictness strictnessLevel, T lambda) {
         return false;
     }
+
+    @Override
+    public PermissionManager clone() {
+        return this; // stateless
+    }
 }

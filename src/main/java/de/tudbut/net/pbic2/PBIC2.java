@@ -2,6 +2,7 @@ package de.tudbut.net.pbic2;
 
 import de.tudbut.io.TypedInputStream;
 import de.tudbut.io.TypedOutputStream;
+import de.tudbut.tools.ReflectUtil;
 
 import javax.net.ssl.SSLSocket;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public interface PBIC2 {
         try {
             Class<?> BaseSSLSocketImpl = Class.forName("sun.security.ssl.BaseSSLSocketImpl");
             Field self = BaseSSLSocketImpl.getDeclaredField("self");
-            self.setAccessible(true);
+            ReflectUtil.forceAccessible(self);
             return (Socket) self.get(getSocket());
         }
         catch (Exception e) {

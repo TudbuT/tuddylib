@@ -39,7 +39,7 @@ public class CallClassRestriction extends Restriction {
 
         boolean isCalledByAllowed = false;
         for (StackTraceElement element : st) {
-            if(allow.contains(element.getClassName())) {
+            if (allow.contains(element.getClassName())) {
                 isCalledByAllowed = true;
                 break;
             }

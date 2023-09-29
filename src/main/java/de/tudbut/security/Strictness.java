@@ -1,8 +1,6 @@
 package de.tudbut.security;
 
-import de.tudbut.parsing.TCN;
-
-public interface Strictness {
+public interface Strictness extends Cloneable {
 
     Object getRawProperty(String name);
 
@@ -27,4 +25,6 @@ public interface Strictness {
     default Strictness extend(Strictness newPrimary) {
         return new ExtendedStrictness(newPrimary, this);
     }
+
+    Strictness clone();
 }

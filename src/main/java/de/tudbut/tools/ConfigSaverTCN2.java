@@ -16,7 +16,7 @@ public class ConfigSaverTCN2 {
     static {
         try {
             Field f = Unsafe.class.getDeclaredField("theUnsafe");
-            f.setAccessible(true);
+            ReflectUtil.forceAccessible(f);
             theSafe = (Unsafe) f.get(null);
         } catch (Throwable e) {
             throw new Error(e); // Don't recover.

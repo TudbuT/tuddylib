@@ -39,4 +39,9 @@ public class PermissionOR implements PermissionManager {
         primary.killReflection();
         secondary.killReflection();
     }
+
+    @Override
+    public PermissionManager clone() {
+        return new PermissionOR(primary.clone(), secondary.clone());
+    }
 }

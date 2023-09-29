@@ -30,7 +30,7 @@ public class Serializing {
         Map<String, String> fields = new HashMap<>();
         for (Field field : c.getDeclaredFields()) {
             boolean accessible = field.isAccessible();
-            field.setAccessible(true);
+            ReflectUtil.forceAccessible(field);
             
             writeField(fields, field, o);
             
@@ -252,7 +252,7 @@ public class Serializing {
         Map<String, String> fields = new HashMap<>();
         for (Field field : c.getDeclaredFields()) {
             boolean accessible = field.isAccessible();
-            field.setAccessible(true);
+            ReflectUtil.forceAccessible(field);
         
             readField(fields, field, o);
         

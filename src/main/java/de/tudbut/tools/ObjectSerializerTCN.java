@@ -235,7 +235,7 @@ public class ObjectSerializerTCN {
                 if (!b1)
                     continue;
                 if (!b)
-                    field.setAccessible(true);
+                    ReflectUtil.forceAccessible(field);
                 
                 if (type) {
                     Object s = "";
@@ -339,7 +339,7 @@ public class ObjectSerializerTCN {
                 if (b1)
                     continue;
                 if (!b)
-                    field.setAccessible(true);
+                    ReflectUtil.forceAccessible(field);
                 
                 if (type) {
                     Object o;
@@ -396,7 +396,7 @@ public class ObjectSerializerTCN {
                         constructors[0] = constructors[i];
                 }
                 debugProfiler.next("Instantiating: Use constructor");
-                constructors[0].setAccessible(true);
+                ReflectUtil.forceAccessible(constructors[0]);
                 return constructors[0].newInstance((Object[]) Array.newInstance(Object.class, constructors[0].getParameterCount()));
             }
             catch (Exception e) {

@@ -58,9 +58,9 @@ public class DataKeeper<T> {
     private void keep() {
         lock.waitHere();
         lock.lock();
-        PermissionManager permissionManager = this.permissionManager;
+        PermissionManager permissionManager = this.permissionManager.clone();
         AtomicReference<T> data = new AtomicReference<>(dataInsertion.get());
-        Strictness strictness = this.strictness;
+        Strictness strictness = this.strictness.clone();
         dataInsertion = null;
         while(!forgetAll) {
             lock.waitHere();
@@ -94,13 +94,6 @@ public class DataKeeper<T> {
             value = data;
         }
 
-        public T setValue(T newValue) {
-            // check is in getValue
-            T old = getValue();
-            value.set(newValue);
-            return old;
-        }
-
         public T getValue() {
             if(permissionManager.checkCaller(strictness))
                 return value.get();
@@ -117,6 +110,13 @@ public class DataKeeper<T> {
                 // generate a weird error
                 return (T) value.get().getClass().cast(new Object());
             }
+        }
+
+        public T setValue(T newValue) {
+            // check is in getValue
+            T old = getValue();
+            value.set(newValue);
+            return old;
         }
     }
 }

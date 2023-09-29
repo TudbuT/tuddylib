@@ -42,4 +42,9 @@ public class PermissionAND implements PermissionManager {
         primary.killReflection();
         secondary.killReflection();
     }
+
+    @Override
+    public PermissionManager clone() {
+        return new PermissionAND(primary.clone(), secondary.clone());
+    }
 }

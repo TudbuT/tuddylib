@@ -5,7 +5,7 @@ import de.tudbut.security.Strictness;
 
 public abstract class Restriction implements PermissionManager {
 
-    protected final PermissionManager parent;
+    protected PermissionManager parent;
 
     public Restriction(PermissionManager parent) {
         if(parent == null)
@@ -32,5 +32,16 @@ public abstract class Restriction implements PermissionManager {
     public void killReflection() {
         parent.killReflection();
         PermissionManager.super.killReflection();
+    }
+
+    @Override
+    public PermissionManager clone() {
+        try {
+            Restriction cloned = (Restriction) super.clone();
+            cloned.parent = parent.clone();
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

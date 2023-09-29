@@ -9,6 +9,6 @@ public class HideErrorRestriction extends Restriction {
 
     @Override
     public boolean showErrors() {
-        return false;
+        return false; // stateless
     }
 }

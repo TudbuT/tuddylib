@@ -2,6 +2,7 @@ package de.tudbut.net.http.serverimpl;
 
 import de.tudbut.net.http.*;
 import de.tudbut.obj.TLMap;
+import de.tudbut.tools.ReflectUtil;
 import de.tudbut.tools.Tools;
 import de.tudbut.net.http.*;
 
@@ -50,7 +51,7 @@ public class HTTPServerImpl implements HTTPServer.HTTPHandler {
                             checkParams(method, params)
                     )
                         continue;
-                    method.setAccessible(true);
+                    ReflectUtil.forceAccessible(method);
                     ArrayList<Method> list = methods.get(annotation.type().toString().charAt(0) + annotation.value(), ArrayList::new);
                     list.add(method);
                     if(list.size() == 1)

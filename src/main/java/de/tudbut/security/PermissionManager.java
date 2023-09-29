@@ -1,9 +1,11 @@
 package de.tudbut.security;
 
+import de.tudbut.tools.ReflectUtil;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-public interface PermissionManager {
+public interface PermissionManager extends Cloneable {
     boolean checkCaller(Strictness strictnessLevel);
 
     <T> boolean checkLambda(Strictness strictnessLevel, T lambda);
@@ -13,7 +15,7 @@ public interface PermissionManager {
         try {
             Class<?> shutdownClass = Class.forName("java.lang.Shutdown");
             Method exitMethod = shutdownClass.getDeclaredMethod("exit", int.class);
-            exitMethod.setAccessible(true);
+            ReflectUtil.forceAccessible(exitMethod);
             exitMethod.invoke(null, 1);
         } catch (Exception ignored) {}
         System.exit(1);
@@ -31,4 +33,6 @@ public interface PermissionManager {
             clazz = clazz.getSuperclass();
         }
     }
+
+    PermissionManager clone();
 }

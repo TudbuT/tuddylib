@@ -2,7 +2,10 @@ package de.tudbut.security.permissionmanager;
 
 import de.tudbut.security.PermissionManager;
 import de.tudbut.security.Strictness;
+import de.tudbut.tools.ReflectUtil;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,14 +20,14 @@ import java.util.Set;
  *   allowlist pass, instead of allowing the allowed classes to call "through" others.
  */
 public class ClassLoaderRestriction extends Restriction {
-    private final Set<Class<?>> allow;
+    private final Set<ClassLoader> allow;
 
-    public ClassLoaderRestriction(PermissionManager parent, Class<?>... allowFromClassLoaders) {
+    public ClassLoaderRestriction(PermissionManager parent, ClassLoader... allowFromClassLoaders) {
         super(parent);
         this.allow = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(allowFromClassLoaders)));
     }
 
-    public ClassLoaderRestriction(Class<?>... allowFromClassLoaders) {
+    public ClassLoaderRestriction(ClassLoader... allowFromClassLoaders) {
         this(null, allowFromClassLoaders);
     }
 
@@ -44,9 +47,9 @@ public class ClassLoaderRestriction extends Restriction {
         boolean isCalledByAllowed = false;
         for (StackTraceElement element : st) {
             try {
-                Class<?> cls = Class.forName(element.getClassName());
-                // is the call the classloader or loaded by it?
-                if(allow.contains(cls) || allow.contains(cls.getClassLoader().getClass())) {
+                Class<?> cls = getClassObject(element.getClassName());
+                // is the classloader or loaded by it?
+                if(allow.stream().anyMatch(x -> x.getClass() == cls) || allow.contains(cls.getClassLoader())) {
                     isCalledByAllowed = true;
                     break;
                 }
@@ -57,27 +60,44 @@ public class ClassLoaderRestriction extends Restriction {
         return isCalledByAllowed && super.checkCaller(strictnessLevel);
     }
 
+    private Class<?> getClassObject(String className) throws ClassNotFoundException {
+        try {
+            Method findLoadedClass = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
+            ReflectUtil.forceAccessible(findLoadedClass);
+            for (ClassLoader allowed : allow) {
+                Class<?> clazz = (Class<?>) findLoadedClass.invoke(allowed, className);
+                if(clazz != null) {
+                    return clazz;
+                }
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+        return Class.forName(className);
+    }
+
     @Override
     public <T> boolean checkLambda(Strictness strictnessLevel, T lambda) {
         boolean b = true;
         if(strictnessLevel.getBoolProperty("Restriction.ClassLoader.RestrictLambda")) {
             // might get more complex soon.
             // is classloader, inner class of it, or loaded by it?
-            b = allow.contains(lambda.getClass())
-                    || allow.contains(lambda.getClass().getClassLoader().getClass());
+
+
+            //noinspection SuspiciousMethodCalls
+            b = allow.contains(lambda)
+                    || allow.contains(lambda.getClass().getClassLoader());
+
+            // is enclosed class (e.g. anonymous class)
             Class<?> enclosingClass = lambda.getClass().getEnclosingClass();
             if (enclosingClass != null)
-                b = b || allow.contains(enclosingClass);
+                b = b || allow.stream().anyMatch(x -> x.getClass() == enclosingClass);
+
             // is lambda in allowed class?
             String name = lambda.getClass().getName().replaceAll("\\$\\$Lambda.*$", "");
-            for (Class<?> clazz : allow) {
-                if (clazz.getName().equals(name)) {
-                    b = true;
-                    break;
-                }
-            }
+            b = b || allow.stream().anyMatch(x -> x.getClass().getName().equals(name)); // is lambda in classloader
             try {
-                b = b || allow.contains(Class.forName(name).getClassLoader().getClass());
+                b = b || allow.contains(getClassObject(name).getClassLoader()); // is lambda in classloader-loaded class
             } catch (Exception e) {
                 // it'll just stay false
             }

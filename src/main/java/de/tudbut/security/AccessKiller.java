@@ -1,5 +1,7 @@
 package de.tudbut.security;
 
+import de.tudbut.tools.ReflectUtil;
+
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -10,8 +12,18 @@ import java.util.List;
 
 public class AccessKiller {
 
+    private static final Field reflectionData;
+
+    static {
+        try {
+            reflectionData = getField(Class.class.getDeclaredField("reflectionData"));
+        } catch (NoSuchFieldException e) {
+            throw new InternalError(e);
+        }
+    }
+
     private static Field getField(Field f) {
-        f.setAccessible(true);
+        ReflectUtil.forceAccessible(f);
         return f;
     }
 
@@ -22,7 +34,7 @@ public class AccessKiller {
         clazz.getDeclaredConstructors();
         clazz.getInterfaces();
 
-        SoftReference<?> data = (SoftReference<?>) getField(Class.class.getDeclaredField("reflectionData")).get(clazz);
+        SoftReference<?> data = (SoftReference<?>) reflectionData.get(clazz);
         Object reflectionData = data.get();
         assert reflectionData != null;
         return reflectionData;
@@ -109,5 +121,13 @@ public class AccessKiller {
      */
     public static void killClassReflection() {
         killReflectionFor(Class.class);
+    }
+
+    /**
+     * Kills access to possible ways to restore reflective access after it has been removed.
+     * This should prevent all other ways of accessing fields, but other ways may exist.
+     */
+    public static void ensureKills() {
+        killMethodAccess(Class.class, "getDeclaredFields0", "getDeclaredMethods0", "getDeclaredConstructors0");
     }
 }

@@ -26,7 +26,7 @@ public class ConfigSaverTCN {
     
                     if(shouldSave(field)) {
                         // I want to access it
-                        field.setAccessible(true);
+                        ReflectUtil.forceAccessible(field);
                         Object o = field.get(object);
                         ObjectSerializerTCN serializer = new ObjectSerializerTCN(o);
                         o = serializer.convertAll().done();
@@ -54,7 +54,7 @@ public class ConfigSaverTCN {
                     
                     if(shouldSave(field)) {
                         // I want to access it
-                        field.setAccessible(true);
+                        ReflectUtil.forceAccessible(field);
                         if (tcn.map.get(field.getName()) != null) {
                             Object o;
                             ObjectSerializerTCN serializer = new ObjectSerializerTCN(tcn.getSub(field.getName()));

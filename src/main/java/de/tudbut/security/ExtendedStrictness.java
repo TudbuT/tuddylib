@@ -17,4 +17,9 @@ public class ExtendedStrictness implements Strictness {
             return primary.getRawProperty(name);
         return secondary.getRawProperty(name);
     }
+
+    @Override
+    public Strictness clone() {
+        return new ExtendedStrictness(primary.clone(), secondary.clone());
+    }
 }
