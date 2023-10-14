@@ -38,14 +38,25 @@ public interface PermissionManager extends Cloneable {
     PermissionManager clone();
 
     default String getClassName(Class<?> clazz) {
+        return getClassName(clazz, null, 0);
+    }
+    default String getClassName(Class<?> clazz, boolean[] cache, int idx) {
+        if(cache != null && cache[0])
+            return clazz.getName();
         try {
             // Reset the name field so that it must be cached again
             Field nameField = clazz.getClass().getDeclaredField("name");
             ReflectUtil.forceAccessible(nameField);
             nameField.set(clazz, null);
+            // name is clean, getName can now be used.
+            if(cache != null)
+                cache[idx] = true;
             return clazz.getName();
         }
         catch(Exception e) {
+            // name can't be cleaned, getName can't be used.
+            if(cache != null)
+                cache[idx] = false;
             try {
                 // Unable to reset the name field, invoking the native that gets the name directly
                 Method initClassName = clazz.getClass().getDeclaredMethod("initClassName");

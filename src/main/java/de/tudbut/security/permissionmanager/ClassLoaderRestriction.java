@@ -94,8 +94,9 @@ public class ClassLoaderRestriction extends Restriction {
                 b = b || allow.stream().anyMatch(x -> x.getClass() == enclosingClass);
 
             // is lambda in allowed class?
-            String name = getClassName(lambda.getClass()).replaceAll("\\$\\$Lambda.*$", "");
-            b = b || allow.stream().anyMatch(x -> getClassName(x.getClass()).equals(name)); // is lambda in classloader
+            boolean[] cache = new boolean[1];
+            String name = getClassName(lambda.getClass(), cache, 0).replaceAll("\\$\\$Lambda.*$", "");
+            b = b || allow.stream().anyMatch(x -> getClassName(x.getClass(), cache, 0).equals(name)); // is lambda in classloader
             try {
                 b = b || allow.contains(getClassObject(name).getClassLoader()); // is lambda in classloader-loaded class
             } catch (Exception e) {

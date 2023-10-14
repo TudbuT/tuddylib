@@ -54,8 +54,9 @@ public class CallClassRestriction extends Restriction {
             // might get more complex soon.
             // is class, inner class of it, loaded by it, or lambda in it?
             Class<?> enclosingClass = lambda.getClass().getEnclosingClass();
-            b = allow.contains(getClassName(lambda.getClass()))
-                    || allow.contains(getClassName(lambda.getClass()).replaceAll("\\$\\$Lambda.*$", ""));
+            boolean[] cache = new boolean[2];
+            b = allow.contains(getClassName(lambda.getClass(), cache, 0))
+                    || allow.contains(getClassName(lambda.getClass(), cache, 0).replaceAll("\\$\\$Lambda.*$", ""));
             if (enclosingClass != null)
                 b = b || allow.contains(getClassName(enclosingClass));
         }
