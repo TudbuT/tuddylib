@@ -18,7 +18,7 @@ public class CallClassRestriction extends Restriction {
 
     public CallClassRestriction(PermissionManager parent, Class<?>... allowFromClasses) {
         super(parent);
-        allow = Collections.unmodifiableSet(Arrays.stream(allowFromClasses).map(Class::getName).collect(Collectors.toSet()));
+        allow = Collections.unmodifiableSet(Arrays.stream(allowFromClasses).map(this::getClassName).collect(Collectors.toSet()));
     }
     public CallClassRestriction(Class<?>... allowFromClasses) {
         this(null, allowFromClasses);
@@ -54,10 +54,10 @@ public class CallClassRestriction extends Restriction {
             // might get more complex soon.
             // is class, inner class of it, loaded by it, or lambda in it?
             Class<?> enclosingClass = lambda.getClass().getEnclosingClass();
-            b = allow.contains(lambda.getClass().getName())
-                    || allow.contains(lambda.getClass().getName().replaceAll("\\$\\$Lambda.*$", ""));
+            b = allow.contains(getClassName(lambda.getClass()))
+                    || allow.contains(getClassName(lambda.getClass()).replaceAll("\\$\\$Lambda.*$", ""));
             if (enclosingClass != null)
-                b = b || allow.contains(enclosingClass.getName());
+                b = b || allow.contains(getClassName(enclosingClass));
         }
         return b && super.checkLambda(strictnessLevel, lambda);
     }

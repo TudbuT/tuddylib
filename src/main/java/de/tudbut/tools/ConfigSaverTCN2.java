@@ -12,17 +12,6 @@ import de.tudbut.obj.Transient;
 
 public class ConfigSaverTCN2 {
 
-    static Unsafe theSafe;
-    static {
-        try {
-            Field f = Unsafe.class.getDeclaredField("theUnsafe");
-            ReflectUtil.forceAccessible(f);
-            theSafe = (Unsafe) f.get(null);
-        } catch (Throwable e) {
-            throw new Error(e); // Don't recover.
-        }
-    }
-
     static ArrayList<Class<?>> tcnPrimitives = new ArrayList<>(Arrays.asList(
         boolean.class, Boolean.class,
         byte.class, Byte.class,
@@ -95,14 +84,14 @@ public class ConfigSaverTCN2 {
                 if(field.getDeclaredAnnotation(Transient.class) != null)
                     continue;
 
-                forceAccessible(field); // lovely java 18 bypass
+                ReflectUtil.forceAccessible(field); // lovely java 18 bypass
                 Object o;
                 try {
                     o = field.get(isStatic ? null : object);
                 } catch (IllegalArgumentException | IllegalAccessException e) {
                     // These can't happen
-                    System.err.println("forceAccessible silently failed. Exiting.");
-                    throw new Error("ConfigSaverTCN2: forceAccessible failed");
+                    System.err.println("ReflectUtil.forceAccessible silently failed. Exiting.");
+                    throw new Error("ConfigSaverTCN2: ReflectUtil.forceAccessible failed");
                 }
                 tcn.set(field.getName(), write(o, true, false, field.getType() != Object.class));
             }
@@ -203,7 +192,7 @@ public class ConfigSaverTCN2 {
             }
             if(instance == null) {
                 try {
-                    instance = theSafe.allocateInstance(objectClass);
+                    instance = ReflectUtil.theSafe.allocateInstance(objectClass);
                 } catch (InstantiationException e1) {
                     // This can't happen
                     throw new Error(e1);
@@ -224,8 +213,8 @@ public class ConfigSaverTCN2 {
                     continue;
                 if(isStatic && (field.getModifiers() & Modifier.FINAL) != 0)
                     continue;
-                forceAccessible(field); // lovely java 18 bypass
-                eraseFinality(field); // other lovely java 18 bypass
+                ReflectUtil.forceAccessible(field); // lovely java 18 bypass
+                ReflectUtil.eraseFinality(field); // other lovely java 18 bypass
                 Object o = tcn.get(field.getName());
                 if(o == null) {
                     if(toReadTo != null || isStatic || forceAllow)
@@ -238,8 +227,8 @@ public class ConfigSaverTCN2 {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     // These can't happen
-                    System.err.println("forceAccessible silently failed. Exiting.");
-                    throw new Error("ConfigSaverTCN2: forceAccessible failed");
+                    System.err.println("ReflectUtil.forceAccessible silently failed. Exiting.");
+                    throw new Error("ConfigSaverTCN2: ReflectUtil.forceAccessible failed");
                 }
             }
 
@@ -269,27 +258,4 @@ public class ConfigSaverTCN2 {
         return supers;
     }
     
-    // JVM hacks
-    private static class FakeAccessibleObject {
-        boolean override;
-    }
-    private static void forceAccessible(AccessibleObject thing) {
-        try {
-            theSafe.putBoolean(thing, theSafe.objectFieldOffset(FakeAccessibleObject.class.getDeclaredField("override")), true);
-        } catch(Exception e) { // we are doomed
-            e.printStackTrace();
-            System.err.println("Failed to set accessible property. We are doomed.");
-            System.exit(1);
-        }
-    }
-    private static void eraseFinality(Field thing) {
-        try {
-            long offset = theSafe.objectFieldOffset(Field.class.getDeclaredField("modifiers"));
-            theSafe.putInt(thing, offset, theSafe.getInt(thing, offset) & ~Modifier.FINAL); // EZ
-        } catch(Exception e) { // we are doomed
-            e.printStackTrace();
-            System.err.println("Failed to set modifier property. We are doomed.");
-            System.exit(1);
-        }
-    }
 }

@@ -3,6 +3,7 @@ package de.tudbut.security;
 import de.tudbut.tools.ReflectUtil;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public interface PermissionManager extends Cloneable {
@@ -35,4 +36,25 @@ public interface PermissionManager extends Cloneable {
     }
 
     PermissionManager clone();
+
+    default String getClassName(Class<?> clazz) {
+        try {
+            // Reset the name field so that it must be cached again
+            Field nameField = clazz.getClass().getDeclaredField("name");
+            ReflectUtil.forceAccessible(nameField);
+            nameField.set(clazz, null);
+            return clazz.getName();
+        }
+        catch(Exception e) {
+            try {
+                // Unable to reset the name field, invoking the native that gets the name directly
+                Method initClassName = clazz.getClass().getDeclaredMethod("initClassName");
+                ReflectUtil.forceAccessible(initClassName);
+                return (String) initClassName.invoke(clazz);
+            }
+            catch(Exception e1) {
+                return null;
+            }
+        }
+    }
 }

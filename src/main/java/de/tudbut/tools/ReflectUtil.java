@@ -65,7 +65,7 @@ public class ReflectUtil {
             return (T) new Object();
     }
 
-    static Unsafe theSafe;
+    public static Unsafe theSafe;
     static {
         try {
             Field f = Unsafe.class.getDeclaredField("theUnsafe");
@@ -93,7 +93,7 @@ public class ReflectUtil {
                     throw new IllegalAccessException();
             } catch (Throwable e2) {
                 try {
-                    theSafe.putBoolean(thing, theSafe.objectFieldOffset(FakeAccessibleObject.class.getDeclaredField("override")), true);
+                    theSafe.putBoolean(thing, theSafe.objectFieldOffset(FakeAccessibleObject.class.getDeclaredFields()[0]), true);
                     if(!thing.isAccessible())
                         throw new IllegalAccessException();
                 } catch (Throwable e3) {
