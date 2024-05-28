@@ -4,6 +4,7 @@ import de.tudbut.tools.Tools;
 import de.tudbut.type.Vector2d;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class Vector2i implements Mappable {
     private int x, y;
@@ -86,5 +87,18 @@ public class Vector2i implements Mappable {
                         Integer.parseInt(map.get("y"))
                 )
         ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vector2i)) return false;
+        Vector2i vector2i = (Vector2i) o;
+        return x == vector2i.x && y == vector2i.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

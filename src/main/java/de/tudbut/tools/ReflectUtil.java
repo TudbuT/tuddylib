@@ -120,6 +120,8 @@ public class ReflectUtil {
                 if((thing.getModifiers() & Modifier.FINAL) != 0)
                     throw new IllegalAccessException();
             } catch (Throwable e2) {
+                e1.printStackTrace();
+                e2.printStackTrace();
                 throw new AssertionError("This JVM does not support changing field modifiers");
             }
         }
